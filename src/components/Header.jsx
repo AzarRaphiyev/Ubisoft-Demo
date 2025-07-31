@@ -14,11 +14,11 @@ function Header() {
   const[searchSec,setSearchSec]=useState(false)
   const [mobilesec , setMobileSec]=useState(true)
   return (
-    <div>
+    <div className=''>
       
-    <div className='bg-[#000]  flex xl:px-[50px] px-[20px]  mx-auto justify-between items-center w-[100%] fixed z-100 h-[50px]'>
+    <div className='bg-[#000]  flex xl:px-[50px] px-[20px]  mx-auto justify-between items-center w-[100%] fixed z-100 '>
     
-     <div onClick={()=>setMobileSec(!mobilesec)}>
+     <div className='flex xl:hidden' onClick={()=>setMobileSec(!mobilesec)}>
       {mobilesec?
        <div  className='flex-col gap-1 cursor-pointer flex xl:hidden  py-[10px]'>
          <div className='w-[5px] h-[5px] rounded-4xl bg-[#fff]'></div>
@@ -28,9 +28,9 @@ function Header() {
      </div>
 
       <div className='flex items-center gap-10'>
-        <div className='py-[10px]'>
-          <img src="./assets/img/logo.png" alt="" className='w-[100px] cursor-pointer' />
-        </div>
+        <Link to={"/"} className='py-[10px]'>
+          <img src="../assets/img/logo.png" alt="" className='w-[120px] cursor-pointer' />
+        </Link>
         <div className='uppercase ubisoft-text xl:flex  text-[1em]  text-white items-center hidden gap-[35px]'>
         <div
           className={`cursor-pointer px-[20px] h-[50px] flex justify-center items-center 
@@ -64,7 +64,7 @@ function Header() {
         <IoSearch  size={25} />
         </div>
         <div>
-        <img src="./assets/img/registerLogo.webp" alt="" className='w-[30px] cursor-pointer opacity-90 hover:opacity-100 duration-300' />
+        <img src="../assets/img/registerLogo.webp" alt="" className='w-[30px] cursor-pointer opacity-90 hover:opacity-100 duration-300' />
         </div>
       </div>
     </div>

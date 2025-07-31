@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router';
 
 function PopularGames({gamedata}) {
     const top6Games = gamedata
@@ -14,7 +15,9 @@ function PopularGames({gamedata}) {
         top6Games.map(item =>
             <div className='bg-[#242424] rounded-xl overflow-hidden min-w-[200px]'>
                 <div className='overflow-hidden w-[100%]'>
+                    <Link to={`games/${item.id}`}>
                     <img src={item.cardImg} className='w-[250px] hover:scale-110 duration-300' alt="" />
+                    </Link>
                 </div>
                 <div className='p-[8px] flex flex-col justify-between'>
                     <div>

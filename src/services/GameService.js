@@ -31,8 +31,27 @@ const getAllSliders = async () => {
     );
   }
 };
+const getGamesById = async (id) => {
+  try {
+    const res = await axios.get(`${BASE_URL}/Games/${id}`);
+    return res.data;
+  } catch (error) {
+    console.error(
+      error.message || error || "There is issue while fetching process"
+    );
+  }
+};
+const getDLCsById = async (id) => {
+  try {
+    const res = await axios.get(`${BASE_URL}/DLCs/${id}`);
+    return res.data;
+  } catch (error) {
+    console.error(
+      error.message || error || "There is issue while fetching process"
+    );
+  }
+};
 
 
 
-
-export { getAllGames,getAllDLCs,getAllSliders }
+export { getAllGames,getAllDLCs,getAllSliders,getGamesById,getDLCsById }

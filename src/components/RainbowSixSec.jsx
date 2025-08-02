@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router';
 
 function RainbowSixSec({gamedata}) {
     const rainbowGames = gamedata.filter(item => item.brand === "Rainbow Six");
@@ -16,7 +17,10 @@ function RainbowSixSec({gamedata}) {
             {
                 rainbowGames.map(item=>
                     <div className='bg-[#242424]   rounded-xl overflow-hidden min-w-[300px]'>
-                    <div className='overflow-hidden'><img src={item.sectionImg} className='w-[100%] hover:scale-110 duration-300' alt="" /></div>
+
+                    <Link to={`detail/${item.type}/${item.id}`} className='overflow-hidden'>
+                    <img src={item.sectionImg} className='w-[100%] hover:scale-105 duration-300' alt="" />
+                    </Link>
                     <div className='p-[8px]  flex flex-col justify-between'>
                         <div>
                             <h1 className='text-white ubisoft-bold '>

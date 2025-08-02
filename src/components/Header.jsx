@@ -12,7 +12,7 @@ function Header() {
   const[gameBar,setGameBar]=useState(false)
   const[gameSection,setGameSection]=useState(false)
   const[searchSec,setSearchSec]=useState(false)
-  const [mobilesec , setMobileSec]=useState(true)
+  const [mobilesec , setMobileSec]=useState(true) 
   return (
     <div className=''>
       
@@ -29,7 +29,7 @@ function Header() {
 
       <div className='flex items-center gap-10'>
         <Link to={"/"} className='py-[10px]'>
-          <img src="../assets/img/logo.png" alt="" className='w-[120px] cursor-pointer' />
+          <img src="/assets/img/logo.png" alt="" className='w-[120px] cursor-pointer' />
         </Link>
         <div className='uppercase ubisoft-text xl:flex  text-[1em]  text-white items-center hidden gap-[35px]'>
         <div
@@ -64,7 +64,7 @@ function Header() {
         <IoSearch  size={25} />
         </div>
         <div>
-        <img src="../assets/img/registerLogo.webp" alt="" className='w-[30px] cursor-pointer opacity-90 hover:opacity-100 duration-300' />
+        <img src="/assets/img/registerLogo.webp" alt="" className='w-[30px] cursor-pointer opacity-90 hover:opacity-100 duration-300' />
         </div>
       </div>
     </div>

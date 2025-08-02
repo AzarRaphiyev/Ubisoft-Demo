@@ -44,7 +44,7 @@ function Footer() {
       <div className=' bg-[#1D1E22] flex flex-col gap-[40px] px-[30px] py-[60px]'>
         <div className='flex justify-between items-center xl:flex-row lg:flex-row md:flex-row flex-col gap-[50px] '>
           <Link to={"/"} className='w-fit'>
-            <img src="../assets/img/logo.png" className='w-[120px]' alt="" />
+            <img src="/assets/img/logo.png" className='w-[120px]' alt="" />
           </Link>
           <div className='bg-gray-400/40 cursor-pointer py-[14px] px-[30px] rounded-4xl ubisoft-bold text-[1.125em] text-white'>
           Download Ubisoft Connect

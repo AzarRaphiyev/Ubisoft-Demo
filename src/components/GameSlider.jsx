@@ -8,8 +8,9 @@ import 'swiper/css/navigation';
 import './gameslider.css';
 
 import { FreeMode, Pagination, Navigation } from 'swiper/modules';
+import { FaPlay } from 'react-icons/fa';
 
-function GameSlider() {
+function GameSlider({screenshots,videos}) {
   return (
     <>
       <Swiper
@@ -51,38 +52,35 @@ function GameSlider() {
         modules={[FreeMode, Pagination, Navigation]}
         className="mySwiper"
       >
-        <SwiperSlide>
+
+        {videos.map(item=>
+
+          <SwiperSlide>
           <img
-            src="https://store.ubisoft.com/dw/image/v2/ABBS_PRD/on/demandware.static/-/Sites-masterCatalog/default/dw0f6f4477/images/large/673b49019baa3f5f7f025a29-pc.jpg?sw=500&sh=270&sm=fit"
+             src={`https://img.youtube.com/vi/${item?.split("v=")[1]}/0.jpg`}
             className="w-[100%]"
             alt="Game 1"
           />
-        </SwiperSlide>
-        <SwiperSlide>
-          <div >
-            <span>Game 2</span>
+          <div className='absolute z-3 p-3 bg-[#fff] text-black rounded-[50%]'> 
+          <FaPlay  size={20}/>
           </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div >
-            <span>Game 2</span>
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div >
-            <span>Game 2</span>
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div >
-            <span>Game 2</span>
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div >
-            <span>Game 2</span>
-          </div>
-        </SwiperSlide>
+          </SwiperSlide>
+
+        )}
+        {screenshots.map(item=>
+
+          <SwiperSlide>
+          <img
+            src={item}
+            className="w-[100%]"
+            alt="Game 1"
+          />
+          </SwiperSlide>
+
+        )}
+       
+
+        
        
       </Swiper>
     </>

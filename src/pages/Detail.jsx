@@ -52,43 +52,48 @@ function Detail() {
 
       {/* Banner Section */}
 
-    <div className=' bg-white relative mt-[67px]  mb-[90px] '>
+    <div className=' bg-white relative mt-[67px] xl:mb-[90px] lg:mb-[90px] mb-0  '>
 
 
 
       
       <div className=' relative '>
       <div className="relative w-full">
-      <img className="w-full" src={obj?.bannerImg} alt="" />
+      <img className="w-full h-[40vh] xl:h-[65vh] lg:h-[55vh]" src={obj?.bannerImg} alt="" />
       <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-black to-transparent opacity-60 z-1"></div>
       </div>
 
 
         <div className='absolute z-2 top-0 flex w-[100%] h-[100%] justify-between px-[30px] pt-[30px]'>
-          <div className='flex flex-col gap-[80px]'>
-            <div><img src={obj?.logo} className='w-[200px]' alt="" /></div>
-            <div>
+          <div className='flex flex-col gap-[80px] '>
+            <div><img src={obj?.logo} className='w-[120px] sm:w-[150px] md:w-[180px] lg:w-[200px] max-w-full' alt="" /></div>
+            <div className=' xl:block lg:block absolute top-25'>
               <h1 className='ubisoft-bold text-[2.5vw] text-[#fff]'>{obj?.title} - </h1>
               <h1 className='ubisoft-bold text-[2.5vw] text-[#fff]'>{obj?.productEdition}</h1>
               <p className='ubisoft-text text-[#fff]'>Release date: {formatDate(obj?.releaseDate)}</p>
-              <button className='ubisoft-bold px-[30px] py-[5px]  border-[#fff] border-[1px] duration-200 my-[15px] text-[20px] cursor-pointer text-[#fff] rounded-2xl hover:border-[#000] hover:bg-[#fff] hover:text-[#000] '>Discover Editions</button>
+              <button className='ubisoft-bold px-[30px] py-[5px] hidden xl:block    border-[#fff] border-[1px] duration-200 my-[15px] text-[20px] cursor-pointer text-[#fff] rounded-2xl hover:border-[#000] hover:bg-[#fff] hover:text-[#000] '>Discover Editions</button>
             </div>
           </div>
           <div className='flex flex-col justify-between items-end '>
-            <div className='flex gap-[10px]  w-[60%] items-center justify-between p-[10px] bg-[#2a2a2a]/70 rounded-xl '>
-           
-           {obj?.ageRating.rating==18 ?
-             <img className='w-[55px]'  src="https://store.ubisoft.com/on/demandware.static/-/Library-Sites-shared-library-web/default/dwc012ec98/images/rating/pegi-18.png" alt="" />:
-             obj?.ageRating.rating==12 ?
-             <img className='w-[55px]'  src="https://store.ubisoft.com/on/demandware.static/-/Library-Sites-shared-library-web/default/dw1531754a/12_Pending.PNG" alt="" />:
-             <img className='w-[55px]'  src="https://store.ubisoft.com/on/demandware.static/-/Library-Sites-shared-library-web/default/dwcb496937/images/rating/pegi-7.png" alt="" />
-           }
-            
-
-              <p className='ubisoft-text w-[70%] text-[#fff]'>{obj?.ageRating?.reasons?.join(",  ")}</p>
-              </div>
-          <div>
-            <div className='h-[210px] w-[400px] bg-black p-[30px] flex  flex-col justify-between'>
+<div className='flex flex-col items-center justify-between'>
+              <div className='flex gap-[10px]  w-[20vw] items-center justify-between p-[10px] bg-[#2a2a2a]/70 rounded-xl '>
+             
+             {obj?.ageRating.rating==18 ?
+               <img className='w-[30px]   md:w-[50px] lg:w-[70px] object-contain'  src="https://store.ubisoft.com/on/demandware.static/-/Library-Sites-shared-library-web/default/dwc012ec98/images/rating/pegi-18.png" alt="" />:
+               obj?.ageRating.rating==12 ?
+               <img className='w-[30px]   md:w-[50px] lg:w-[70px] object-contain'  src="https://store.ubisoft.com/on/demandware.static/-/Library-Sites-shared-library-web/default/dw1531754a/12_Pending.PNG" alt="" />:
+               <img className='w-[30px]   md:w-[50px] lg:w-[70px] object-contain'  src="https://store.ubisoft.com/on/demandware.static/-/Library-Sites-shared-library-web/default/dwcb496937/images/rating/pegi-7.png" alt="" />
+             }
+              
+  
+                  <p className='ubisoft-text w-[70%] text-[1.2vw] text-[#fff]'>{obj?.ageRating?.reasons?.join(",  ")}</p>
+    
+                </div>
+                  <button className='ubisoft-bold px-[10px] py-[5px] xl:hidden   border-[#fff] border-[1px] duration-200 my-[15px] xl:text-[20px] lg:text-[20px] text-[16px] cursor-pointer text-[#fff] rounded-2xl hover:border-[#000] hover:bg-[#fff] hover:text-[#000] '>Discover Editions</button>
+  
+</div>         
+ <div>
+            <div className='h-[210px] w-[400px]  bg-black p-[30px] xl:flex  hidden  flex-col justify-between'>
               <div className='bg-[#45464A] px-[10px] rounded'>
                 <p className='ubisoft-text text-[#fff] text-[2.5vw]'> {obj.price ==0 ? "Free":"€ "+obj.price}</p>
               </div>
@@ -104,6 +109,16 @@ function Detail() {
         </div>
       </div>
     </div>
+    <div className='h-[210px] w-[100%]  bg-[#0D0D0D] p-[30px] xl:hidden  flex  flex-col justify-between mb-[20px]'>
+              <div className='bg-[#45464A] px-[10px] rounded h-[50px] flex items-center '>
+                <p className='ubisoft-text text-[#fff] text-[20px]'> {obj.price ==0 ? "Free":"€ "+obj.price}</p>
+              </div>
+              <div className='flex items-center justify-between' >
+                <button className='text-center text-[#fff] text-[23px] open-sans-bold bg-[#006EF5] w-[85%] p-[2px] rounded-2xl cursor-pointer hover:text-[black] duration-300'>Pre-Order</button>
+                <CiHeart className='text-[#fff] ' size={40}/>
+              </div>
+
+            </div>
     {/* Slider Section */}
     <div  className='pb-[50px]'>
 
@@ -111,44 +126,46 @@ function Detail() {
     </div >
 
     {/* About Section */}
-    <div className='container2 mx-auto flex flex-col gap-[20px] '>
-    <h1 className='ubisoft-bold text-white text-2xl' >About this game</h1>
-    <div className='flex justify-between bg-[#1B1B1B] px-[30px] py-[20px] rounded-lg'>
+    <div className='container2 mx-auto flex flex-col gap-[20px]'>
+  <h1 className='ubisoft-bold text-white text-2xl'>About this game</h1>
 
-      <div className='flex flex-col w-[70%] gap-[10px] items-start '>
-        <p className='ubisoft-text  text-[18px]'>{obj?.shortDescription}</p>
-        <div className='flex gap-[5px]'>
-          <p className='ubisoft-bold text-[16px]'>Release date:</p>
-          <p className='ubisoft-text text-[16px]'>{formatDate(obj?.releaseDate)}</p>
-        </div>
-      </div>
-      <div className='w-[20%] flex flex-col gap-[10px]'>
-        <div>
-          <h3 className='ubisoft-bold text-white mb-[5px] text-[16px] '>Platform:</h3>
-          <div className='flex flex-wrap gap-3'>
-            {obj?.platforms.map(item=>
+  <div className='flex flex-col md:flex-row justify-between bg-[#1B1B1B] px-[20px] md:px-[30px] py-[20px] rounded-lg gap-[20px]'>
 
-          <button className='border-white border-[2px] px-[16px] py-[1.5px]  ubisoft-bold rounded uppercase text-[14px]'>{item}</button>
-            )}
-          </div>
-        </div>
-        <div >
-          <h3 className='ubisoft-bold text-white mb-[5px] text-[16px] '>Genre:</h3>
-          <div className='flex flex-wrap gap-3'>
-          {obj?.genre.map(item=>
-
-          <button className='border-white border-[2px] px-[16px] py-[1.5px]  ubisoft-bold rounded uppercase text-[14px]'>{item}</button>
-            )}
-            </div>
-        </div>
-        
+    <div className='flex flex-col w-full md:w-[70%] gap-[10px] items-start'>
+      <p className='ubisoft-text text-[16px] md:text-[18px]'>{obj?.shortDescription}</p>
+      <div className='flex flex-wrap gap-[5px]'>
+        <p className='ubisoft-bold text-[16px]'>Release date:</p>
+        <p className='ubisoft-text text-[16px]'>{formatDate(obj?.releaseDate)}</p>
       </div>
     </div>
+
+    <div className='w-full md:w-[30%] flex flex-col gap-[15px]'>
+      <div>
+        <h3 className='ubisoft-bold text-white mb-[5px] text-[16px]'>Platform:</h3>
+        <div className='flex flex-wrap gap-3'>
+          {obj?.platforms.map((item, idx) => (
+            <button key={idx} className='border-white border-[2px] px-[12px] py-[2px] ubisoft-bold rounded uppercase text-[14px]'>{item}</button>
+          ))}
+        </div>
+      </div>
+
+      <div>
+        <h3 className='ubisoft-bold text-white mb-[5px] text-[16px]'>Genre:</h3>
+        <div className='flex flex-wrap gap-3'>
+          {obj?.genre.map((item, idx) => (
+            <button key={idx} className='border-white border-[2px] px-[12px] py-[2px] ubisoft-bold rounded uppercase text-[14px]'>{item}</button>
+          ))}
+        </div>
+      </div>
     </div>
+
+  </div>
+</div>
+
 
     {/* Navbar Detail Section */}
 
-    <div className='flex bg-black gap-[50px] justify-center mt-[50px] h-[80px] items-center'>
+    <div className='flex flex-col xl:flex-row lg:flex-row bg-black xl:gap-[50px] lg:gap-[50px] gap-[5px] justify-center mt-[50px] py-[10px] items-center'>
       <a className='ubisoft-text uppercase text-[20px] hover:border-b-[5px] py-[20px] duration-200 cursor-pointer'>Editions</a>
       <a href='#moreContent' className='ubisoft-text uppercase text-[20px] hover:border-b-[5px] py-[20px] duration-200 cursor-pointer'>More Content</a>
       <a href='#generalInformation' className='ubisoft-text uppercase text-[20px] hover:border-b-[5px] py-[20px] duration-200 cursor-pointer'>General Information</a>
@@ -157,41 +174,28 @@ function Detail() {
 
     {/*  More Content Section */}
     {obj.descriptionImg?.length!=0?
-     <div  id="moreContent" className='mt-[50px] scroll-mt-[150px]'>
-     {obj.descriptionImg?.map((item, index) => (
-       <div
-         key={index}
-         className="bg-cover bg-center w-full h-[90vh]"
-         style={{ backgroundImage: `url(${encodeURI(item)})` }}
-       >
-         {
-           index % 2 === 0 ? (
-             // CÜT INDEX → fade-left (solda yazı)
-             <div
-               className='w-[45%] bg-black/80 px-15 py-10 relative top-110 left-20'
-               data-aos="fade-right"
-             >
-               <h3 className='font-bold text-[40px]'>{obj.fullDescription?.[index]?.heading}</h3>
-               <p className='ubisoft-text text-[20px]'>
-               {obj.fullDescription?.[index]?.content}
-               </p>
-             </div>
-           ) : (
-             // TƏK INDEX → fade-right (sağda yazı)
-             <div
-               className='w-[50%] bg-black/80 px-15 py-10 relative top-110 left-180'
-               data-aos="fade-left"
-             >
-               <h3 className='font-bold text-[40px]'>{obj.fullDescription?.[index]?.heading}</h3>
-               <p className='ubisoft-text text-[20px]'>
-               {obj.fullDescription?.[index]?.content}
-               </p>
-             </div>
-           )
-         }
-       </div>
-     ))}
-   </div>:''
+    <div id="moreContent" className="mt-[50px] overflow-hidden scroll-mt-[150px]">
+    {obj.descriptionImg?.map((item, index) => (
+      <div
+        key={index}
+        className="bg-cover bg-center w-full h-[90vh] flex flex-col md:flex-row items-center justify-center relative"
+        style={{ backgroundImage: `url(${encodeURI(item)})` }}
+      >
+        <div
+    className={`bg-black/80 text-white px-6 py-4 h-fit absolute 
+      ${index % 2 === 0 ? 'md:left-20' : 'md:right-20'} 
+      bottom-10 md:top-[110px] md:w-[45%] w-[90%]`}
+    data-aos={index % 2 === 0 ? 'fade-right' : 'fade-left'} 
+  >
+          <h3 className="font-bold text-[24px] md:text-[40px]">{obj.fullDescription?.[index]?.heading}</h3>
+          <p className="ubisoft-text text-[16px] md:text-[20px] mt-2">
+            {obj.fullDescription?.[index]?.content}
+          </p>
+        </div>
+      </div>
+    ))}
+  </div>
+  :''
   
   }
    

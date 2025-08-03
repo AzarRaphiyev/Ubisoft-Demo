@@ -42,7 +42,7 @@
   }
   
   .mySwiper .swiper-pagination-bullet {
-    width: 100px;
+    width: 30px;
     height: 5px;
     border-radius: 0; /* kvadrat */
     background-color: gray;

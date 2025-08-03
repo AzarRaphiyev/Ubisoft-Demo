@@ -64,7 +64,8 @@ function Detail() {
       </div>
 
 
-        <div className='absolute z-2 top-0 flex w-[100%] h-[100%] justify-between px-[30px] pt-[30px]'>
+
+        <div className='absolute z-2 top-0 flex xl:flex-row flex-col gap-5  lg:flex-row    w-[100%] h-[100%] xl:justify-between  lg:justify-between px-[30px] pt-[30px]'>
           <div className='flex flex-col gap-[80px] '>
             <div><img src={obj?.logo} className='w-[120px] sm:w-[150px] md:w-[180px] lg:w-[200px] max-w-full' alt="" /></div>
             <div className=' xl:block lg:block absolute top-25'>
@@ -75,7 +76,7 @@ function Detail() {
             </div>
           </div>
           <div className='flex flex-col justify-between items-end '>
-<div className='flex flex-col items-center justify-between'>
+          <div className='flex flex-col items-center justify-between'>
               <div className='flex gap-[10px]  w-[20vw] items-center justify-between p-[10px] bg-[#2a2a2a]/70 rounded-xl '>
              
              {obj?.ageRating.rating==18 ?

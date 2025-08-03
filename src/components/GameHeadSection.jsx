@@ -6,16 +6,16 @@ function GameHeadSection({setGameBar,setGameSection}) {
     <div
     onMouseEnter={() => {setGameBar(true) ,setGameSection(true)}}
     onMouseLeave={() => {setGameBar(false) ,setGameSection(false)}}
-    className='w-[94%] hidden xl:block z-100  py-[20px] px-[50px] bg-[#fff] mx-auto text-[#000] fixed left-[50%] translate-x-[-50%] top-[50px]'>
+    className='w-[94%] hidden xl:block z-101  py-[20px] px-[50px] bg-[#fff] mx-auto text-[#000] fixed left-[50%] translate-x-[-50%] top-[50px]'>
         <div className='flex justify-center'>
             <div className='w-[30%] ubisoft-text flex   flex-col gap-[10px]'>
                 <div>
                     <h1 className='py-[5px] font-semibold text-[0.75rem] uppercase ubisoft-bold text-[#1d1e22] '>Browse By Category</h1>
                     <hr className='w-[60%] my-[5px]'/>
                     <ul className='flex flex-col gap-[5px] text-[15px] '>
-                        <li className='cursor-pointer hover:font-bold '>Featured</li>
-                        <li className='cursor-pointer hover:font-bold '>New To Old</li>
-                        <li className='cursor-pointer hover:font-bold '>Free To Play</li>
+                        <Link to={'/allgames'} className='cursor-pointer hover:font-bold '>Featured</Link>
+                        <Link to={'/allgames'} className='cursor-pointer hover:font-bold '>New To Old</Link>
+                        <Link to={'/allgames'} className='cursor-pointer hover:font-bold '>Free To Play</Link>
                     </ul>
                 </div>
                 <div>
@@ -88,7 +88,7 @@ function GameHeadSection({setGameBar,setGameSection}) {
             </div>
         </div>
         <div className='flex my-5 w-[60%] mx-auto justify-between'>
-            <Link to={''}  ><p className='uppercase text-white bg-[#D80388] hover:bg-[#fff] hover:border-[#D80388] border-2 hover:text-black  py-1 px-7 rounded-2xl duration-300'>
+            <Link to={'/allgames'}  ><p className='uppercase text-white bg-[#D80388] hover:bg-[#fff] hover:border-[#D80388] border-2 hover:text-black  py-1 px-7 rounded-2xl duration-300'>
             View All Games</p></Link>
             <Link to={''}  ><p className='uppercase text-white bg-[#D80388] hover:bg-[#fff] hover:border-[#D80388] border-2 hover:text-black py-1 px-7 rounded-2xl duration-300'>
             View All </p></Link>

@@ -10,12 +10,12 @@ import './gameslider.css';
 import { FreeMode, Pagination, Navigation } from 'swiper/modules';
 import { FaPlay } from 'react-icons/fa';
 
-function GameSlider({screenshots,videos}) {
+function GameSlider({screenshots, videos}) {
   return (
-    <>
+    <div className='py-5'>
       <Swiper
-        slidesPerView={1} // ✅ Kiçik ekranlar üçün default dəyər
-        spaceBetween={20} // ✅ Default spaceBetween
+        slidesPerView={1}
+        spaceBetween={20}
         freeMode={true}
         pagination={{
             clickable: true,
@@ -23,29 +23,29 @@ function GameSlider({screenshots,videos}) {
         navigation={true}
         grabCursor={true}
         breakpoints={{
-            320: { // ✅ Çox kiçik telefonlar
+            320: {
                 slidesPerView: 1,
                 spaceBetween: 10,
             },
-            480: { // ✅ Kiçik telefonlar
+            480: {
                 slidesPerView: 1.5,
                 spaceBetween: 15,
             },
-            640: { // ✅ Böyük telefonlar
+            640: {
                 slidesPerView: 2,
                 spaceBetween: 20,
             },
-            768: { // ✅ Tabletlər
+            768: {
                 slidesPerView: 3,
+                spaceBetween: 25,
+            },
+            1024: {
+                slidesPerView: 4,
                 spaceBetween: 30,
             },
-            1024: { // ✅ Kiçik desktop
-                slidesPerView: 4,
-                spaceBetween: 40,
-            },
-            1280: { // ✅ Böyük desktop
+            1280: {
                 slidesPerView: 5,
-                spaceBetween: 50,
+                spaceBetween: 35,
             }
         }}
         loop={true}
@@ -53,37 +53,30 @@ function GameSlider({screenshots,videos}) {
         className="mySwiper"
       >
 
-        {videos.map(item=>
-
-          <SwiperSlide>
-          <img
-             src={`https://img.youtube.com/vi/${item?.split("v=")[1]}/0.jpg`}
-            className="w-[100%]"
-            alt="Game 1"
-          />
-          <div className='absolute z-3 p-3 bg-[#fff] text-black rounded-[50%]'> 
-          <FaPlay  size={20}/>
-          </div>
+        {videos.map((item, index) =>
+          <SwiperSlide key={`video-${index}`}>
+            <img
+               src={`https://img.youtube.com/vi/${item?.split("v=")[1]}/0.jpg`}
+              className="w-[100%]"
+              alt={`Video ${index + 1}`}
+            />
+            <div className='absolute'> 
+              <FaPlay size={20}/>
+            </div>
           </SwiperSlide>
-
         )}
-        {screenshots.map(item=>
-
-          <SwiperSlide>
-          <img
-            src={item}
-            className="w-[100%]"
-            alt="Game 1"
-          />
-          </SwiperSlide>
-
-        )}
-       
-
         
-       
+        {screenshots.map((item, index) =>
+          <SwiperSlide key={`screenshot-${index}`}>
+            <img
+              src={item}
+              className="w-[100%]"
+              alt={`Screenshot ${index + 1}`}
+            />
+          </SwiperSlide>
+        )}
       </Swiper>
-    </>
+    </div>
   );
 }
 

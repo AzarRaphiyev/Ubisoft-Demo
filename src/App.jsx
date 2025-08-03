@@ -5,6 +5,7 @@ import Home from "./pages/Home"
 import Detail from "./pages/Detail"
 import Whislist from "./pages/Whislist"
 import Cart from "./pages/Cart"
+import GameFilter from "./pages/GameFilter"
 
 
 
@@ -19,6 +20,7 @@ function App() {
         <Route path="detail/:type/:id" element={<Detail/>}/>
         <Route path="whislist" element={<Whislist/>}/>
         <Route path="cart" element={<Cart/>}/>
+        <Route path="allgames" element={<GameFilter/>}/>
         
       </Route>
      </Routes>

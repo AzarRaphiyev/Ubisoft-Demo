@@ -48,7 +48,7 @@ function Header() {
           {gameBar ? <IoIosArrowUp /> : <IoIosArrowDown />}
         </div>
           <Link to="/help" className='hover:bg-white hover:text-black px-[20px] h-[50px] flex justify-center items-center'><p className='font-semibold'>Help</p> <sup className='mx-2'><FaExternalLinkAlt size={12}/></sup></Link>
-          <Link to="/store" className='hover:bg-white hover:text-black  px-[20px] h-[50px] flex justify-center items-center'><p className='font-semibold'>Store</p> <sup className='mx-2'><FaExternalLinkAlt size={12}/></sup></Link>
+          <Link to="store" className='hover:bg-white hover:text-black  px-[20px] h-[50px] flex justify-center items-center'><p className='font-semibold'>Store</p> <sup className='mx-2'><FaExternalLinkAlt size={12}/></sup></Link>
           <Link to="/ubisoftplus" className='hover:bg-white hover:text-black  px-[20px] h-[50px] flex justify-center items-center'><p className='font-semibold'>Ubisoft+</p> <sup className='mx-2'><FaExternalLinkAlt size={12}/></sup></Link>
         </div>
       </div>

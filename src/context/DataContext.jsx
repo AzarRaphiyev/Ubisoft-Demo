@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState } from "react";
-import { getAllDLCs, getAllGames, getAllSliders } from "../services/GameService";
+import { getAllDLCs, getAllGames, getAllSliders, getAllUniverse } from "../services/GameService";
 
 export const GameContext = createContext();
 
@@ -7,6 +7,7 @@ const DataContext = ({ children }) => {
     const [gamedata, setGameData] = useState([]);
     const [sliderdata, setSliderData] = useState([]);
     const [dlcdata, setDlcData] = useState([]);
+    const [universedata, setUniverseData] = useState([]);
     const [error, setError] = useState(null);
     const [loader, setLoader] = useState(true);
 
@@ -15,12 +16,14 @@ const DataContext = ({ children }) => {
         Promise.all([
             getAllGames(),
             getAllDLCs(), 
-            getAllSliders()
+            getAllSliders(),
+            getAllUniverse()
         ])
-        .then(([games, dlcs, sliders]) => {
+        .then(([games, dlcs, sliders,universe]) => {
             setGameData(games);
             setDlcData(dlcs);
             setSliderData(sliders);
+            setUniverseData(universe);
         })
         .catch(err => {
             console.error('API Error:', err);
@@ -36,6 +39,7 @@ const DataContext = ({ children }) => {
         gamedata,
         sliderdata, 
         dlcdata,
+        universedata,
         error,
         loader
     };

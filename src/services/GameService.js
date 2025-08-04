@@ -19,11 +19,22 @@ const getAllDLCs = async () => {
     console.error(
       error.message || error || "There is issue while fetching process"
     );
-  }}
-  
+  }
+};
+
 const getAllSliders = async () => {
   try {
     const res = await axios.get(`${BASE_URL}/Sliders`);
+    return res.data;
+  } catch (error) {
+    console.error(
+      error.message || error || "There is issue while fetching process"
+    );
+  }
+};
+const getAllUniverse = async () => {
+  try {
+    const res = await axios.get(`${BASE_URL}/UbisoftUniverse`);
     return res.data;
   } catch (error) {
     console.error(
@@ -52,6 +63,4 @@ const getDLCsById = async (id) => {
   }
 };
 
-
-
-export { getAllGames,getAllDLCs,getAllSliders,getGamesById,getDLCsById }
+export { getAllGames, getAllDLCs, getAllSliders, getGamesById, getDLCsById,getAllUniverse };

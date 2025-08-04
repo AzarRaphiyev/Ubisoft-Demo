@@ -56,20 +56,20 @@ function SearchSec({ searchSec, setSearchSec }) {
         className='h-[500px] bg-white w-[45%] fixed z-110 left-[50%] top-[5px] translate-x-[-50%] rounded-2xl overflow-hidden'
       >
         <div className='flex items-center bg-gray-300 px-[10px] gap-[10px]'>
-          <IoSearch size={25} className='h-[40px] cursor-pointer' />
+          <IoSearch size={25} className='h-[40px] cursor-pointer text-black' />
           <input
             onChange={(e) => setInputProp(e.target.value)}
             type='text'
             value={inputprop}
             autoFocus
-            className='w-full placeholder-black bg-gray-300 h-[40px] px-[10px] focus:outline-none'
+            className='w-full placeholder-black bg-gray-300 h-[40px] text-black px-[10px] focus:outline-none'
             placeholder='Type your search'
           />
           {inputprop.length > 0 && (
             <IoIosClose
               onClick={() => setInputProp('')}
               size={23}
-              className='cursor-pointer'
+              className='cursor-pointer text-black'
             />
           )}
         </div>

@@ -6,6 +6,7 @@ import Detail from "./pages/Detail"
 import Whislist from "./pages/Whislist"
 import Cart from "./pages/Cart"
 import GameFilter from "./pages/GameFilter"
+import Store from "./pages/Store"
 
 
 
@@ -21,6 +22,7 @@ function App() {
         <Route path="whislist" element={<Whislist/>}/>
         <Route path="cart" element={<Cart/>}/>
         <Route path="allgames" element={<GameFilter/>}/>
+        <Route path="store" element={<Store/>}/>
         
       </Route>
      </Routes>

@@ -74,7 +74,7 @@ function Header() {
     {
       searchSec?<SearchSec searchSec={searchSec} setSearchSec={setSearchSec}/>:''
     }
-    {mobilesec?"":<MobileHeader mobilesec2={mobilesec}/>}
+    {mobilesec?"":<MobileHeader mobilesec2={mobilesec} setMobileSec2={setMobileSec}/>}
     </div>
   )
 }

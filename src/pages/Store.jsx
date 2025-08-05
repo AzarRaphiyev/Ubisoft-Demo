@@ -107,7 +107,7 @@ function Store() {
     .slice(0, 10);
 
   return (
-    <div className='min-h-screen py-[55px] bg-gradient-to-b from-[#0E0D0E] via-[#150C15] to-[#0F131E]'>
+    <div className='min-h-screen py-[30px] bg-gradient-to-b from-[#0E0D0E] via-[#150C15] to-[#0F131E]'>
       <DetailHeader />
 
       {/* Hero Banner */}

@@ -1,6 +1,6 @@
 import React, {  useState } from 'react'
 import { CiHeart } from 'react-icons/ci';
-import { useParams } from 'react-router'
+import { Link, useParams } from 'react-router'
 import GameSlider from '../components/GameSlider';
 import DetailHeader from '../components/DetailHeader';
 import AOS from 'aos';
@@ -8,11 +8,13 @@ import 'aos/dist/aos.css';
 import { useEffect } from 'react';
 import { getAllDLCs, getAllGames, getDLCsById, getGamesById } from '../services/GameService';
 import Loader from '../components/Loader';
+import { ChevronRight } from 'lucide-react';
 
 
 
 
 function Detail() {
+  const[relatedGames,setRelatedGames]=useState([])
   useEffect(() => {
     AOS.init({ duration: 1000 });
   }, [])
@@ -34,10 +36,24 @@ function Detail() {
     }
   },[type,id])
 
+
+  useEffect(() => {
+    if (obj) {
+      getAllGames().then((allGames) => {
+        const sameTitleGames = allGames.filter(
+          (game) => game.title === obj.title && game.id !== obj.id
+        );
+        setRelatedGames(sameTitleGames);
+      });
+    }
+  }, [obj]);
+  
+ 
+  
   if (!obj) {
     return <Loader />;
   }
-  
+
   function formatDate(dateStr) {
     const [year, month, day] = dateStr.split("-");
     return `${day}/${month}/${year}`;
@@ -46,7 +62,7 @@ function Detail() {
   
   
   return (
-    <div className='py-[55px]'>
+    <div className='py-[20px] xl:py-0 lg:py-0'>
       {/* Detail Header Section */}
       <DetailHeader/>
 
@@ -65,13 +81,13 @@ function Detail() {
 
 
 
-        <div className='absolute z-2 top-0 flex xl:flex-row flex-col gap-5  lg:flex-row    w-[100%] h-[100%] xl:justify-between  lg:justify-between px-[30px] pt-[30px]'>
+        <div className='absolute z-2 top-0 flex xl:flex-row  flex-col  gap-5  lg:flex-row    w-[100%] h-[100%] xl:justify-between  lg:justify-between px-[30px] pt-[30px]'>
           <div className='flex flex-col gap-[80px] '>
             <div><img src={obj?.logo} className='w-[120px] sm:w-[150px] md:w-[180px] lg:w-[200px] max-w-full' alt="" /></div>
-            <div className=' xl:block lg:block absolute top-25'>
-              <h1 className='ubisoft-bold text-[2.5vw] text-[#fff]'>{obj?.title} - </h1>
-              <h1 className='ubisoft-bold text-[2.5vw] text-[#fff]'>{obj?.productEdition}</h1>
-              <p className='ubisoft-text text-[#fff]'>Release date: {formatDate(obj?.releaseDate)}</p>
+            <div className=' xl:block lg:block absolute top-40'>
+              <h1 className='ubisoft-bold xl:text-[60px] lg:text-[40px] text-[#fff]'>{obj?.title} - </h1>
+              <h1 className='ubisoft-bold xl:text-[30px] lg:text-[20px] text-[#fff]'>{obj?.productEdition}</h1>
+              <p className='ubisoft-text text-[#fff] xl:text-[18px] lg:text-[16px]'>Release date: {formatDate(obj?.releaseDate)}</p>
               <button className='ubisoft-bold px-[30px] py-[5px] hidden xl:block    border-[#fff] border-[1px] duration-200 my-[15px] text-[20px] cursor-pointer text-[#fff] rounded-2xl hover:border-[#000] hover:bg-[#fff] hover:text-[#000] '>Discover Editions</button>
             </div>
           </div>
@@ -167,11 +183,96 @@ function Detail() {
     {/* Navbar Detail Section */}
 
     <div className='flex flex-col xl:flex-row lg:flex-row bg-black xl:gap-[50px] lg:gap-[50px] gap-[5px] justify-center mt-[50px] py-[10px] items-center'>
-      <a className='ubisoft-text uppercase text-[20px] hover:border-b-[5px] py-[20px] duration-200 cursor-pointer'>Editions</a>
-      <a href='#moreContent' className='ubisoft-text uppercase text-[20px] hover:border-b-[5px] py-[20px] duration-200 cursor-pointer'>More Content</a>
-      <a href='#generalInformation' className='ubisoft-text uppercase text-[20px] hover:border-b-[5px] py-[20px] duration-200 cursor-pointer'>General Information</a>
-      <a className='ubisoft-text uppercase text-[20px] hover:border-b-[5px] py-[20px] duration-200 cursor-pointer'>Pc Specs</a> 
+{   relatedGames.length!=0?   <a href='#editions' className='ubisoft-text uppercase text-[20px] hover:border-b-[5px] py-[20px] duration-200 cursor-pointer'>Editions</a>
+:''}      
+{(!obj.descriptionImg || obj.descriptionImg.length !== 0) ? (
+  <a
+    href='#moreContent'
+    className='ubisoft-text uppercase text-[20px] hover:border-b-[5px] py-[20px] duration-200 cursor-pointer'
+  >
+    More Content
+  </a>
+) : ''}
+
+<a href='#generalInformation' className='ubisoft-text uppercase text-[20px] hover:border-b-[5px] py-[20px] duration-200 cursor-pointer'>General Information</a>
+<a className='ubisoft-text uppercase text-[20px] hover:border-b-[5px] py-[20px] duration-200 cursor-pointer'>Pc Specs</a> 
     </div>
+
+    {/*  Editions Section */}
+
+   { relatedGames.length!=0? <div id='editions' className='bg-red-900/10 flex flex-col  py-10  gap-10 items-center justify-center '>
+    <div className='mb-10'>
+      <h3 className='ubisoft-bold text-4xl '>Compare {obj.title} Shadows Editions</h3>
+    </div>
+
+<div className='flex flex-wrap gap-5 justify-center w-[90%] mx-auto'>
+  {relatedGames.map(item=>(
+    <div className="max-w-sm mx-auto hover:scale-105 duration-300 bg-gray-800 rounded-lg overflow-hidden shadow-2xl">
+        {/* Hero Image */}
+        <div className="relative h-48 bg-gradient-to-br from-red-900 via-red-700 to-black">
+          <img 
+            src={item.cardImg}
+            alt="Game artwork"
+            className="w-full h-full  opacity-80"
+          />
+        </div>
+  
+        {/* Content */}
+        <div className="p-6 bg-gray-800">
+          {/* Title */}
+          <h2 className="text-white text-xl font-bold mb-6">{item.productEdition}</h2>
+  
+          {/* Items List */}
+          <div className="space-y-4 mb-6">
+            {/* Base Game */}
+            <div className="flex items-center justify-between group cursor-pointer">
+              <div className="flex items-center space-x-3">
+                <div className="w-10 h-10 bg-red-600 rounded overflow-hidden flex-shrink-0">
+                  <img 
+                    src="https://images.unsplash.com/photo-1511512578047-dfb367046420?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" 
+                    alt="Base game"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <span className="text-white font-medium">Base game</span>
+              </div>
+              <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-white transition-colors" />
+            </div>
+            {
+              item.features.map(item=>(
+              <div className="flex items-center justify-between group cursor-pointer">
+              <div className="flex items-center space-x-3">
+               
+                <span className="text-white font-medium">{item}</span>
+              </div>
+              <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-white transition-colors" />
+            </div>
+              ))
+            }
+            
+           
+          
+          </div>
+  
+          {/* Price */}
+          <div className="text-center mb-6">
+            <span className="text-white text-3xl font-bold">{item.price == 0 ? "Free":"€ "+ item.price}</span>
+          </div>
+  
+          {/* Buy Button */}
+          <Link to={`/detail/${item.type}/${item.id}`} className="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-full transition-colors duration-200 text-lg">
+            GET THE GAME
+          </Link>
+        </div>
+      </div>
+  ))}
+</div>
+    
+
+
+
+    </div>:""}
+
 
     {/*  More Content Section */}
     {obj.descriptionImg?.length!=0?

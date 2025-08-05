@@ -1,5 +1,4 @@
 import React, {  useState } from 'react'
-import { CiHeart } from 'react-icons/ci';
 import { Link, useParams } from 'react-router'
 import GameSlider from '../components/GameSlider';
 import DetailHeader from '../components/DetailHeader';
@@ -9,12 +8,16 @@ import { useEffect } from 'react';
 import { getAllDLCs, getAllGames, getDLCsById, getGamesById } from '../services/GameService';
 import Loader from '../components/Loader';
 import { ChevronRight } from 'lucide-react';
+import SystemRequit from '../components/SystemRequit';
+import { FaHeart, FaRegHeart } from 'react-icons/fa';
 
 
 
 
 function Detail() {
   const[relatedGames,setRelatedGames]=useState([])
+  const [isAlreadyInWishlist, setIsAlreadyInWishlist] = useState(false);
+  const[systemReq,setSystemReq]=useState("minimum")
   useEffect(() => {
     AOS.init({ duration: 1000 });
   }, [])
@@ -47,12 +50,49 @@ function Detail() {
       });
     }
   }, [obj]);
+
+  useEffect(() => {
+    if (obj) {
+      const storedWishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+      const exists = storedWishlist.some(
+        (game) => game.id === obj.id && game.type === type
+      );
+      setIsAlreadyInWishlist(exists);
+    }
+  }, [obj, type]);
+
+  const toggleWishlist = () => {
+    const storedWishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+
+    const exists = storedWishlist.some(
+      (game) => game.id === obj.id && game.type === type
+    );
+
+    let updatedWishlist;
+
+    if (exists) {
+      // Çıxar
+      updatedWishlist = storedWishlist.filter(
+        (game) => !(game.id === obj.id && game.type === type)
+      );
+      alert("Oyun wishlist-dən silindi!");
+      setIsAlreadyInWishlist(false);
+    } else {
+      // Əlavə et
+      updatedWishlist = [...storedWishlist, { ...obj, type }];
+      alert("Oyun wishlist-ə əlavə olundu!");
+      setIsAlreadyInWishlist(true);
+    }
+
+    localStorage.setItem("wishlist", JSON.stringify(updatedWishlist));
+  };
   
- 
   
   if (!obj) {
     return <Loader />;
   }
+  const systemKeysArray = Object.keys(obj.systemRequirements);
+  console.log(systemKeysArray); // ["minimum", "recommended"]
 
   function formatDate(dateStr) {
     const [year, month, day] = dateStr.split("-");
@@ -116,7 +156,11 @@ function Detail() {
               </div>
               <div className='flex items-center justify-between' >
                 <button className='text-center text-[#fff] text-[23px] open-sans-bold bg-[#006EF5] w-[85%] p-[2px] rounded-2xl cursor-pointer hover:text-[black] duration-300'>Pre-Order</button>
-                <CiHeart className='text-[#fff] ' size={40}/>
+                <div onClick={toggleWishlist} className='cursor-pointer' >
+                  {
+                    isAlreadyInWishlist ? <FaHeart  className='text-[#fff] ' size={40}/> : <FaRegHeart  className='text-[#fff] ' size={40}/>
+                  }
+                </div>
               </div>
 
             </div>
@@ -132,7 +176,12 @@ function Detail() {
               </div>
               <div className='flex items-center justify-between' >
                 <button className='text-center text-[#fff] text-[23px] open-sans-bold bg-[#006EF5] w-[85%] p-[2px] rounded-2xl cursor-pointer hover:text-[black] duration-300'>Pre-Order</button>
-                <CiHeart className='text-[#fff] ' size={40}/>
+                <div onClick={toggleWishlist} className='cursor-pointer' >
+                  {
+                    isAlreadyInWishlist ? <FaHeart  className='text-[#fff] ' size={40}/> : <FaRegHeart  className='text-[#fff] ' size={40}/>
+                  }
+                  
+                </div>
               </div>
 
             </div>
@@ -177,12 +226,13 @@ function Detail() {
     </div>
 
   </div>
-</div>
+    </div>
 
 
     {/* Navbar Detail Section */}
 
-    <div className='flex flex-col xl:flex-row lg:flex-row bg-black xl:gap-[50px] lg:gap-[50px] gap-[5px] justify-center mt-[50px] py-[10px] items-center'>
+    
+     { obj.type==="basedgame"?<div className='flex flex-col xl:flex-row lg:flex-row bg-black xl:gap-[50px] lg:gap-[50px] gap-[5px] justify-center mt-[50px] py-[10px] items-center'>
 {   relatedGames.length!=0?   <a href='#editions' className='ubisoft-text uppercase text-[20px] hover:border-b-[5px] py-[20px] duration-200 cursor-pointer'>Editions</a>
 :''}      
 {(!obj.descriptionImg || obj.descriptionImg.length !== 0) ? (
@@ -195,12 +245,13 @@ function Detail() {
 ) : ''}
 
 <a href='#generalInformation' className='ubisoft-text uppercase text-[20px] hover:border-b-[5px] py-[20px] duration-200 cursor-pointer'>General Information</a>
-<a className='ubisoft-text uppercase text-[20px] hover:border-b-[5px] py-[20px] duration-200 cursor-pointer'>Pc Specs</a> 
-    </div>
+<a href='#systemReq' className='ubisoft-text uppercase text-[20px] hover:border-b-[5px] py-[20px] duration-200 cursor-pointer'>Pc Specs</a> 
+    </div>:""}
 
     {/*  Editions Section */}
 
-   { relatedGames.length!=0? <div id='editions' className='bg-red-900/10 flex flex-col  py-10  gap-10 items-center justify-center '>
+   { relatedGames.length!=0? 
+   <div id='editions' className='bg-red-900/10 flex flex-col  py-10  gap-10 items-center justify-center '>
     <div className='mb-10'>
       <h3 className='ubisoft-bold text-4xl '>Compare {obj.title} Shadows Editions</h3>
     </div>
@@ -276,7 +327,7 @@ function Detail() {
 
     {/*  More Content Section */}
     {obj.descriptionImg?.length!=0?
-    <div id="moreContent" className="mt-[50px] overflow-hidden scroll-mt-[150px]">
+    <div id="moreContent" className="mt-[50px]  overflow-hidden scroll-mt-[150px]">
     {obj.descriptionImg?.map((item, index) => (
       <div
         key={index}
@@ -304,7 +355,7 @@ function Detail() {
 
 
     {/*  General information Section */}
-    <div id="generalInformation" className='w-[80%] mx-auto mt-[50px] scroll-mt-[150px]'>
+    {obj.type==="basedgame"?<div id="generalInformation" className='w-[80%] mx-auto mt-[50px] mb-[30px] scroll-mt-[150px]'>
       <h2 className='ubisoft-bold text-[2.5rem] text-center mb-[20px]'>General information </h2>
       <div className='flex gap-10 items-start flex-col lg:flex-row xl:flex-row '>
 
@@ -376,7 +427,38 @@ function Detail() {
       </div>
       
       </div>
+    </div>:""}
+    
+    {/*  SystemRequstmen Section */}
+      {obj.type==="basedgame"?
+    <div  id='systemReq' className='bg-black/10 flex flex-col  py-10  gap-10 items-center justify-center scroll-mt-[150px] '>
+    <div className='mb-2'>
+      <h3 className='ubisoft-bold text-4xl '>System requirements  for {obj.title} </h3>
+      <div className='flex flex-row mt-10 justify-center items-center gap-10 border-b-2 '>
+        {systemKeysArray.map(item=>(
+          systemReq==item?
+          <h3 onClick={()=>setSystemReq(item)} className='ubisoft-text text-[20px] capitalize cursor-pointer border-b-3  '>{item}</h3>:
+          <h3 onClick={()=>setSystemReq(item)} className='ubisoft-text text-[20px] capitalize cursor-pointer   '>{item}</h3>
+        ))}
+      </div>
     </div>
+
+
+      <div> 
+        <SystemRequit obj={obj} systemReq={systemReq} />
+      </div>  
+
+
+    
+
+
+
+    </div>:""
+    }
+
+
+    
+
 
     </div>
   )

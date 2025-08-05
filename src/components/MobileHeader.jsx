@@ -27,7 +27,7 @@ function MobileHeader({mobilesec2}) {
         <hr className="h-[0.1px] bg-gray-400 border-none" />
         <h1 className='text-[24px] ubisoft-bold flex gap-[5px] items-center'>HELP <p className='mx-2'><FaExternalLinkAlt size={12}/></p></h1>
         <hr className="h-[0.1px] bg-gray-400 border-none" />
-        <h1 className='text-[24px] ubisoft-bold flex gap-[5px] items-center'>STORE <p className='mx-2'><FaExternalLinkAlt size={12}/></p></h1>
+        <Link to="store" className='text-[24px] ubisoft-bold flex gap-[5px] items-center'>STORE <p className='mx-2'><FaExternalLinkAlt size={12}/></p></Link>
         <hr className="h-[0.1px] bg-gray-400 border-none" />
         <h1 className='text-[24px] ubisoft-bold flex gap-[5px] items-center'>UBISOFT+ <p className='mx-2'><FaExternalLinkAlt size={12}/></p></h1>
         <hr className="h-[0.1px] bg-gray-400 border-none" />

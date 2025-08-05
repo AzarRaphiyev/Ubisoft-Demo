@@ -74,7 +74,14 @@ html {
   background: linear-gradient(45deg, #e7e7e7, #ffffff);
 }
 
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
 
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE və Edge */
+  scrollbar-width: none;     /* Firefox */
+}
 
 
 

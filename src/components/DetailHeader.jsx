@@ -8,14 +8,18 @@ function DetailHeader() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [whislist, setWhislist] = useState([])
   const [whislistlenght, setWhislistLenght] = useState(0)
+  const [cart, setCart] = useState([])
+  const [cartLenght, setCartLenght] = useState(0)
   
   useEffect(()=>{
      setWhislist(JSON.parse(localStorage.getItem("wishlist")) || [])
+     setCart(JSON.parse(localStorage.getItem("cart")) || [])
      
   },[])
 
   useEffect(()=>{
     setWhislistLenght(whislist.length)
+    setCartLenght(cart.length)
      
   },[whislist])
 
@@ -68,7 +72,10 @@ function DetailHeader() {
               <p className='hidden sm:block'>Wishlist</p>
             </Link>
             <button className='text-white font-bold text-[12px] sm:text-[14px] hover:bg-[#6f6e6e]/60 px-2 sm:px-3 rounded-xl py-2 flex gap-[8px] sm:gap-[10px] items-center transition-colors'> 
-              <LuShoppingCart size={16} /> 
+              
+              <div className='flex gap-1'>
+                <LuShoppingCart size={16} /> <sup className='px-1 py-2 rounded-4xl text-[14px] ubisoft-bold bg-[#700202]'>{cartLenght}</sup>
+              </div>
               <p className='hidden sm:block'>Cart</p>
             </button>
           </div>

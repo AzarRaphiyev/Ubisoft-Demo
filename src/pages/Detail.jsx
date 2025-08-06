@@ -18,6 +18,7 @@ import { Toaster, toast } from 'react-hot-toast';
 function Detail() {
   const[relatedGames,setRelatedGames]=useState([])
   const [isAlreadyInWishlist, setIsAlreadyInWishlist] = useState(false);
+  const [isAlreadyInCart, setIsAlreadyInCart] = useState(false);
   const[systemReq,setSystemReq]=useState("minimum")
   useEffect(() => {
     AOS.init({ duration: 1000 });
@@ -52,6 +53,7 @@ function Detail() {
     }
   }, [obj]);
 
+  
   useEffect(() => {
     if (obj) {
       const storedWishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
@@ -61,7 +63,15 @@ function Detail() {
       setIsAlreadyInWishlist(exists);
     }
   }, [obj, type]);
-
+  useEffect(() => {
+    if (obj) {
+      const storedWishlist = JSON.parse(localStorage.getItem("cart")) || [];
+      const exists = storedWishlist.some(
+        (game) => game.id === obj.id && game.type === type
+      );
+      setIsAlreadyInCart(exists);
+    }
+  }, [obj, type]);
   const toggleWishlist = () => {
     const storedWishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
 
@@ -88,6 +98,27 @@ function Detail() {
 
     localStorage.setItem("wishlist", JSON.stringify(updatedWishlist));
   };
+
+const handleAddToCart = (item, type) => {
+  const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  const exists = storedCart.some(
+    (game) => game.id === item.id && game.type === type
+  );
+
+  if (exists) {
+    toast.error("Artıq səbətdədir");
+    return;
+  }
+
+  const updatedCart = [...storedCart, { ...item, type }];
+  localStorage.setItem("cart", JSON.stringify(updatedCart));
+  toast.success("Səbətə əlavə olundu");
+
+  // Əgər bir state-də göstərmək istəyirsənsə:
+  setIsAlreadyInCart(true);
+};
+  
   
   
   if (!obj) {
@@ -162,7 +193,15 @@ function Detail() {
                 <p className='ubisoft-text text-[#fff] text-[2.5vw]'> {obj.price ==0 ? "Free":"€ "+obj.price}</p>
               </div>
               <div className='flex items-center justify-between' >
-                <button className='text-center text-[#fff] text-[23px] open-sans-bold bg-[#006EF5] w-[85%] p-[2px] rounded-2xl cursor-pointer hover:text-[black] duration-300'>Pre-Order</button>
+              {
+                    isAlreadyInCart ? 
+                    <Link to={'/cart'}  className='text-center text-[#fff] text-[23px] open-sans-bold bg-[#00f587] w-[85%] p-[2px] rounded-2xl cursor-pointer hover:text-[black] duration-300'>Go card</Link>
+
+                    :
+                    <button onClick={() => handleAddToCart(obj, type)} className='text-center text-[#fff] text-[23px] open-sans-bold bg-[#006EF5] w-[85%] p-[2px] rounded-2xl cursor-pointer hover:text-[black] duration-300'>Pre-Order</button>
+
+                  }
+                
                 <div onClick={toggleWishlist} className='cursor-pointer' >
                   {
                     isAlreadyInWishlist ? <FaHeart  className='text-[#fff] ' size={40}/> : <FaRegHeart  className='text-[#fff] ' size={40}/>
@@ -182,7 +221,15 @@ function Detail() {
                 <p className='ubisoft-text text-[#fff] text-[20px]'> {obj.price ==0 ? "Free":"€ "+obj.price}</p>
               </div>
               <div className='flex items-center justify-between' >
-                <button className='text-center text-[#fff] text-[23px] open-sans-bold bg-[#006EF5] w-[85%] p-[2px] rounded-2xl cursor-pointer hover:text-[black] duration-300'>Pre-Order</button>
+              {
+                    isAlreadyInCart ? 
+                    <Link to={'/cart'}  className='text-center text-[#fff] text-[23px] open-sans-bold bg-[#00f587] w-[85%] p-[2px] rounded-2xl cursor-pointer hover:text-[black] duration-300'>Go card</Link>
+
+                    :
+                    <button onClick={() => handleAddToCart(obj, type)} className='text-center text-[#fff] text-[23px] open-sans-bold bg-[#006EF5] w-[85%] p-[2px] rounded-2xl cursor-pointer hover:text-[black] duration-300'>Pre-Order</button>
+
+                  }
+                
                 <div onClick={toggleWishlist} className='cursor-pointer' >
                   {
                     isAlreadyInWishlist ? <FaHeart  className='text-[#fff] ' size={40}/> : <FaRegHeart  className='text-[#fff] ' size={40}/>

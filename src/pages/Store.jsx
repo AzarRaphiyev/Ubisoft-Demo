@@ -337,9 +337,7 @@ function Store() {
 
                                 <div>
                                   <FaHeart className="text-white cursor-pointer hover:scale-110 duration-300 " size={20} />
-                                  <div className='absolute bg-amber-200 hidden xl:block lg:block w-10 h-10 z-50'>
-                                  asd
-                                  </div>
+                                  
                                 </div>
                               ) : (
                                 <FaRegHeart className="text-white cursor-pointer hover:scale-110 duration-300 " size={20} />

@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from 'react'
-import { Toaster,toast } from 'react-hot-toast';
-import { FaHeart, FaRegHeart, FaTrashAlt, FaWindows } from 'react-icons/fa';
+import React, { useEffect, useState } from 'react';
+import { FaCartPlus, FaOpencart, FaTrashAlt } from 'react-icons/fa';
 import { TbBell, TbBellOff } from "react-icons/tb";
-import { Link } from 'react-router-dom'; // Düzgün import
+import { Link } from 'react-router-dom';
+import { Toaster, toast } from 'react-hot-toast';
+import DetailHeader from '../components/DetailHeader';
 
 function Whislist() {
   const [wishlist, setWishlist] = useState([]);
   const [isSelected, setIsSelected] = useState(false);
+  const [cartItems, setCartItems] = useState([]);
 
   const handleToggle = () => {
     setIsSelected(!isSelected);
@@ -15,25 +17,53 @@ function Whislist() {
   useEffect(() => {
     const storedWishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
     setWishlist(storedWishlist);
+
+    const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
+    setCartItems(storedCart);
   }, []);
 
   const toggleWishlistItem = (item) => {
     const exists = wishlist.some(i => i.id === item.id);
     let updatedWishlist;
+
     if (exists) {
       updatedWishlist = wishlist.filter(i => i.id !== item.id);
-      toast.error('Oyun wishlist-dən silindi!')
+      toast.error('Oyun wishlist-dən silindi!');
     } else {
       updatedWishlist = [...wishlist, item];
-      toast.success('Oyun wishlist-ə əlavə olundu!')
+      toast.success('Oyun wishlist-ə əlavə olundu!');
     }
+
     setWishlist(updatedWishlist);
     localStorage.setItem('wishlist', JSON.stringify(updatedWishlist));
   };
 
+  const handleAddToCart = (item) => {
+    const exists = cartItems.some(
+      (game) => game.id === item.id && game.type === item.type
+    );
+
+    if (exists) {
+      toast.error("Artıq səbətdədir");
+      return;
+    }
+
+    const updatedCart = [...cartItems, item];
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
+    setCartItems(updatedCart);
+    toast.success("Səbətə əlavə olundu");
+  };
+
+  const isInCart = (item) => {
+    return cartItems.some(
+      (game) => game.id === item.id && game.type === item.type
+    );
+  };
+
   return (
     <div className='h-fit min-h-[100vh] bg-[#E5E8F0] py-[70px]'>
-            <Toaster position="top-right" />
+      <DetailHeader/>
+      <Toaster position="top-right" />
       <div className='container2 mx-auto'>
         <div className='w-fit pt-[40px]'>
           <h3 className='text-[30px] ubisoft-text text-black'>
@@ -67,7 +97,13 @@ function Whislist() {
       {/* Cards */}
       <div className="container2 mx-auto">
         {wishlist.length === 0 ? (
-          <div className="text-center text-gray-500 py-10">Your wishlist is empty.</div>
+          <div className=" flex flex-col xl:flex-row lg:flex-row justify-around items-center gap-10  py-10">
+            <div className='flex flex-col gap-5 w-[50%]'>
+              <h3 className='ubisoft-bold text-black text-[35px]'>Your wishlist is empty</h3>
+              <p className='text-black ubisoft-text text-[16px]'>Save items to your wishlist to buy later and to get news and price drop notifications.</p>
+            </div>
+            <img className='max-w-[50%]' src="https://store.ubisoft.com/on/demandware.static/-/Library-Sites-shared-library-web/default/dwb7863869/wishlist/empty-wishlist-banner.png" alt="" />
+          </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 sm:gap-6">
             {wishlist.map((item, index) => (
@@ -86,8 +122,7 @@ function Whislist() {
                         />
                       </Link>
 
-                      <Link
-                        to={`/detail/${item.type}/${item.id}`}
+                      <div
                         className='absolute opacity-0 group-hover:opacity-100 hidden xl:flex lg:flex duration-100 top-0 left-0 bg-black/70 w-full h-full z-30 items-center justify-center text-white'
                       >
                         <div
@@ -98,14 +133,27 @@ function Whislist() {
                             toggleWishlistItem(item);
                           }}
                         >
-                          <FaTrashAlt  className="text-white hover:scale-110 duration-300 cursor-pointer" size={20} />
+                          <FaTrashAlt className="text-white hover:scale-110 duration-300 cursor-pointer" size={20} />
                         </div>
-                        <div className='absolute top-[50%] right-[50%] translate-x-[50%] border-2 rounded-xl px-5 hover:bg-white/90 hover:border-black hover:scale-110 duration-500 hover:text-black py-1 ubisoft-bold capitalize'>
-                          Add To Cart
-                        </div>
-                      </Link>
 
-                      {/* Mobile (heart always visible) */}
+                        <button
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            handleAddToCart(item);
+                          }}
+                          className={`absolute top-[50%] right-[50%] translate-x-[50%] border-2 rounded-xl  py-1 ubisoft-bold capitalize transition-all duration-300 ${
+                            isInCart(item)
+                              ? 'bg-white/90 border-green-600 text-green-600 cursor-not-allowed px-1 w-[150px] '
+                              : 'hover:bg-white/90 hover:border-black hover:text-black text-white px-5 border-white'
+                          }`}
+                          disabled={isInCart(item)}
+                        >
+                          {isInCart(item) ?  <p className='flex gap-2 items-center justify-center'><FaCartPlus />   Added To Cart</p> : <p>Add to cart</p>}
+                        </button>
+                      </div>
+
+                      {/* Mobile (trash always visible) */}
                       <div
                         className='absolute xl:hidden lg:hidden flex top-5 right-5 z-10'
                         onClick={(e) => {
@@ -114,7 +162,7 @@ function Whislist() {
                           toggleWishlistItem(item);
                         }}
                       >
-                        <FaTrashAlt  className="text-white cursor-pointer" size={25} />
+                        <FaTrashAlt className="text-white cursor-pointer" size={25} />
                       </div>
                     </div>
 
@@ -157,7 +205,7 @@ function Whislist() {
         )}
       </div>
     </div>
-  )
+  );
 }
 
-export default Whislist
+export default Whislist;

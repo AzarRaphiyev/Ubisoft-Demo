@@ -88,9 +88,9 @@ function GameHeadSection({setGameBar,setGameSection}) {
             </div>
         </div>
         <div className='flex my-5 w-[60%] mx-auto justify-between'>
-            <Link to={'/allgames'}  ><p className='uppercase text-white bg-[#D80388] hover:bg-[#fff] hover:border-[#D80388] border-2 hover:text-black  py-1 px-7 rounded-2xl duration-300'>
+            <Link onClick={() => {setGameBar(false) ,setGameSection(false)}} to={'/allgames'}  ><p className='uppercase text-white bg-[#D80388] hover:bg-[#fff] hover:border-[#D80388] border-2 hover:text-black  py-1 px-7 rounded-2xl duration-300'>
             View All Games</p></Link>
-            <Link to={''}  ><p className='uppercase text-white bg-[#D80388] hover:bg-[#fff] hover:border-[#D80388] border-2 hover:text-black py-1 px-7 rounded-2xl duration-300'>
+            <Link onClick={() => {setGameBar(false) ,setGameSection(false)}} to={'/store'}  ><p className='uppercase text-white bg-[#D80388] hover:bg-[#fff] hover:border-[#D80388] border-2 hover:text-black py-1 px-7 rounded-2xl duration-300'>
             View All </p></Link>
         </div>
     </div>

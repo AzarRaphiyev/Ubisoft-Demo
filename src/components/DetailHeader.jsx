@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FaRegHeart } from 'react-icons/fa'
 import { IoMenu, IoSearch, IoClose } from 'react-icons/io5'
 import { LuShoppingCart } from 'react-icons/lu'
@@ -6,11 +6,26 @@ import { Link } from 'react-router'
 
 function DetailHeader() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [whislist, setWhislist] = useState([])
+  const [whislistlenght, setWhislistLenght] = useState(0)
+  
+  useEffect(()=>{
+     setWhislist(JSON.parse(localStorage.getItem("wishlist")) || [])
+     
+  },[])
+
+  useEffect(()=>{
+    setWhislistLenght(whislist.length)
+     
+  },[whislist])
+
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen)
   }
   
+
+
 
   return (
     <>
@@ -46,10 +61,12 @@ function DetailHeader() {
                 placeholder='Search for Games' 
               />
             </div>
-            <button className='text-white font-bold text-[12px] sm:text-[14px] hover:bg-[#6f6e6e]/60 px-2 sm:px-3 rounded-xl py-2 flex gap-[8px] sm:gap-[10px] items-center transition-colors'> 
-              <FaRegHeart size={16} /> 
+            <Link to={"/whislist"} className='text-white font-bold text-[12px] sm:text-[14px] hover:bg-[#6f6e6e]/60 px-2 sm:px-3 rounded-xl py-2 flex gap-[8px] sm:gap-[10px] items-center transition-colors'> 
+              <div className='flex gap-1'>
+                <FaRegHeart size={16} /> <sup className='px-1 py-2 rounded-4xl text-[14px] ubisoft-bold bg-[#700202]'>{whislistlenght}</sup>
+              </div>
               <p className='hidden sm:block'>Wishlist</p>
-            </button>
+            </Link>
             <button className='text-white font-bold text-[12px] sm:text-[14px] hover:bg-[#6f6e6e]/60 px-2 sm:px-3 rounded-xl py-2 flex gap-[8px] sm:gap-[10px] items-center transition-colors'> 
               <LuShoppingCart size={16} /> 
               <p className='hidden sm:block'>Cart</p>

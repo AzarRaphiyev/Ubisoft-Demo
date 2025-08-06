@@ -9,6 +9,8 @@ import '../css/filter.css';
 import { Navigation } from 'swiper/modules';
 import Loader from '../components/Loader';
 import FilterComponent from '../components/FilterComponent';
+import { FaHeart, FaRegHeart, FaWindows } from 'react-icons/fa';
+import { Toaster, toast } from 'react-hot-toast';
 
 function Store() {
   const { gamedata, dlcdata, universedata } = useContext(GameContext);
@@ -34,7 +36,12 @@ function Store() {
       setUniverse(universedata);
     }
   }, [gamedata, dlcdata, universedata]);
-  
+  const [wishlist, setWishlist] = useState(() => {
+    const stored = localStorage.getItem('wishlist');
+    return stored ? JSON.parse(stored) : [];
+  });
+
+
   useEffect(() => {
     const combinedData = [...games, ...dlc];
     setFullData(combinedData);
@@ -98,6 +105,22 @@ function Store() {
     setFilteredData(filtered);
   }, [pricevalue, selectedTypes, fullData]);
   
+  const toggleWishlistItem = (item) => {
+    const exists = wishlist.some(i => i.id === item.id);
+  
+    let updatedWishlist;
+    if (exists) {
+      updatedWishlist = wishlist.filter(i => i.id !== item.id);
+      toast.error('Oyun wishlist-dən silindi!')
+    } else {
+      updatedWishlist = [...wishlist, item];
+      toast.success('Oyun wishlist-ə əlavə olundu!')
+    }
+  
+    setWishlist(updatedWishlist);
+    localStorage.setItem('wishlist', JSON.stringify(updatedWishlist));
+  };
+  
   if (!gamedata?.length || !dlcdata?.length || !universe?.length) {
     return <Loader />;
   }
@@ -108,6 +131,7 @@ function Store() {
 
   return (
     <div className='min-h-screen py-[30px] bg-gradient-to-b from-[#0E0D0E] via-[#150C15] to-[#0F131E]'>
+      <Toaster position="top-right" />
       <DetailHeader />
 
       {/* Hero Banner */}
@@ -285,15 +309,61 @@ function Store() {
                     >
                       <div className='overflow-hidden w-full h-full'>
                         <div className='bg-[#fff] overflow-hidden h-full flex flex-col justify-between'>
-                          <div className='overflow-hidden w-full'>
-                            <Link to={`/detail/${item.type}/${item.id}`}>
-                              <img
-                                src={item.cardImg}
-                                className='w-full   hover:scale-110 duration-300'
-                                alt=""
-                              />
-                            </Link>
-                          </div>
+
+
+
+                        <div className='overflow-hidden w-full relative group'>
+                        <Link to={`/detail/${item.type}/${item.id}`}>
+                          <img
+                            src={item.cardImg}
+                            className='w-full hover:scale-110 duration-300'
+                            alt=""
+                          />
+                        </Link>
+
+  {/* Bu div overlay-di, kliklə linkə yönləndirmə olacaq */}
+                          <Link
+                            to={`/detail/${item.type}/${item.id}`}
+                            className='absolute opacity-0 group-hover:opacity-100 hidden xl:flex lg:flex  duration-100 top-0 left-0 bg-black/70 w-full h-full z-30  items-center justify-center text-white'
+                          >
+                            {/* İçindəki ürək iconuna klik edəndə linkə getməsin deyə stopPropagation istifadə edilir */}
+                            <div
+                              className='absolute top-5 right-5 z-40'
+                              onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                toggleWishlistItem(item);
+                              }}
+                            >
+                              {wishlist.some(i => i.id === item.id) ? (
+                                <FaHeart className="text-white cursor-pointer" size={20} />
+                              ) : (
+                                <FaRegHeart className="text-white cursor-pointer" size={20} />
+                              )}
+                            </div>
+
+                            <div className='absolute top-[70%] right-[50%] translate-x-[50%]'>
+                              <FaWindows className="text-white" size={25} />
+                            </div>
+                          </Link>
+                          <div
+                              className='absolute xl:hidden lg:hidden flex top-5 right-5 z-40'
+                              onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                toggleWishlistItem(item);
+                              }}
+                            >
+                              {wishlist.some(i => i.id === item.id) ? (
+                                <FaHeart className="text-white cursor-pointer" size={25} />
+                              ) : (
+                                <FaRegHeart className="text-white cursor-pointer" size={25} />
+                              )}
+                            </div>
+                        </div>
+
+                          
+
 
                           <div className='p-3 sm:p-4 flex flex-col justify-between flex-grow'>
                             <div className='flex flex-col text-left'>

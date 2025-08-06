@@ -105,7 +105,7 @@ function Detail() {
   
   return (
     <div className='py-[20px] xl:py-0 lg:py-0'>
-      <Toaster position="top-right" /> {/* Toast göstəricisi */}
+      <Toaster position="top-right" /> 
       {/* Detail Header Section */}
       <DetailHeader/>
 

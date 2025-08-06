@@ -93,8 +93,12 @@ function Detail() {
   if (!obj) {
     return <Loader />;
   }
-  const systemKeysArray = Object.keys(obj.systemRequirements);
-  console.log(systemKeysArray); // ["minimum", "recommended"]
+  let systemKeysArray=[]
+  if (obj.type==="basegame") {
+    
+     systemKeysArray = Object.keys(obj.systemRequirements);
+  }
+  
 
   function formatDate(dateStr) {
     const [year, month, day] = dateStr.split("-");
@@ -440,7 +444,7 @@ function Detail() {
     <div className='mb-2'>
       <h3 className='ubisoft-bold xl:text-4xl lg:text-3xl md:text-2xl text-xl '>System requirements  for {obj.title} </h3>
       <div className='flex xl:flex-row lg:flex-row md:flex-row mt-10 justify-center items-center gap-10 border-b-2 flex-col'>
-        {systemKeysArray.map(item=>(
+        {systemKeysArray?.map(item=>(
           systemReq==item?
           <h3 onClick={()=>setSystemReq(item)} className='ubisoft-text xl:text-[20px] lg:text-[20px] text-[16px] capitalize cursor-pointer border-b-3  '>{item}</h3>:
           <h3 onClick={()=>setSystemReq(item)} className='ubisoft-text xl:text-[20px] lg:text-[20px] text-[16px] capitalize cursor-pointer   '>{item}</h3>

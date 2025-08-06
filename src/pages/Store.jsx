@@ -321,12 +321,10 @@ function Store() {
                           />
                         </Link>
 
-  {/* Bu div overlay-di, kliklə linkə yönləndirmə olacaq */}
                           <Link
                             to={`/detail/${item.type}/${item.id}`}
                             className='absolute opacity-0 group-hover:opacity-100 hidden xl:flex lg:flex  duration-100 top-0 left-0 bg-black/70 w-full h-full z-30  items-center justify-center text-white'
                           >
-                            {/* İçindəki ürək iconuna klik edəndə linkə getməsin deyə stopPropagation istifadə edilir */}
                             <div
                               className='absolute top-5 right-5 z-40'
                               onClick={(e) => {
@@ -336,18 +334,24 @@ function Store() {
                               }}
                             >
                               {wishlist.some(i => i.id === item.id) ? (
-                                <FaHeart className="text-white cursor-pointer" size={20} />
+
+                                <div>
+                                  <FaHeart className="text-white cursor-pointer hover:scale-110 duration-300 " size={20} />
+                                  <div className='absolute bg-amber-200 hidden xl:block lg:block w-10 h-10 z-50'>
+                                  asd
+                                  </div>
+                                </div>
                               ) : (
-                                <FaRegHeart className="text-white cursor-pointer" size={20} />
+                                <FaRegHeart className="text-white cursor-pointer hover:scale-110 duration-300 " size={20} />
                               )}
                             </div>
 
                             <div className='absolute top-[70%] right-[50%] translate-x-[50%]'>
-                              <FaWindows className="text-white" size={25} />
+                              <FaWindows className="text-white hover:scale-110 duration-300 " size={25} />
                             </div>
                           </Link>
                           <div
-                              className='absolute xl:hidden lg:hidden flex top-5 right-5 z-40'
+                              className='absolute xl:hidden lg:hidden flex top-5 right-5 z-10'
                               onClick={(e) => {
                                 e.preventDefault();
                                 e.stopPropagation();

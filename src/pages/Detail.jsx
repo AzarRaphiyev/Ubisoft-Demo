@@ -251,9 +251,11 @@ function Detail() {
     {/*  Editions Section */}
 
    { relatedGames.length!=0? 
-   <div id='editions' className='bg-red-900/10 flex flex-col  py-10  gap-10 items-center justify-center '>
+   <div id='editions' className='bg-red-900/10 flex flex-col  py-10  gap-10 items-center justify-center bg-no-repeat bg-cover bg/10 '
+   style={{ backgroundImage: "url('https://wallpapercrafter.com/th8004/1240510-Asus-Black-And-Red-gamers-PC-Gaming-video-games.jpg')" }}
+   >
     <div className='mb-10'>
-      <h3 className='ubisoft-bold text-4xl '>Compare {obj.title} Shadows Editions</h3>
+      <h3 className='ubisoft-bold text-4xl '>Compare {obj.title}  Editions</h3>
     </div>
 
 <div className='flex flex-wrap gap-5 justify-center w-[90%] mx-auto'>

@@ -7,6 +7,7 @@ import Loader from '../components/Loader'
 import PopularGames from '../components/PopularGames'
 import RainbowSixSec from '../components/RainbowSixSec'
 import FreeGames from '../components/FreeGames'
+import UniverseSec from '../components/UniverseSec'
 
 
 function Home() {
@@ -36,10 +37,11 @@ function Home() {
   return (
     <div className='bg-gradient-to-b from-[#0E0D0E] via-[#150C15] to-[#0F131E] pb-[30px] pt-5'>
       {/* ✅ Data-ları prop olaraq ötür */}
-      <Slider sliderData={sliderdata} />
+      <Slider sliderdata={sliderdata} />
       <GameInfoSec />
       <PopularGames gamedata={gamedata}/>
       <RainbowSixSec gamedata={gamedata}/>
+      <UniverseSec universedata={universedata}/>
       <FreeGames gamedata={gamedata}/>
 
       <div className='flex xl:flex-row lg:flex-row flex-col    rounded items-center justify-between px-[20px] py-[10px] container2 mx-auto mt-[20px] bg-gradient-to-r from-[#1D1230]/30 via-[#0a0119]/30 to-[#021B39]/30 '>

@@ -8,32 +8,32 @@ import { Link } from 'react-router'
 
 function Footer() {
   return (
-    <div className='flex flex-col  mt-[20px]'>
-      <div className='w-[100%] bg-black flex flex-col justify-center   h-[55px]  '>
+    <div className='flex flex-col  '>
+      <div className='w-[100%] bg-black flex flex-col justify-center   py-3  '>
       <div className='flex w-[90%] mx-auto xl:justify-between lg:justify-between justify-center items-center'>
         <p className='text-[#8c8a8a] open-sans-text text-[12px] hidden xl:block lg:block'>Visit Other Ubisoft Channels
         </p>
 
-        <div className='flex gap-[20px] items-center'>
-          <Link to={"https://x.com/ubisoft"} target="_blank" rel="noopener noreferrer"  className='text-black bg-[#fff] hover:text-white hover:bg-[#908e8e]/50 duration-400 cursor-pointer rounded-2xl p-[5px]'>
+        <div className='flex gap-[20px] justify-center items-center'>
+          <Link  to={"https://x.com/ubisoft"} target="_blank" rel="noopener noreferrer"  className='text-black hidden bg-[#fff] hover:text-white hover:bg-[#908e8e]/50 duration-400 cursor-pointer rounded-2xl p-[5px]'>
             <FaXTwitter  size={20} />
           </Link>
-          <Link to={"https://www.twitch.tv/ubisoft"} target="_blank" rel="noopener noreferrer"  className='text-black bg-[#fff] hover:text-white hover:bg-[#908e8e]/50 duration-400 cursor-pointer rounded-2xl p-[5px]'>
+          <Link to={"https://www.twitch.tv/ubisoft"} target="_blank" rel="noopener noreferrer"  className='text-black hidden bg-[#fff] hover:text-white hover:bg-[#908e8e]/50 duration-400 cursor-pointer rounded-2xl p-[5px]'>
             <FaTwitch  size={20} />
           </Link>
-          <Link to={"https://www.facebook.com/ubisoft"} target="_blank" rel="noopener noreferrer"  className='text-black bg-[#fff] hover:text-white hover:bg-[#908e8e]/50 duration-400 cursor-pointer rounded-2xl p-[5px]'>
+          <Link to={"https://www.facebook.com/ubisoft"} target="_blank" rel="noopener noreferrer"  className='text-black hidden bg-[#fff] hover:text-white hover:bg-[#908e8e]/50 duration-400 cursor-pointer rounded-2xl p-[5px]'>
             <TiSocialFacebook  size={20} />
           </Link>
           <Link to={"https://discord.com/invite/ubisoftofficial"} target="_blank" rel="noopener noreferrer"  className='text-black bg-[#fff] hover:text-white hover:bg-[#908e8e]/50 duration-400 cursor-pointer rounded-2xl p-[5px]'>
-            <FaDiscord size={20} />
+            <FaDiscord size={25} />
           </Link>
-          <Link to={"https://www.youtube.com/channel/UC62IIuaPmV-KeuYmEaIZ0eQ"} target="_blank" rel="noopener noreferrer"  className='text-black bg-[#fff] hover:text-white hover:bg-[#908e8e]/50 duration-400 cursor-pointer rounded-2xl p-[5px]'>
+          <Link to={"https://www.youtube.com/channel/UC62IIuaPmV-KeuYmEaIZ0eQ"} target="_blank" rel="noopener noreferrer"  className='text-black hidden bg-[#fff] hover:text-white hover:bg-[#908e8e]/50 duration-400 cursor-pointer rounded-2xl p-[5px]'>
             <TiSocialYoutube  size={20} />
           </Link>
-          <Link to={"https://www.instagram.com/ubisoftuk/#"} target="_blank" rel="noopener noreferrer"  className='text-black bg-[#fff] hover:text-white hover:bg-[#908e8e]/50 duration-400 cursor-pointer rounded-2xl p-[5px]'>
+          <Link to={"https://www.instagram.com/ubisoftuk/#"} target="_blank" rel="noopener noreferrer"  className='text-black bg-[#fff] hidden hover:text-white hover:bg-[#908e8e]/50 duration-400 cursor-pointer rounded-2xl p-[5px]'>
             <SlSocialInstagram  size={20} />
           </Link>
-          <Link to={"https://www.linkedin.com/company/ubisoft/"} target="_blank" rel="noopener noreferrer"  className='text-black bg-[#fff] hover:text-white hover:bg-[#908e8e]/50 duration-400 cursor-pointer rounded-2xl p-[5px]'>
+          <Link to={"https://www.linkedin.com/company/ubisoft/"} target="_blank" rel="noopener noreferrer"  className='text-black hidden bg-[#fff] hover:text-white hover:bg-[#908e8e]/50 duration-400 cursor-pointer rounded-2xl p-[5px]'>
             <TiSocialLinkedin  size={20} />
           </Link>
         </div>

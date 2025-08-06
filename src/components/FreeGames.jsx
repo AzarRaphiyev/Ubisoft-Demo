@@ -1,4 +1,5 @@
 import React from 'react'
+import { FaExternalLinkAlt } from 'react-icons/fa';
 import { Link } from 'react-router';
 
 function FreeGames({gamedata}) {
@@ -26,7 +27,7 @@ function FreeGames({gamedata}) {
                         </h1>
                     </div>
 
-                    <Link to={`detail/${item.type}/${item.id}`} className='py-2 px-4 text-[14px] text-center w-[100%] xl:w-[30%] lg:w-[30%] bg-[#006EF5] mt-3 rounded-4xl font-bold'>Play </Link>
+                    <Link to={`detail/${item.type}/${item.id}`} className='py-2 flex items-center justify-center px-4 text-[14px] text-center w-[100%] xl:w-[30%] lg:w-[30%] bg-[#006EF5] mt-3 rounded-4xl font-bold'>Play  <p className='mx-2'><FaExternalLinkAlt size={12}/></p> </Link>
 
                 </div>
             </div>

@@ -12,7 +12,7 @@ import { FaPlay } from 'react-icons/fa';
 
 function GameSlider({screenshots, videos}) {
   return (
-    <div className='py-5'>
+    <div className='w-[90%] mx-auto'>
       <Swiper
         slidesPerView={1}
         spaceBetween={20}

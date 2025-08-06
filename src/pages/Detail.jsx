@@ -10,6 +10,7 @@ import Loader from '../components/Loader';
 import { ChevronRight } from 'lucide-react';
 import SystemRequit from '../components/SystemRequit';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
+import { Toaster, toast } from 'react-hot-toast';
 
 
 
@@ -75,12 +76,13 @@ function Detail() {
       updatedWishlist = storedWishlist.filter(
         (game) => !(game.id === obj.id && game.type === type)
       );
-      alert("Oyun wishlist-dən silindi!");
+      toast.error('Oyun wishlist-dən silindi!')
+      
       setIsAlreadyInWishlist(false);
     } else {
       // Əlavə et
       updatedWishlist = [...storedWishlist, { ...obj, type }];
-      alert("Oyun wishlist-ə əlavə olundu!");
+      toast.success('Oyun wishlist-ə əlavə olundu!')
       setIsAlreadyInWishlist(true);
     }
 
@@ -103,6 +105,7 @@ function Detail() {
   
   return (
     <div className='py-[20px] xl:py-0 lg:py-0'>
+      <Toaster position="top-right" /> {/* Toast göstəricisi */}
       {/* Detail Header Section */}
       <DetailHeader/>
 
@@ -170,7 +173,7 @@ function Detail() {
         </div>
       </div>
     </div>
-    <div className='h-[210px] w-[100%]  bg-[#0D0D0D] p-[30px] xl:hidden  flex  flex-col justify-between mb-[20px]'>
+    <div className='h-[210px] w-[100%]   bg-[#0D0D0D] p-[30px] xl:hidden  flex  flex-col justify-between mb-[20px]'>
               <div className='bg-[#45464A] px-[10px] rounded h-[50px] flex items-center '>
                 <p className='ubisoft-text text-[#fff] text-[20px]'> {obj.price ==0 ? "Free":"€ "+obj.price}</p>
               </div>
@@ -433,14 +436,14 @@ function Detail() {
     
     {/*  SystemRequstmen Section */}
       {obj.type==="basedgame"?
-    <div  id='systemReq' className='bg-black/10 flex flex-col  py-10  gap-10 items-center justify-center scroll-mt-[150px] '>
+    <div  id='systemReq' className='bg-black/10 flex flex-col  py-10 px-5  gap-10 items-center justify-center scroll-mt-[150px] '>
     <div className='mb-2'>
-      <h3 className='ubisoft-bold text-4xl '>System requirements  for {obj.title} </h3>
-      <div className='flex flex-row mt-10 justify-center items-center gap-10 border-b-2 '>
+      <h3 className='ubisoft-bold xl:text-4xl lg:text-3xl md:text-2xl text-xl '>System requirements  for {obj.title} </h3>
+      <div className='flex xl:flex-row lg:flex-row md:flex-row mt-10 justify-center items-center gap-10 border-b-2 flex-col'>
         {systemKeysArray.map(item=>(
           systemReq==item?
-          <h3 onClick={()=>setSystemReq(item)} className='ubisoft-text text-[20px] capitalize cursor-pointer border-b-3  '>{item}</h3>:
-          <h3 onClick={()=>setSystemReq(item)} className='ubisoft-text text-[20px] capitalize cursor-pointer   '>{item}</h3>
+          <h3 onClick={()=>setSystemReq(item)} className='ubisoft-text xl:text-[20px] lg:text-[20px] text-[16px] capitalize cursor-pointer border-b-3  '>{item}</h3>:
+          <h3 onClick={()=>setSystemReq(item)} className='ubisoft-text xl:text-[20px] lg:text-[20px] text-[16px] capitalize cursor-pointer   '>{item}</h3>
         ))}
       </div>
     </div>

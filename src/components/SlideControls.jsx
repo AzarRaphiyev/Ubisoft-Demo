@@ -50,18 +50,7 @@ function SlideControls({ sliderData, setCurrentIndex, currentIndex, isPaused, se
             </div>
           )}
 
-          {/* Play/Pause Button */}
-          {currentIndex === index && (
-            <div 
-              onClick={togglePause}
-              className='absolute left-[16%] translate-x-[-20%] top-[50%] translate-y-[-50%] bg-[#838282]/75 hover:bg-[#838282]/100 p-2 rounded-full z-50 transition-all duration-200'
-            >
-              {isPaused ? 
-                <TiMediaPlay size={20} className='text-[#fff] ml-0.5' /> : 
-                <TiMediaPause size={20} className='text-[#fff]' />
-              }
-            </div>
-          )}
+         
 
           {/* Image Container */}
           <div className="relative flex-shrink-0 w-[65px] h-[55px] md:w-[75px] md:h-[60px] z-[11]">
@@ -70,6 +59,18 @@ function SlideControls({ sliderData, setCurrentIndex, currentIndex, isPaused, se
               className="w-full h-full rounded-2xl object-cover"
               alt=""
             />
+             {/* Play/Pause Button */}
+          {currentIndex === index && (
+            <div 
+              onClick={togglePause}
+              className='absolute left-[50%] translate-x-[-50%]   top-[50%] translate-y-[-50%] bg-[#838282]/75 hover:bg-[#838282]/100 p-2 rounded-full z-50 transition-all duration-200'
+            >
+              {isPaused ? 
+                <TiMediaPlay size={20} className='text-[#fff] ml-0.5' /> : 
+                <TiMediaPause size={20} className='text-[#fff]' />
+              }
+            </div>
+          )}
             
             {/* ✅ Aktiv element üçün qaraltma overlay */}
             {currentIndex === index && (

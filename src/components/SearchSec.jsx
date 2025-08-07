@@ -81,12 +81,16 @@ function SearchSec({ searchSec, setSearchSec }) {
                 <h2 className='text-lg text-black font-bold mb-2'>Games</h2>
                 {filteredGame.length > 0 ? (
                   filteredGame.map((game, index) => (
-                    <Link to={`detail/${game.type}/${game.id}`}
-                      key={index}
-                      className='p-2 border-b hover:bg-gray-100 block text-black cursor-pointer'
-                    >
-                      {game.title}
-                    </Link>
+
+                    <div className='flex p-2 border-b hover:bg-gray-100 gap-10 text-black cursor-pointer itemce'>
+                      <img src={game.cardImg} className='w-[30px]' alt="" />
+                      <Link to={`detail/${game.type}/${game.id}`}
+                        key={index}
+                        className=''
+                      >
+                        {game.title}
+                      </Link>
+                    </div>
                   ))
                 ) : (
                   <p className='text-sm text-gray-500'>No games found.</p>
@@ -97,12 +101,16 @@ function SearchSec({ searchSec, setSearchSec }) {
                 <h2 className='text-lg font-bold text-black mb-2'>DLCs</h2>
                 {filteredDlc.length > 0 ? (
                   filteredDlc.map((dlc, index) => (
-                    <Link to={`detail/${dlc.type}/${dlc.id}`}
-                      key={index}
-                      className='p-2 border-b hover:bg-gray-100 block text-black cursor-pointer'
-                    >
-                      {dlc.title}
-                    </Link>
+                    <div className='flex p-2 border-b hover:bg-gray-100 gap-10 text-black cursor-pointer items-center'>
+                      <img src={dlc.cardImg} className='w-[30px]' alt="" />
+                      <Link to={`detail/${dlc.type}/${dlc.id}`}
+                        key={index}
+                        className=''
+                      >
+                        {dlc.title}
+                      </Link>
+                    </div>
+                    
                   ))
                 ) : (
                   <p className='text-sm text-gray-500'>No DLCs found.</p>

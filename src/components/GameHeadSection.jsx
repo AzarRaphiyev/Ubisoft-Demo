@@ -1,7 +1,26 @@
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router'
+import { GameContext } from '../context/DataContext';
 
 function GameHeadSection({setGameBar,setGameSection}) {
+    const [games, setGames] = useState([])
+    const { gamedata } = useContext(GameContext);
+
+    useEffect(() => {
+        if (gamedata) {
+            setGames(gamedata);
+            
+        }
+    }, [gamedata]);
+    
+
+    const allPlatforms = games?.length
+    ? [...new Set(games.flatMap(game => game.platforms))]
+    : [];
+  
+
+
+
   return (
     <div
     onMouseEnter={() => {setGameBar(true) ,setGameSection(true)}}
@@ -13,21 +32,24 @@ function GameHeadSection({setGameBar,setGameSection}) {
                     <h1 className='py-[5px] font-semibold text-[0.75rem] uppercase ubisoft-bold text-[#1d1e22] '>Browse By Category</h1>
                     <hr className='w-[60%] my-[5px]'/>
                     <ul className='flex flex-col gap-[5px] text-[15px] '>
-                        <Link to={'/allgames'} className='cursor-pointer hover:font-bold '>Featured</Link>
-                        <Link to={'/allgames'} className='cursor-pointer hover:font-bold '>New To Old</Link>
-                        <Link to={'/allgames'} className='cursor-pointer hover:font-bold '>Free To Play</Link>
+                        <Link onClick={() => {setGameBar(false) ,setGameSection(false)}}  to={'/store'} className='cursor-pointer hover:font-bold '>Featured</Link>
+                        <Link onClick={() => {setGameBar(false) ,setGameSection(false)}}  to={'/allgames'} className='cursor-pointer hover:font-bold '>New To Old</Link>
+                        <Link onClick={() => {setGameBar(false) ,setGameSection(false)}}  to={"/store?free=true"} className='cursor-pointer hover:font-bold '>
+                            Free To Play
+                            </Link>
+
+
                     </ul>
                 </div>
                 <div>
                     <h1 className='py-[5px] font-semibold text-[0.75rem] uppercase ubisoft-bold text-[#1d1e22]'>Browse By Platform</h1>
                     <hr className='w-[60%] my-[5px]'/>
                     <ul className='flex flex-col gap-[5px] text-[15px] '>
-                        <li className='cursor-pointer hover:font-bold '>PC</li>
-                        <li className='cursor-pointer hover:font-bold '>Xbox</li>
-                        <li className='cursor-pointer hover:font-bold '>PlayStation</li>
-                        <li className='cursor-pointer hover:font-bold '>Nintendo Switch</li>
-                        <li className='cursor-pointer hover:font-bold '>Virtual Reality</li>
-                        <li className='cursor-pointer hover:font-bold '>Mobile</li>
+                        {
+                            allPlatforms.map(item=>(<Link onClick={() => {setGameBar(false) ,setGameSection(false)}}  to={`/allgames?platform=${item}`} className='cursor-pointer hover:font-bold '>{item}</Link>))
+                        }
+                        
+                        
                     </ul>
                 </div>
             </div>
@@ -36,16 +58,11 @@ function GameHeadSection({setGameBar,setGameSection}) {
                     <h1 className='py-[5px] font-semibold text-[0.75rem] uppercase ubisoft-bold text-[#1d1e22]'>Browse By Game</h1>
                     <hr className='w-[60%] my-[5px]'/>
                     <ul className='flex flex-col gap-[5px] text-[15px] '>
-                        <li className='cursor-pointer hover:font-semibold  '>Assassin's Creed Shadows</li>
-                        <li className='cursor-pointer hover:font-semibold'>Rainbow Six Siege X</li>
-                        <li className='cursor-pointer hover:font-semibold'>Star Wars Outlaws</li>
-                        <li className='cursor-pointer hover:font-semibold'>Anno 117 : Pax Romana</li>
-                        <li className='cursor-pointer hover:font-semibold'>Avatar: Frontiers of Pandora</li>
-                        <li className='cursor-pointer hover:font-semibold'>Skull and Bones</li>
-                        <li className='cursor-pointer hover:font-semibold'>The Crew Motorfest</li>
-                        <li className='cursor-pointer hover:font-semibold'>Assassin's Creed Mirage</li>
-                        <li className='cursor-pointer hover:font-semibold'>Just Dance 2025 Edition</li>
-                        <li className='cursor-pointer hover:font-semibold'>For Honor</li>
+                        {
+                          games.slice(0,10).map(item=>(<Link onClick={() => {setGameBar(false) ,setGameSection(false)}}  to={`detail/${item.type}/${item.id}`} className='cursor-pointer hover:font-semibold  '>{item.title}</Link>))  
+                        }
+                        
+                        
                     </ul>
                 </div>
                 
@@ -88,7 +105,7 @@ function GameHeadSection({setGameBar,setGameSection}) {
             </div>
         </div>
         <div className='flex my-5 w-[60%] mx-auto justify-between'>
-            <Link onClick={() => {setGameBar(false) ,setGameSection(false)}} to={'/allgames'}  ><p className='uppercase text-white bg-[#D80388] hover:bg-[#fff] hover:border-[#D80388] border-2 hover:text-black  py-1 px-7 rounded-2xl duration-300'>
+            <Link  onClick={() => {setGameBar(false) ,setGameSection(false)}} to={'/allgames'}  ><p className='uppercase text-white bg-[#D80388] hover:bg-[#fff] hover:border-[#D80388] border-2 hover:text-black  py-1 px-7 rounded-2xl duration-300'>
             View All Games</p></Link>
             <Link onClick={() => {setGameBar(false) ,setGameSection(false)}} to={'/store'}  ><p className='uppercase text-white bg-[#D80388] hover:bg-[#fff] hover:border-[#D80388] border-2 hover:text-black py-1 px-7 rounded-2xl duration-300'>
             View All </p></Link>

@@ -15,6 +15,7 @@ import { Toaster, toast } from 'react-hot-toast';
 
 
 
+
 function Detail() {
   const[relatedGames,setRelatedGames]=useState([])
   const [isAlreadyInWishlist, setIsAlreadyInWishlist] = useState(false);
@@ -86,13 +87,33 @@ function Detail() {
       updatedWishlist = storedWishlist.filter(
         (game) => !(game.id === obj.id && game.type === type)
       );
-      toast.error('Oyun wishlist-dən silindi!')
+      toast.error( 
+      <div className="flex items-center gap-3 min-w-[400px] ">
+        <img
+          src={obj.cardImg}
+          alt={obj.title}
+          className="w-10 h-10 object-cover rounded"
+        />
+        <div>
+          <p className=" font-semibold text-black">{obj.title}</p>
+          <p className="text-[#333] text-sm">Removed from wishlist</p>
+        </div>
+      </div>
+    )
       
       setIsAlreadyInWishlist(false);
     } else {
       // Əlavə et
       updatedWishlist = [...storedWishlist, { ...obj, type }];
-      toast.success('Oyun wishlist-ə əlavə olundu!')
+      toast.success( 
+      <div className="flex items-center gap-3 min-w-[400px] ">
+        <img src={obj.cardImg} alt="game" className="w-10 h-10 rounded object-cover" />
+        <div>
+          <p className="font-semibold text-black">{obj.title}</p>
+          <p className="text-sm text-[#333]">Added to wishlist</p>
+        </div>
+      </div>
+    )
       setIsAlreadyInWishlist(true);
     }
 
@@ -125,7 +146,7 @@ const handleAddToCart = (item, type) => {
     return <Loader />;
   }
   let systemKeysArray=[]
-  if (obj.type==="basegame") {
+  if (obj.type==="basedgame") {
     
      systemKeysArray = Object.keys(obj.systemRequirements);
   }

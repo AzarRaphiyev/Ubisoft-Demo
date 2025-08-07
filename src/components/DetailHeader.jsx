@@ -3,12 +3,14 @@ import { FaRegHeart } from 'react-icons/fa'
 import { IoMenu, IoSearch, IoClose } from 'react-icons/io5'
 import { LuShoppingCart } from 'react-icons/lu'
 import { Link } from 'react-router'
+import DetailSeachSec from './DetailSeachSec'
 
 function DetailHeader() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [whislist, setWhislist] = useState([])
   const [whislistlenght, setWhislistLenght] = useState(0)
   const [cart, setCart] = useState([])
+  const [serach, setSearch] = useState('')
   const [cartLenght, setCartLenght] = useState(0)
   
   useEffect(()=>{
@@ -27,6 +29,8 @@ function DetailHeader() {
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen)
   }
+  
+  console.log(serach);
   
 
 
@@ -60,6 +64,7 @@ function DetailHeader() {
             <div className='xl:flex lg:flex hidden items-center gap-[10px] border-[2px] border-white px-4 rounded-2xl bg-transparent'>
               <IoSearch size={20} className='text-white'/>
               <input 
+                onChange={(e)=>setSearch(e.target.value)}
                 type="text" 
                 className='text-white bg-transparent px-2 py-2 outline-none placeholder-gray-400 w-[200px]' 
                 placeholder='Search for Games' 
@@ -88,6 +93,7 @@ function DetailHeader() {
           <div className='flex items-center gap-[10px] border-[2px] border-white px-4 rounded-2xl bg-transparent'>
             <IoSearch size={20} className='text-white'/>
             <input 
+              onChange={(e)=>setSearch(e.target.value)}
               type="text" 
               className='text-white bg-transparent px-2 py-2 outline-none placeholder-gray-400 w-full' 
               placeholder='Search for Games' 
@@ -150,6 +156,10 @@ function DetailHeader() {
       <div className='h-[70px] xl:h-[70px] lg:h-[70px] block xl:hidden lg:hidden'>
         <div className='h-[50px]'></div> {/* Additional space for mobile search */}
       </div>
+      {
+        serach.length > 0? <DetailSeachSec serach={serach} setSearch={setSearch}  />:''
+      }
+     
       <div className='h-[70px] hidden xl:block lg:block'></div>
     </>
   )

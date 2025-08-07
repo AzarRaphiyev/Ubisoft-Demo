@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import DetailHeader from '../components/DetailHeader';
 import { GameContext } from '../context/DataContext';
-import { Link } from 'react-router';
+import { Link, useSearchParams } from 'react-router';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -40,8 +40,7 @@ function Store() {
     const stored = localStorage.getItem('wishlist');
     return stored ? JSON.parse(stored) : [];
   });
-
-
+ 
   useEffect(() => {
     const combinedData = [...games, ...dlc];
     setFullData(combinedData);
@@ -128,6 +127,10 @@ function Store() {
   const top10Games = games
     .sort((a, b) => b.viewCount - a.viewCount)
     .slice(0, 10);
+
+    
+    
+  
 
   return (
     <div className='min-h-screen py-[30px] bg-gradient-to-b from-[#0E0D0E] via-[#150C15] to-[#0F131E]'>

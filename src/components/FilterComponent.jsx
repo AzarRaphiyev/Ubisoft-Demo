@@ -1,8 +1,16 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import PriceFilter from './PriceFilter';
+import { useSearchParams } from 'react-router';
 
 function FilterComponent({pricevalue,setPriceValue,fulldata,selectedTypes,setSelectedTypes}) {
-    
+  const [searchParams] = useSearchParams();
+
+  useEffect(() => {
+    if (searchParams.get("free") === "true") {
+      setPriceValue([0, 0]);
+    }
+  }, [searchParams]);
+
     const [openSections, setOpenSections] = useState({
       price: true,
       type: true,

@@ -1,17 +1,25 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { getAllGames } from '../services/GameService'
 import { GameContext } from '../context/DataContext';
 import { Loader } from 'lucide-react';
 import { Link } from 'react-router';
 import { FaWindows, FaPlaystation, FaXbox, FaApple } from 'react-icons/fa';
+import { useSearchParams } from 'react-router-dom';
 
 function GameFilter() {
     const [games, setGames] = useState()
     const [filteredGames, setFilteredGames] = useState()
-    const [platformInput, setPlatformInput] = useState("all")
+    const [platformInput, setPlatformInput] = useState("")
     const [sortInput, setSortInput] = useState("new")
     const { gamedata } = useContext(GameContext);
-
+    const [searchParams] = useSearchParams();
+    const urlPlatform = searchParams.get('platform');
+    useEffect(() => {
+        if (urlPlatform) {
+          setPlatformInput(urlPlatform);
+        } else {
+          setPlatformInput("all");
+        }
+      }, [urlPlatform]);
     useEffect(() => {
         if (gamedata) {
             setGames(gamedata);

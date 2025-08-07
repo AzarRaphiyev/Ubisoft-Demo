@@ -44,14 +44,34 @@ function Whislist() {
     );
 
     if (exists) {
-      toast.error("Artıq səbətdədir");
+      toast.error( 
+        <div className="flex items-center gap-3 min-w-[400px] ">
+          <img
+            src={item.cardImg}
+            alt={item.title}
+            className="w-10 h-10 object-cover rounded"
+          />
+          <div>
+            <p className=" font-semibold text-black">{item.title}</p>
+            <p className="text-[#333] text-sm">Removed from wishlist</p>
+          </div>
+        </div>
+      )
       return;
     }
 
     const updatedCart = [...cartItems, item];
     localStorage.setItem("cart", JSON.stringify(updatedCart));
     setCartItems(updatedCart);
-    toast.success("Səbətə əlavə olundu");
+    toast.success( 
+      <div className="flex items-center gap-3 min-w-[400px] ">
+        <img src={item.cardImg} alt="game" className="w-10 h-10 rounded object-cover" />
+        <div>
+          <p className="font-semibold text-black">{item.title}</p>
+          <p className="text-sm text-[#333]">Added to wishlist</p>
+        </div>
+      </div>
+    )
   };
 
   const isInCart = (item) => {

@@ -110,7 +110,19 @@ function Store() {
     let updatedWishlist;
     if (exists) {
       updatedWishlist = wishlist.filter(i => i.id !== item.id);
-      toast.error('Oyun wishlist-dən silindi!')
+      toast.error( 
+        <div className="flex items-center gap-3 min-w-[400px] ">
+          <img
+            src={item.cardImg}
+            alt={item.title}
+            className="w-10 h-10 object-cover rounded"
+          />
+          <div>
+            <p className=" font-semibold text-black">{item.title}</p>
+            <p className="text-[#333] text-sm">Removed from wishlist</p>
+          </div>
+        </div>
+      )
     } else {
       updatedWishlist = [...wishlist, item];
       toast.success('Oyun wishlist-ə əlavə olundu!')

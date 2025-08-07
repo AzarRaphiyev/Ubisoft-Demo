@@ -8,7 +8,7 @@ function MainLayout() {
   return (
     <>
     <Header/>
-    <main className="bg-[#0D0D0D] ">
+    <main className="bg-gradient-to-b from-[#0E0D0E] via-[#150C15] to-[#0F131E] ">
         <Outlet/>
     </main>
     <Footer/>

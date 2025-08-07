@@ -10,6 +10,9 @@ import Store from "./pages/Store"
 import UbisoftPlus from "./pages/UbisoftPlus"
 import { ToastContainer } from "react-toastify"
 import './css/toast.css';
+import Error404 from "./pages/Error404"
+import SliderAdmin from "./pages/SliderAdmin"
+import AdminLayout from "./layouts/AdminLayout"
 
 
 
@@ -28,7 +31,10 @@ function App() {
         <Route path="allgames" element={<GameFilter/>}/>
         <Route path="store" element={<Store/>}/>
         <Route path="ubisoftplus" element={<UbisoftPlus/>}/>
-        
+        <Route path="*" element={<Error404/>}/>
+      </Route>
+      <Route path="admin" element={<AdminLayout/>} >
+      <Route path="slider" element={<SliderAdmin/>}/>
       </Route>
      </Routes>
       

@@ -15,9 +15,9 @@ function AdminHeader() {
 
   const menuItems = [
     { name: 'Slider', icon: <TfiLayoutSlider  size={20} /> },
-    { name: 'Universe', icon: <TbUniverse  size={20} /> },
-    { name: 'Games', icon: <FaGamepad  size={20} /> },
-    { name: 'DLCs', icon: <MdSendTimeExtension  size={20} /> }
+    { name: 'universe', icon: <TbUniverse  size={20} /> },
+    { name: 'game', icon: <FaGamepad  size={20} /> },
+    { name: 'dlcs', icon: <MdSendTimeExtension  size={20} /> }
   ]
 
   return (
@@ -35,14 +35,14 @@ function AdminHeader() {
             </button>
 
             {/* Logo */}
-            <div className='flex items-center gap-3'>
+            <Link to={'/'} className='flex items-center gap-3'>
               <img 
                 src="https://a.storyblok.com/f/185929/3590x1158/f32a1d3904/ubisoft-horizontal-logo-white_1.png/m/fit-in/1200x0/filters:quality(85):format(webp)" 
                 className='w-[150px] h-auto' 
                 alt="Ubisoft Logo" 
               />
               
-            </div>
+            </Link>
           </div>
 
           {/* Desktop Navigation */}

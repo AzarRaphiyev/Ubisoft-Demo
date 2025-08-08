@@ -4,7 +4,7 @@ import MainLayout from "./layouts/MainLayout"
 import Home from "./pages/Home"
 import Detail from "./pages/Detail"
 import Whislist from "./pages/Whislist"
-import Cart from "./pages/Cart"
+
 import GameFilter from "./pages/GameFilter"
 import Store from "./pages/Store"
 import UbisoftPlus from "./pages/UbisoftPlus"
@@ -13,6 +13,10 @@ import './css/toast.css';
 import Error404 from "./pages/Error404"
 import SliderAdmin from "./pages/SliderAdmin"
 import AdminLayout from "./layouts/AdminLayout"
+import GameAdmin from "./pages/GameAdmin"
+import UniverseAdmin from "./pages/UniverseAdmin"
+import DlcAdmin from "./pages/DlcAdmin"
+import Basket from "./pages/Basket"
 
 
 
@@ -27,14 +31,18 @@ function App() {
         <Route index element={<Home/>}/>
         <Route path="detail/:type/:id" element={<Detail/>}/>
         <Route path="whislist" element={<Whislist/>}/>
-        <Route path="cart" element={<Cart/>}/>
+        <Route path="cart" element={<Basket/>}/>
         <Route path="allgames" element={<GameFilter/>}/>
         <Route path="store" element={<Store/>}/>
         <Route path="ubisoftplus" element={<UbisoftPlus/>}/>
         <Route path="*" element={<Error404/>}/>
       </Route>
+
       <Route path="admin" element={<AdminLayout/>} >
-      <Route path="slider" element={<SliderAdmin/>}/>
+        <Route path="slider" element={<SliderAdmin/>}/>
+        <Route path="game" element={<GameAdmin/>}/>
+        <Route path="universe" element={<UniverseAdmin />}/>
+        <Route path="dlcs" element={<DlcAdmin />}/>
       </Route>
      </Routes>
       

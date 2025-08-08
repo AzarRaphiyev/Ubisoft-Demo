@@ -53,7 +53,7 @@ function Whislist() {
           />
           <div>
             <p className=" font-semibold text-black">{item.title}</p>
-            <p className="text-[#333] text-sm">Removed from wishlist</p>
+            <p className="text-[#333] text-sm">Removed from Card</p>
           </div>
         </div>
       )
@@ -70,7 +70,7 @@ function Whislist() {
           <p className="font-semibold text-black">{item.title}</p>
           <p className="text-sm text-[#333]">Added to wishlist</p>
         </div>
-      </div>
+    </div>
     )
   };
 

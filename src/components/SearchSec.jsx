@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import { IoIosClose } from 'react-icons/io';
 import { IoSearch } from 'react-icons/io5';
 import { GameContext } from '../context/DataContext';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 
 function SearchSec({ searchSec, setSearchSec }) {
   const ref = useRef(null);
@@ -47,6 +47,14 @@ function SearchSec({ searchSec, setSearchSec }) {
     setFilteredDlc(filteredDlcs);
   }, [inputprop, gamedata, dlcdata]);
 
+  const navigate = useNavigate();
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter' && inputprop.trim() !== '') {
+      navigate(`/resulte?query=${encodeURIComponent(inputprop.trim())}`);
+      setSearchSec(false);
+    }
+  };
   return (
     <>
       <div className='fixed inset-0 bg-black opacity-60 z-100'></div>
@@ -55,24 +63,25 @@ function SearchSec({ searchSec, setSearchSec }) {
         ref={ref}
         className='h-[500px] bg-white w-[45%] fixed z-110 left-[50%] top-[5px] translate-x-[-50%] rounded-2xl overflow-hidden'
       >
-        <div className='flex items-center bg-gray-300 px-[10px] gap-[10px]'>
-          <IoSearch size={25} className='h-[40px] cursor-pointer text-black' />
-          <input
-            onChange={(e) => setInputProp(e.target.value)}
-            type='text'
-            value={inputprop}
-            autoFocus
-            className='w-full placeholder-black bg-gray-300 h-[40px] text-black px-[10px] focus:outline-none'
-            placeholder='Type your search'
-          />
-          {inputprop.length > 0 && (
-            <IoIosClose
-              onClick={() => setInputProp('')}
-              size={23}
-              className='cursor-pointer text-black'
-            />
-          )}
-        </div>
+       <div className='flex items-center bg-gray-300 px-[10px] gap-[10px]'>
+  <IoSearch size={25} className='h-[40px] cursor-pointer text-black' />
+  <input
+    onChange={(e) => setInputProp(e.target.value)}
+    onKeyDown={handleKeyDown}
+    type='text'
+    value={inputprop}
+    autoFocus
+    className='w-full placeholder-black bg-gray-300 h-[40px] text-black px-[10px] focus:outline-none'
+    placeholder='Type your search'
+  />
+  {inputprop.length > 0 && (
+    <IoIosClose
+      onClick={() => setInputProp('')}
+      size={23}
+      className='cursor-pointer text-black'
+    />
+  )}
+</div>
 
         <div className='overflow-y-auto h-[calc(100%-40px)] px-[10px] py-[5px]'>
           {inputprop && (

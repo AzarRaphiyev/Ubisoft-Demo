@@ -58,7 +58,7 @@ function Basket() {
       return;
     }
   
-    if (promoCode.toLowerCase() === "azer30") {
+    if (promoCode.toLowerCase() === "azer30" ) {
       const discountValue = subtotal * 0.3;
       setDiscount(discountValue);
       toast.success("🎉 Promo code applied: 30% discount");

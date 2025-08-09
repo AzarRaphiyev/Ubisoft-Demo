@@ -17,6 +17,7 @@ import GameAdmin from "./pages/GameAdmin"
 import UniverseAdmin from "./pages/UniverseAdmin"
 import DlcAdmin from "./pages/DlcAdmin"
 import Basket from "./pages/Basket"
+import SearchResulte from "./pages/SearchResulte"
 
 
 
@@ -35,6 +36,7 @@ function App() {
         <Route path="allgames" element={<GameFilter/>}/>
         <Route path="store" element={<Store/>}/>
         <Route path="ubisoftplus" element={<UbisoftPlus/>}/>
+        <Route path="resulte" element={<SearchResulte/>}/>
         <Route path="*" element={<Error404/>}/>
       </Route>
 

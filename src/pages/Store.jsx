@@ -28,6 +28,37 @@ function Store() {
     dlcType: [],
     productEdition: []
   });
+  const [searchParams] = useSearchParams();
+
+  useEffect(() => {
+    if (searchParams.get("type") === "Games") {
+      setSelectedTypes({
+        type: ["games"],
+        genre: [],
+        brand: [],
+        dlcType: [],
+        productEdition: []
+      });
+    } else if (searchParams.get("type") === "DLC") {
+      setSelectedTypes({
+        type: ["dlcs"],
+        genre: [],
+        brand: [],
+        dlcType: [],
+        productEdition: []
+      });
+    }
+    else{
+      setSelectedTypes({
+        type: [],
+        genre: [],
+        brand: [],
+        dlcType: [],
+        productEdition: []
+      });
+    }
+  }, [searchParams]);
+  
   
   useEffect(() => {
     if (gamedata && dlcdata && universedata) {

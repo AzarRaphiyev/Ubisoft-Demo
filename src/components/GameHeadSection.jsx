@@ -36,7 +36,7 @@ function GameHeadSection({setGameBar,setGameSection}) {
                         <Link onClick={() => {setGameBar(false) ,setGameSection(false)}}  to={'/allgames'} className='cursor-pointer hover:font-bold '>New To Old</Link>
                         <Link onClick={() => {setGameBar(false) ,setGameSection(false)}}  to={"/store?free=true"} className='cursor-pointer hover:font-bold '>
                             Free To Play
-                            </Link>
+                        </Link>
 
 
                     </ul>
@@ -75,7 +75,7 @@ function GameHeadSection({setGameBar,setGameSection}) {
                         <div className='w-[33.33%] flex flex-col gap-[5px]'>
                             <img src="./assets/img/gameSection/rainbow.webp" alt="" className='w-[150px] py-[10px] px-[25px] bg-[#F0F3F4]' />
                             <div className='w-[70%]'>
-                                <h1 className='ubisoft-bold hover:underline cursor-pointer'>Tom Clancy’s Rainbow Six Siege</h1>
+                                <Link onClick={() => {setGameBar(false) ,setGameSection(false)}} to="ubisoftplus" className='ubisoft-bold hover:underline cursor-pointer'>Tom Clancy’s Rainbow Six Siege</Link>
                                 <p className='open-sans-text text-[14px] text-[#1d1e22]'>1,200 R6 Credits</p>
                                 <p className='open-sans-text text-[#D80388] text-[20px]'>$9.99</p>
                             </div>
@@ -83,7 +83,7 @@ function GameHeadSection({setGameBar,setGameSection}) {
                         <div className='w-[33.33%] flex flex-col gap-[5px]'>
                             <img src="./assets/img/gameSection/ubisoftPremiumwebp.webp" alt="" className='w-[150px] py-[10px] px-[25px] bg-[#F0F3F4]' />
                             <div className='w-[70%]'>
-                                <h1 className='ubisoft-bold hover:underline cursor-pointer'>Premium</h1>
+                                <Link onClick={() => {setGameBar(false) ,setGameSection(false)}} to="ubisoftplus" className='ubisoft-bold hover:underline cursor-pointer'>Premium</Link>
                                 <p className='open-sans-text text-[14px] text-[#1d1e22]'>Ubisoft+ Premium Monthly</p>
                                 <p className='open-sans-text text-[#D80388] text-[20px]'>$17.99</p>
                             </div>
@@ -91,7 +91,7 @@ function GameHeadSection({setGameBar,setGameSection}) {
                         <div className='w-[33.33%] flex flex-col gap-[5px]'>
                             <img src="./assets/img/gameSection/theDvision.jpg" alt="" className='w-[150px] py-[10px] px-[25px] bg-[#F0F3F4]' />
                             <div className='w-[70%]'>
-                                <h1 className='ubisoft-bold hover:underline cursor-pointer'>Tom Clancy's The Division 2</h1>
+                                <Link onClick={() => {setGameBar(false) ,setGameSection(false)}} to="ubisoftplus" className='ubisoft-bold hover:underline cursor-pointer'>Tom Clancy's The Division 2</Link>
                                 <p className='open-sans-text text-[14px] text-[#1d1e22]'>Battle for Brooklyn</p>
                                 <p className='open-sans-text text-[#D80388] text-[20px]'>$14.99</p>
                             </div>

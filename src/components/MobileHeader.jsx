@@ -3,11 +3,21 @@ import { FaExternalLinkAlt } from 'react-icons/fa'
 import { IoMdArrowDropdown, IoMdArrowDropup } from 'react-icons/io'
 import { IoSearch } from 'react-icons/io5'
 import { MdSaveAlt } from 'react-icons/md'
-import { Link } from 'react-router'
+import { Link, useNavigate } from 'react-router'
 
 function MobileHeader({mobilesec2,setMobileSec2}) {
     const [mobilesec , setMobileSec]=useState(true)
-  return (
+    const [inputprop, setInputProp] = useState('');
+
+    const navigate = useNavigate();
+    const handleSearch = () => {
+      if (inputprop.trim() !== '') {
+        navigate(`/resulte?query=${encodeURIComponent(inputprop.trim())}`);
+      }
+      setMobileSec2(!mobilesec2)
+    };
+ 
+    return (
     <div  className={`bg-black fixed text-white z-[200] py-[30px] h-[100vh] w-[100vw] transition-all duration-500 ${
         mobilesec2 ? 'top-[-100%]' : 'top-[50px]'
       }`}>
@@ -39,8 +49,13 @@ function MobileHeader({mobilesec2,setMobileSec2}) {
         </Link>
         </div>
         <div className='bg-[#393939] flex items-center rounded-2xl px-[10px]'>
-        <IoSearch size={25} className='h-[35px] cursor-pointer' />
-        <input type="text" placeholder='Type your search' active className=' h-[35px] px-[5px] focus:outline-none w-[90%] mx-auto' />
+        <IoSearch onClick={handleSearch} size={25} className='h-[35px] cursor-pointer' />
+
+        <input  onChange={(e) => setInputProp(e.target.value)}
+        
+        type='text'
+        value={inputprop}
+         placeholder='Type your search' active className=' h-[35px] px-[5px] focus:outline-none w-[90%] mx-auto' />
         </div>
 
         </div>

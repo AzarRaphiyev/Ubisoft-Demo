@@ -156,7 +156,20 @@ function Store() {
       )
     } else {
       updatedWishlist = [...wishlist, item];
-      toast.success('Oyun wishlist-ə əlavə olundu!')
+      
+      toast.success( 
+        <div className="flex items-center gap-3 min-w-[400px] ">
+          <img
+            src={item.cardImg}
+            alt={item.title}
+            className="w-10 h-10 object-cover rounded"
+          />
+          <div>
+            <p className=" font-semibold text-black">{item.title}</p>
+            <p className="text-[#333] text-sm">Add from wishlist</p>
+          </div>
+        </div>
+      )
     }
   
     setWishlist(updatedWishlist);

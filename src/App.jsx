@@ -18,6 +18,7 @@ import UniverseAdmin from "./pages/UniverseAdmin"
 import DlcAdmin from "./pages/DlcAdmin"
 import Basket from "./pages/Basket"
 import SearchResulte from "./pages/SearchResulte"
+import News from "./pages/News"
 
 
 
@@ -37,6 +38,7 @@ function App() {
         <Route path="store" element={<Store/>}/>
         <Route path="ubisoftplus" element={<UbisoftPlus/>}/>
         <Route path="resulte" element={<SearchResulte/>}/>
+        <Route path="news" element={<News/>}/>
         <Route path="*" element={<Error404/>}/>
       </Route>
 

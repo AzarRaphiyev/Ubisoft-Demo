@@ -73,7 +73,16 @@ function SearchResults() {
       );
     } else {
       updatedWishlist = [...wishlist, item];
-      toast.success('Oyun wishlist-ə əlavə olundu!');
+     
+      toast.success(
+        <div className="flex items-center gap-3 min-w-[300px] sm:min-w-[400px]">
+          <img src={item.cardImg} alt={item.title} className="w-10 h-10 object-cover rounded" />
+          <div>
+            <p className="font-semibold text-black">{item.title}</p>
+            <p className="text-[#333] text-sm">Add from wishlist</p>
+          </div>
+        </div>
+      );
     }
 
     setWishlist(updatedWishlist);
@@ -112,11 +121,11 @@ function SearchResults() {
       {/* Results Section */}
       <div className="max-w-[95%] sm:max-w-[93%] md:max-w-[89%] lg:max-w-[87%] xl:max-w-[85%] mx-auto py-8">
         {/* Results Count */}
-        <h1 className="text-4xl font-light mb-8 text-black">
-          <span className="text-pink-500 font-normal">{totalResults.toLocaleString()}</span> Results
+        <h1 className="text-4xl font-light open-sans-bold mb-8 text-black">
+          <span className="text-pink-500 open-sans-bold">{totalResults.toLocaleString()}</span> Results
         {
          searchQuery.length!=0?   
-        <span className='text-2xl'> "{searchQuery}"</span>:""
+        <span className='text-3xl'> "{searchQuery}"</span>:""
         }
         </h1>
 

@@ -42,6 +42,16 @@ const getAllUniverse = async () => {
     );
   }
 };
+const getAllNews = async () => {
+  try {
+    const res = await axios.get(`${BASE_URL}/News`);
+    return res.data;
+  } catch (error) {
+    console.error(
+      error.message || error || "There is issue while fetching process"
+    );
+  }
+};
 const getGamesById = async (id) => {
   try {
     const res = await axios.get(`${BASE_URL}/Games/${id}`);
@@ -63,4 +73,4 @@ const getDLCsById = async (id) => {
   }
 };
 
-export { getAllGames, getAllDLCs, getAllSliders, getGamesById, getDLCsById,getAllUniverse };
+export { getAllGames, getAllDLCs, getAllSliders, getGamesById, getDLCsById,getAllUniverse,getAllNews };

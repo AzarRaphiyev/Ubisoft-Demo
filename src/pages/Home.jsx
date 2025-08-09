@@ -8,15 +8,15 @@ import PopularGames from '../components/PopularGames'
 import RainbowSixSec from '../components/RainbowSixSec'
 import FreeGames from '../components/FreeGames'
 import UniverseSec from '../components/UniverseSec'
+import LastNews from '../components/LastNews'
 
 
 function Home() {
-  const {gamedata, sliderdata, dlcdata,universedata, error, loader} = useContext(GameContext)
+  const {gamedata, sliderdata, dlcdata,universedata,news, error, loader} = useContext(GameContext)
+  
   
   // Loading göstər
-  console.log(gamedata);
-  console.log(sliderdata);
-  console.log(dlcdata);
+
   
   
   if (loader) {
@@ -43,6 +43,7 @@ function Home() {
       <RainbowSixSec gamedata={gamedata}/>
       <UniverseSec universedata={universedata}/>
       <FreeGames gamedata={gamedata}/>
+      <LastNews news={news}/>
 
       <div className='flex xl:flex-row lg:flex-row flex-col    rounded items-center justify-between px-[20px] py-[10px] container2 mx-auto mt-[20px] bg-gradient-to-r from-[#1D1230]/30 via-[#0a0119]/30 to-[#021B39]/30 '>
                 <div>

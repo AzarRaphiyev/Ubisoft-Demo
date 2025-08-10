@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { FaGamepad } from 'react-icons/fa'
+import { FaRegNewspaper } from 'react-icons/fa6'
 import { IoMenu, IoClose } from 'react-icons/io5'
 import {  MdSendTimeExtension } from 'react-icons/md'
 import { TbUniverse } from 'react-icons/tb'
@@ -17,7 +18,8 @@ function AdminHeader() {
     { name: 'Slider', icon: <TfiLayoutSlider  size={20} /> },
     { name: 'universe', icon: <TbUniverse  size={20} /> },
     { name: 'game', icon: <FaGamepad  size={20} /> },
-    { name: 'dlcs', icon: <MdSendTimeExtension  size={20} /> }
+    { name: 'dlcs', icon: <MdSendTimeExtension  size={20} /> },
+    { name: 'news', icon: <FaRegNewspaper   size={20} /> }
   ]
 
   return (

@@ -1,6 +1,7 @@
 import axios from "axios";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
+
 const getAllGames = async () => {
   try {
     const res = await axios.get(`${BASE_URL}/Games`);

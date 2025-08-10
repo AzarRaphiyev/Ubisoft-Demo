@@ -1,34 +1,35 @@
 import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import {
-  getAllUniverse,
-  addUniverse,
-  updateUniverse,
-  deleteUniverse,
-} from "../services/UniverseService";
-import { IoCloseCircle } from "react-icons/io5";
+  getAllNews,
+  addNew,
+  updateNew,
+  deleteNew,
+} from "../services/NewsService";
+import { IoCloseCircle, IoSearch } from "react-icons/io5";
 
-const UniverseAdmin = () => {
-  const [universes, setUniverses] = useState([]);
+const NewsAdmin = () => {
+  const [newsList, setNewsList] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState({
     id: "",
     title: "",
-    cardImg: "",
+    gameBrand: "",
+    description: "",
+    category: "",
     sectionImg: "",
+    link: "",
   });
   const [isEditing, setIsEditing] = useState(false);
-
-  // Yeni state: search üçün
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    fetchUniverses();
+    fetchNews();
   }, []);
 
-  const fetchUniverses = async () => {
-    const data = await getAllUniverse();
-    setUniverses(data);
+  const fetchNews = async () => {
+    const data = await getAllNews();
+    setNewsList(data);
   };
 
   const openAddModal = () => {
@@ -54,15 +55,19 @@ const UniverseAdmin = () => {
     e.preventDefault();
     try {
       if (isEditing) {
-        await updateUniverse(formData.id, formData);
+        await updateNew(formData.id, formData);
       } else {
-        const newItem = { ...formData, id: uuidv4() };
-        await addUniverse(newItem);
+        const newItem = {
+          ...formData,
+          id: uuidv4(),
+          releaseDate: new Date().toISOString(),
+        };
+        await addNew(newItem);
       }
-      await fetchUniverses();
+      await fetchNews();
       resetForm();
       setShowModal(false);
-    } catch (err) {
+    } catch {
       alert("Əməliyyat zamanı xəta baş verdi.");
     }
   };
@@ -70,9 +75,9 @@ const UniverseAdmin = () => {
   const handleDelete = async (id) => {
     if (!window.confirm("Silinməsinə əminsən?")) return;
     try {
-      await deleteUniverse(id);
-      await fetchUniverses();
-    } catch (err) {
+      await deleteNew(id);
+      await fetchNews();
+    } catch {
       alert("Silinmə zamanı xəta baş verdi.");
     }
   };
@@ -81,36 +86,43 @@ const UniverseAdmin = () => {
     setFormData({
       id: "",
       title: "",
-      cardImg: "",
+      gameBrand: "",
+      description: "",
+      category: "",
       sectionImg: "",
+      link: "",
     });
     setIsEditing(false);
   };
 
-  // Filter edilmiş universe-lər
-  const filteredUniverses = universes.filter((item) =>
-    item.title.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredNews = newsList.filter((item) =>
+    item.gameBrand.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
-    <div className=" text-white min-h-screen p-6 max-w-5xl mx-auto">
+    <div className="text-white min-h-screen p-6 max-w-6xl mx-auto">
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold">Universe Management</h2>
+        <h2 className="text-2xl font-bold">News Management</h2>
 
-        {/* Search input + Add düyməsi */}
         <div className="flex items-center space-x-4">
-          <input
-            type="text"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            placeholder="Search by Title"
-            className="bg-[#202024] text-white placeholder-gray-400 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
+          <div className="relative text-gray-400 focus-within:text-gray-600">
+            <input
+              type="text"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              placeholder="Search by Game Brand"
+              className="bg-[#202024] text-white placeholder-gray-400 rounded pl-3 pr-10 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <span className="absolute inset-y-0 right-3 flex items-center pointer-events-none">
+            <IoSearch />
+            </span>
+          </div>
+
           <button
             onClick={openAddModal}
-            className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded"
+            className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded text-white"
           >
-            + Add Universe
+            + Add News
           </button>
         </div>
       </div>
@@ -120,21 +132,27 @@ const UniverseAdmin = () => {
           <thead>
             <tr className="text-left text-gray-400">
               <th className="px-4 py-2">Title</th>
-              <th className="px-4 py-2">Card Image</th>
-              <th className="px-4 py-2">Section Image</th>
+              <th className="px-4 py-2">Game Brand</th>
+              <th className="px-4 py-2">Category</th>
+              <th className="px-4 py-2">Image</th>
+              <th className="px-4 py-2">Release Date</th>
               <th className="px-4 py-2">Actions</th>
             </tr>
           </thead>
           <tbody>
-            {filteredUniverses.map((item) => (
+            {filteredNews.map((item) => (
               <tr key={item.id} className="border-t border-gray-700">
                 <td className="px-4 py-2">{item.title}</td>
+                <td className="px-4 py-2">{item.gameBrand}</td>
+                <td className="px-4 py-2">{item.category}</td>
                 <td className="px-4 py-2">
-                  <img src={item.cardImg} className="w-24 h-auto rounded" />
+                  <img
+                    src={item.sectionImg}
+                    alt={item.title}
+                    className="w-24 h-auto rounded"
+                  />
                 </td>
-                <td className="px-4 py-2">
-                  <img src={item.sectionImg} className="w-24 h-auto rounded" />
-                </td>
+                <td className="px-4 py-2">{item.releaseDate}</td>
                 <td className="px-4 py-2">
                   <button
                     onClick={() => openEditModal(item)}
@@ -160,7 +178,7 @@ const UniverseAdmin = () => {
           <div className="bg-[#101014] p-6 rounded-xl max-w-2xl w-full relative">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-xl font-bold">
-                {isEditing ? "Edit Universe" : "Add Universe"}
+                {isEditing ? "Edit News" : "Add News"}
               </h2>
               <button
                 onClick={() => {
@@ -175,8 +193,10 @@ const UniverseAdmin = () => {
             <form onSubmit={handleSubmit} className="space-y-4">
               {[
                 { name: "title", label: "Title" },
-                { name: "cardImg", label: "Card Image URL" },
-                { name: "sectionImg", label: "Section Image URL" },
+                { name: "gameBrand", label: "Game Brand" },
+                { name: "category", label: "Category" },
+                { name: "sectionImg", label: "Image URL" },
+                { name: "link", label: "News Link" },
               ].map(({ name, label }) => (
                 <div key={name} className="flex flex-col">
                   <label htmlFor={name} className="mb-1 text-sm">
@@ -195,12 +215,28 @@ const UniverseAdmin = () => {
                 </div>
               ))}
 
+              <div className="flex flex-col">
+                <label htmlFor="description" className="mb-1 text-sm">
+                  Description
+                </label>
+                <textarea
+                  name="description"
+                  id="description"
+                  value={formData.description}
+                  onChange={handleChange}
+                  placeholder="Description"
+                  rows="4"
+                  className="bg-[#202024] p-2 rounded text-sm text-white placeholder-gray-400"
+                  required
+                />
+              </div>
+
               <div className="flex justify-end pt-4">
                 <button
                   type="submit"
                   className="bg-green-600 hover:bg-green-700 px-4 py-2 rounded"
                 >
-                  {isEditing ? "Save Changes" : "Add Universe"}
+                  {isEditing ? "Save Changes" : "Add News"}
                 </button>
               </div>
             </form>
@@ -211,4 +247,4 @@ const UniverseAdmin = () => {
   );
 };
 
-export default UniverseAdmin;
+export default NewsAdmin;

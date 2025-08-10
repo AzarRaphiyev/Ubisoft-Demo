@@ -19,6 +19,8 @@ import DlcAdmin from "./pages/DlcAdmin"
 import Basket from "./pages/Basket"
 import SearchResulte from "./pages/SearchResulte"
 import News from "./pages/News"
+import NewsAdmin from "./pages/NewsAdmin "
+import AdminHome from "./pages/AdminHome"
 
 
 
@@ -43,10 +45,12 @@ function App() {
       </Route>
 
       <Route path="admin" element={<AdminLayout/>} >
+        <Route index element={<AdminHome/>}/>
         <Route path="slider" element={<SliderAdmin/>}/>
         <Route path="game" element={<GameAdmin/>}/>
         <Route path="universe" element={<UniverseAdmin />}/>
         <Route path="dlcs" element={<DlcAdmin />}/>
+        <Route path="news" element={<NewsAdmin />}/>
       </Route>
      </Routes>
       

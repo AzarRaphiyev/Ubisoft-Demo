@@ -12,7 +12,19 @@ import SystemRequit from '../components/SystemRequit';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
 import { Toaster, toast } from 'react-hot-toast';
 
+import { updateGame } from "../services/GameadminService";
 
+async function increaseViewCount(gameId) {
+  try {
+    const game = await getGamesById(gameId);
+    const updatedGame = { ...game, viewCount: (game.viewCount || 0) + 1 };
+    await updateGame(gameId, updatedGame);
+    return updatedGame;
+  } catch (error) {
+    console.error("ViewCount artırılarkən xəta:", error);
+    return null;
+  }
+}
 
 
 
@@ -29,7 +41,23 @@ function Detail() {
   console.log(id);
   const [obj, setObj] = useState(null);
 
-  
+  useEffect(() => {
+    async function fetchDataAndIncreaseView() {
+      let data;
+      if (type === "basedgame") {
+        data = await getGamesById(id);
+        setObj(data);
+        // Yalnız basedgame olduqda viewCount artıraq
+        await increaseViewCount(id);
+      } else {
+        data = await getDLCsById(id);
+        setObj(data);
+      }
+      window.scrollTo(0, 0);
+    }
+    fetchDataAndIncreaseView();
+  }, [type, id]);
+
   useEffect(()=>{
 
     if (type==="basedgame") {

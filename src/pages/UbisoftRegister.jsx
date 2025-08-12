@@ -63,7 +63,7 @@ const UbisoftRegister = () => {
 
     // Göndəriləcək data
     const userData = {
-      name: username,
+      username: username,
       email,
       password,
       birthday,

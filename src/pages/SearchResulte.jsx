@@ -13,7 +13,7 @@ function SearchResults() {
   const [wishlist, setWishlist] = useState([]);
   const [activeTab, setActiveTab] = useState('all');
   const [user, setUser] = useState(null);
-  const [storageType, setStorageType] = useState(null); // 'localStorage' or 'sessionStorage'
+  const [storageType, setStorageType] = useState(null); 
 
   const { gamedata, dlcdata } = useContext(GameContext);
   const [searchParams] = useSearchParams();

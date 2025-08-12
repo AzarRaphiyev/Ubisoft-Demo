@@ -24,6 +24,7 @@ import AdminHome from "./pages/AdminHome"
 import AuthorLayout from "./layouts/AuthorLayout"
 import UbisoftRegister from "./pages/UbisoftRegister"
 import UbisoftLogin from "./pages/UbisoftLogin"
+import ProtectedRoute from "./components/ProtectedRoute"
 
 
 
@@ -47,13 +48,20 @@ function App() {
         <Route path="*" element={<Error404/>}/>
       </Route>
 
-      <Route path="admin" element={<AdminLayout/>} >
-        <Route index element={<AdminHome/>}/>
-        <Route path="slider" element={<SliderAdmin/>}/>
-        <Route path="game" element={<GameAdmin/>}/>
-        <Route path="universe" element={<UniverseAdmin />}/>
-        <Route path="dlcs" element={<DlcAdmin />}/>
-        <Route path="news" element={<NewsAdmin />}/>
+      <Route
+        path="admin"
+        element={
+          <ProtectedRoute>
+            <AdminLayout />
+          </ProtectedRoute>
+        }
+      >
+        <Route index element={<AdminHome />} />
+        <Route path="slider" element={<SliderAdmin />} />
+        <Route path="game" element={<GameAdmin />} />
+        <Route path="universe" element={<UniverseAdmin />} />
+        <Route path="dlcs" element={<DlcAdmin />} />
+        <Route path="news" element={<NewsAdmin />} />
       </Route>
 
       <Route path="auth" element={<AuthorLayout/>} >

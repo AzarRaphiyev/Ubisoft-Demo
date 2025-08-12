@@ -7,13 +7,16 @@ import { Link } from 'react-router-dom'
 import GameHeadSection from './GameHeadSection'
 import SearchSec from './SearchSec'
 import MobileHeader from './MobileHeader'
+import UserSec from './UserSec'
 
 function Header() {
   const[gameBar,setGameBar]=useState(false)
+  const[userBar,setUserBar]=useState(false)
   const[gameSection,setGameSection]=useState(false)
   const[searchSec,setSearchSec]=useState(false)
   const [mobilesec , setMobileSec]=useState(true) 
   const [user, setUser] = useState(null)
+  
   useEffect(() => {
     let storedUser = localStorage.getItem('user')
     if (!storedUser) {
@@ -29,6 +32,12 @@ function Header() {
     }
   }, [])
 
+  // User panel toggle funksiyası
+  const handleUserToggle = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setUserBar(!userBar);
+  }
 
   return (
     <div className=''>
@@ -81,21 +90,37 @@ function Header() {
         <IoSearch  size={25} />
         </div>
         {user ? (
-              // Əgər user varsa username göstər
-              <Link  className="text-white cursor-pointer bg-gray-600 px-2 rounded-4xl font-semibold uppercase ubisoft-text  select-none">
-                <p className='text-[20px]'>{user.username.slice(0,1)} </p>
-              </Link>
+              <button
+                onClick={handleUserToggle}
+                className="text-white cursor-pointer bg-gray-600 p-2 rounded-4xl font-semibold uppercase ubisoft-text select-none xl:flex hidden"
+              >
+                <FaUserAlt size={20} />
+              </button>
             ) : (
-              // Əks halda register ikonu göstər
-             
-              <Link to={"/auth/register"} className="bg-white cursor-pointer text-gray-600 p-2 rounded-4xl font-semibold uppercase ubisoft-text  select-none">
+              <Link to={"/auth/register"} className="bg-white cursor-pointer text-gray-600 p-2 rounded-4xl font-semibold uppercase ubisoft-text select-none xl:flex hidden">
                 <FaUserAlt size={20} />
               </Link>
-              
-            )
-          }
+            )}
+
+        {/* Mobile user button */}
+        {user ? (
+              <button
+                onClick={handleUserToggle}
+                className="text-white cursor-pointer bg-gray-600 p-2 rounded-4xl font-semibold uppercase ubisoft-text select-none xl:hidden flex"
+              >
+                {userBar ? <IoClose size={20} /> : <FaUserAlt size={20} />}
+              </button>
+            ) : (
+              <Link to={"/auth/register"} className="bg-white cursor-pointer text-gray-600 p-2 rounded-4xl font-semibold uppercase ubisoft-text select-none xl:hidden flex">
+                <FaUserAlt size={20} />
+              </Link>
+            )}
+
       </div>
     </div>
+    {
+      userBar ? <UserSec user={user} userBar={userBar} setUserBar={setUserBar}/> : ""
+    }
     {
       gameSection?<GameHeadSection setGameBar={setGameBar} setGameSection={setGameSection}/>:''
     }

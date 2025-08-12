@@ -21,6 +21,9 @@ import SearchResulte from "./pages/SearchResulte"
 import News from "./pages/News"
 import NewsAdmin from "./pages/NewsAdmin "
 import AdminHome from "./pages/AdminHome"
+import AuthorLayout from "./layouts/AuthorLayout"
+import UbisoftRegister from "./pages/UbisoftRegister"
+import UbisoftLogin from "./pages/UbisoftLogin"
 
 
 
@@ -28,7 +31,7 @@ function App() {
   
 
   return (
-    <main className="bg-gradient-to-b from-[#0E0D0E] via-[#150C15] to-[#0F131E] pb-[30px]">
+    <main className="">
       <ToastContainer  position="top-right" autoClose={3000} />
      <Routes>
       <Route path="/" element={<MainLayout/>}>
@@ -52,6 +55,13 @@ function App() {
         <Route path="dlcs" element={<DlcAdmin />}/>
         <Route path="news" element={<NewsAdmin />}/>
       </Route>
+
+      <Route path="auth" element={<AuthorLayout/>} >
+      <Route path="register" element={<UbisoftRegister/>}/>
+      <Route path="login" element={<UbisoftLogin/>}/>
+
+      </Route>
+
      </Routes>
       
     </main>

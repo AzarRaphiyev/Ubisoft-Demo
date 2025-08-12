@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { FaCartPlus, FaOpencart, FaTrashAlt } from 'react-icons/fa';
+import { FaCartPlus, FaTrashAlt } from 'react-icons/fa';
 import { TbBell, TbBellOff } from "react-icons/tb";
 import { Link } from 'react-router-dom';
 import { Toaster, toast } from 'react-hot-toast';
@@ -9,20 +9,52 @@ function Whislist() {
   const [wishlist, setWishlist] = useState([]);
   const [isSelected, setIsSelected] = useState(false);
   const [cartItems, setCartItems] = useState([]);
+  const [user, setUser] = useState(null);
+  const [storageType, setStorageType] = useState(null); // 'localStorage' or 'sessionStorage'
+
+  // User məlumatını localStorage və sessionStorage-dən yüklə
+  useEffect(() => {
+    let storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      try {
+        setUser(JSON.parse(storedUser));
+        setStorageType('localStorage');
+      } catch (e) {
+        console.error('User məlumatı parse olunarkən xəta:', e);
+      }
+    } else {
+      storedUser = sessionStorage.getItem('user');
+      if (storedUser) {
+        try {
+          setUser(JSON.parse(storedUser));
+          setStorageType('sessionStorage');
+        } catch (e) {
+          console.error('User məlumatı parse olunarkən xəta:', e);
+        }
+      }
+    }
+  }, []);
+
+  // user dəyişdikdə wishlist və cart məlumatlarını yüklə
+  useEffect(() => {
+    if (user && user.id && storageType) {
+      const storage = storageType === 'localStorage' ? localStorage : sessionStorage;
+      
+      const storedWishlist = storage.getItem(`wishlist_${user.id}`);
+      const storedCart = storage.getItem(`cart_${user.id}`);
+      
+      setWishlist(storedWishlist ? JSON.parse(storedWishlist) : []);
+      setCartItems(storedCart ? JSON.parse(storedCart) : []);
+    }
+  }, [user, storageType]);
 
   const handleToggle = () => {
     setIsSelected(!isSelected);
   };
 
-  useEffect(() => {
-    const storedWishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
-    setWishlist(storedWishlist);
-
-    const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
-    setCartItems(storedCart);
-  }, []);
-
   const toggleWishlistItem = (item) => {
+    if (!user || !storageType) return;
+    
     const exists = wishlist.some(i => i.id === item.id);
     let updatedWishlist;
 
@@ -35,16 +67,19 @@ function Whislist() {
     }
 
     setWishlist(updatedWishlist);
-    localStorage.setItem('wishlist', JSON.stringify(updatedWishlist));
+    const storage = storageType === 'localStorage' ? localStorage : sessionStorage;
+    storage.setItem(`wishlist_${user.id}`, JSON.stringify(updatedWishlist));
   };
 
   const handleAddToCart = (item) => {
+    if (!user || !storageType) return;
+    
     const exists = cartItems.some(
       (game) => game.id === item.id && game.type === item.type
     );
 
     if (exists) {
-      toast.error( 
+      toast.error(
         <div className="flex items-center gap-3 min-w-[400px] ">
           <img
             src={item.cardImg}
@@ -53,25 +88,26 @@ function Whislist() {
           />
           <div>
             <p className=" font-semibold text-black">{item.title}</p>
-            <p className="text-[#333] text-sm">Removed from Card</p>
+            <p className="text-[#333] text-sm">Artıq kartdadır</p>
           </div>
         </div>
-      )
+      );
       return;
     }
 
     const updatedCart = [...cartItems, item];
-    localStorage.setItem("cart", JSON.stringify(updatedCart));
+    const storage = storageType === 'localStorage' ? localStorage : sessionStorage;
+    storage.setItem(`cart_${user.id}`, JSON.stringify(updatedCart));
     setCartItems(updatedCart);
-    toast.success( 
+    toast.success(
       <div className="flex items-center gap-3 min-w-[400px] ">
         <img src={item.cardImg} alt="game" className="w-10 h-10 rounded object-cover" />
         <div>
           <p className="font-semibold text-black">{item.title}</p>
-          <p className="text-sm text-[#333]">Added to wishlist</p>
+          <p className="text-sm text-[#333]">Kartınıza əlavə olundu</p>
         </div>
-    </div>
-    )
+      </div>
+    );
   };
 
   const isInCart = (item) => {
@@ -79,6 +115,31 @@ function Whislist() {
       (game) => game.id === item.id && game.type === item.type
     );
   };
+
+  // User giriş etməyibsə login səhifəsinə yönləndirmə
+  if (!user) {
+    return (
+      <div className='h-fit min-h-[100vh] bg-[#E5E8F0] py-[70px]'>
+        <DetailHeader/>
+        <div className='container2 mx-auto'>
+          <div className='flex flex-col items-center justify-center py-20 gap-6'>
+            <h2 className='text-[35px] ubisoft-bold text-black text-center'>
+              Wishlist-ə baxmaq üçün daxil olun
+            </h2>
+            <p className='text-black ubisoft-text text-[18px] text-center max-w-md'>
+              Sevdiyiniz oyunları saxlamaq və sonradan almaq üçün hesabınıza daxil olun.
+            </p>
+            <Link 
+              to="/auth/login"
+              className='bg-[#1EADD5] hover:bg-[#1795AC] text-white px-8 py-3 rounded-lg ubisoft-bold text-lg transition-colors duration-300'
+            >
+              Daxil ol
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className='h-fit min-h-[100vh] bg-[#E5E8F0] py-[70px]'>
@@ -114,7 +175,6 @@ function Whislist() {
         </div>
       </div>
 
-      {/* Cards */}
       <div className="container2 mx-auto">
         {wishlist.length === 0 ? (
           <div className=" flex flex-col xl:flex-row lg:flex-row justify-around items-center gap-10  py-10">
@@ -122,13 +182,13 @@ function Whislist() {
               <h3 className='ubisoft-bold text-black text-[35px]'>Your wishlist is empty</h3>
               <p className='text-black ubisoft-text text-[16px]'>Save items to your wishlist to buy later and to get news and price drop notifications.</p>
             </div>
-            <img className='max-w-[50%]' src="https://store.ubisoft.com/on/demandware.static/-/Library-Sites-shared-library-web/default/dwb7863869/wishlist/empty-wishlist-banner.png" alt="" />
+            <img className='max-w-[50%]' src="https://store.ubisoft.com/on/demandware.static/-/Library-Sites-shared-library-web/default/dwb7863869/wishlist/empty-wishlist-banner.png" alt="Empty Wishlist" />
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 sm:gap-6">
-            {wishlist.map((item, index) => (
+            {wishlist.map((item) => (
               <div
-                key={index}
+                key={item.id}
                 className='bg-[#242424] overflow-hidden hover:transform hover:scale-105 transition-all duration-300'
               >
                 <div className='overflow-hidden w-full h-full'>
@@ -138,7 +198,7 @@ function Whislist() {
                         <img
                           src={item.cardImg}
                           className='w-full hover:scale-110 duration-300'
-                          alt=""
+                          alt={item.title}
                         />
                       </Link>
 
@@ -173,7 +233,6 @@ function Whislist() {
                         </button>
                       </div>
 
-                      {/* Mobile (trash always visible) */}
                       <div
                         className='absolute xl:hidden lg:hidden flex top-5 right-5 z-10'
                         onClick={(e) => {

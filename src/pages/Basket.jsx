@@ -1,24 +1,59 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import { getAllGame, updateGame } from "../services/GameadminService"; // ✅ Import əlavə olundu
+import { getAllGame, updateGame } from "../services/GameadminService";
 
 function Basket() {
+  const [user, setUser] = useState(null);
   const [cartItems, setCartItems] = useState([]);
   const [promoCode, setPromoCode] = useState("");
   const [discount, setDiscount] = useState(0);
+  const [storageType, setStorageType] = useState(null); // 'localStorage' or 'sessionStorage'
 
+  // User məlumatını localStorage və sessionStorage-dən yüklə
   useEffect(() => {
-    const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
-    setCartItems(storedCart);
+    let storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      try {
+        setUser(JSON.parse(storedUser));
+        setStorageType('localStorage');
+      } catch (e) {
+        console.error('User məlumatı parse olunarkən xəta:', e);
+      }
+    } else {
+      storedUser = sessionStorage.getItem('user');
+      if (storedUser) {
+        try {
+          setUser(JSON.parse(storedUser));
+          setStorageType('sessionStorage');
+        } catch (e) {
+          console.error('User məlumatı parse olunarkən xəta:', e);
+        }
+      }
+    }
   }, []);
 
+  // User dəyişdikdə cart məlumatını yüklə
+  useEffect(() => {
+    if (user && user.id && storageType) {
+      const storage = storageType === 'localStorage' ? localStorage : sessionStorage;
+      const storedCart = storage.getItem(`cart_${user.id}`);
+      setCartItems(storedCart ? JSON.parse(storedCart) : []);
+    } else {
+      setCartItems([]);
+    }
+  }, [user, storageType]);
+
+  // Cart-dan element siləndə həm state-ə, həm storage-a yaz
   const removeItem = (item) => {
+    if (!user || !storageType) return;
+
     const updatedCart = cartItems.filter(
       (game) => !(game.id === item.id && game.type === item.type)
     );
 
-    localStorage.setItem("cart", JSON.stringify(updatedCart));
+    const storage = storageType === 'localStorage' ? localStorage : sessionStorage;
+    storage.setItem(`cart_${user.id}`, JSON.stringify(updatedCart));
     setCartItems(updatedCart);
 
     toast.error(
@@ -40,16 +75,16 @@ function Basket() {
   const total = subtotal - discount;
 
   const handleCheckout = async () => {
+    if (!user || !storageType) return;
+
     if (cartItems.length === 0) {
       toast.info("🛒 Your cart is already empty.");
       return;
     }
 
     try {
-      // 1. API-dən bütün oyunları al
       const allGames = await getAllGame();
 
-      // 2. Səbətdəki oyunların saleCount dəyərini artır
       await Promise.all(
         cartItems.map(async (cartItem) => {
           const gameFromApi = allGames.find((g) => g.id === cartItem.id);
@@ -63,8 +98,9 @@ function Basket() {
         })
       );
 
-      // 3. Səbəti təmizlə
-      localStorage.removeItem("cart");
+      const storage = storageType === 'localStorage' ? localStorage : sessionStorage;
+      storage.removeItem(`cart_${user.id}`);
+
       setCartItems([]);
       setDiscount(0);
       setPromoCode("");
@@ -94,6 +130,33 @@ function Basket() {
     }
   };
 
+  // User giriş etməyibsə login səhifəsinə yönləndirmə
+  if (!user) {
+    return (
+      <div className="bg-gray-800 text-white min-h-screen flex items-center justify-center p-4">
+        <div className="text-center max-w-md">
+          <div className="mb-8">
+            <svg className="w-24 h-24 mx-auto text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.6 8M7 13v8a2 2 0 002 2h6M9 21v-2m6 2v-2" />
+            </svg>
+          </div>
+          <h2 className="text-3xl font-bold text-white mb-4">
+            Səbətə baxmaq üçün daxil olun
+          </h2>
+          <p className="text-gray-300 text-lg mb-8">
+            Oyunlarınızı əldə etmək üçün hesabınıza daxil olun.
+          </p>
+          <Link 
+            to="/auth/login"
+            className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg text-lg transition-all duration-300 transform hover:scale-105 inline-block"
+          >
+            Daxil ol
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="bg-gray-800 text-white min-h-screen p-4 sm:py-10 md:p-10 lg:p-[100px]">
       <div className="mx-auto w-[70%] grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
@@ -106,7 +169,7 @@ function Basket() {
           <div className="space-y-4">
             {cartItems.map((item) => (
               <div
-                key={item.id}
+                key={`${item.type}-${item.id}`} // daha unikal açar
                 className="bg-gray-700/50 rounded-lg p-3 sm:p-4 flex gap-5 flex-col sm:flex-row sm:items-center sm:space-x-4 space-y-4 sm:space-y-0"
               >
                 <Link
@@ -137,9 +200,7 @@ function Basket() {
                     {item.platforms.slice(0, 5).map((platform, index) => (
                       <span key={index} className="text-blue-400 text-sm">
                         {platform}
-                        {index < item.platforms.slice(0, 5).length - 1
-                          ? ","
-                          : ""}
+                        {index < item.platforms.slice(0, 5).length - 1 ? "," : ""}
                       </span>
                     ))}
                   </div>
@@ -171,9 +232,7 @@ function Basket() {
         {/* Summary */}
         <div className="lg:col-span-1">
           <div className="bg-gray-700/50 rounded-lg p-4 sm:p-6 lg:sticky lg:top-6">
-            <h2 className="text-lg sm:text-xl font-bold mb-4 sm:mb-6">
-              Summary
-            </h2>
+            <h2 className="text-lg sm:text-xl font-bold mb-4 sm:mb-6">Summary</h2>
 
             {/* Promo Code */}
             <div className="mb-4 sm:mb-6">

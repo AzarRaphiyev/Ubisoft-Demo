@@ -10,15 +10,47 @@ function SearchResults() {
   const [searchQuery, setSearchQuery] = useState('');
   const [fullData, setFullData] = useState([]);
   const [filterData, setFilterData] = useState([]);
-  const [wishlist, setWishlist] = useState(() => {
-    const stored = localStorage.getItem('wishlist');
-    return stored ? JSON.parse(stored) : [];
-  });
+  const [wishlist, setWishlist] = useState([]);
   const [activeTab, setActiveTab] = useState('all');
+  const [user, setUser] = useState(null);
+  const [storageType, setStorageType] = useState(null); // 'localStorage' or 'sessionStorage'
 
   const { gamedata, dlcdata } = useContext(GameContext);
-
   const [searchParams] = useSearchParams();
+
+  // User məlumatını localStorage və sessionStorage-dən yüklə
+  useEffect(() => {
+    let storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      try {
+        setUser(JSON.parse(storedUser));
+        setStorageType('localStorage');
+      } catch (e) {
+        console.error('User məlumatı parse olunarkən xəta:', e);
+      }
+    } else {
+      storedUser = sessionStorage.getItem('user');
+      if (storedUser) {
+        try {
+          setUser(JSON.parse(storedUser));
+          setStorageType('sessionStorage');
+        } catch (e) {
+          console.error('User məlumatı parse olunarkən xəta:', e);
+        }
+      }
+    }
+  }, []);
+
+  // User dəyişdikdə wishlist məlumatını yüklə
+  useEffect(() => {
+    if (user && user.id && storageType) {
+      const storage = storageType === 'localStorage' ? localStorage : sessionStorage;
+      const storedWishlist = storage.getItem(`wishlist_${user.id}`);
+      setWishlist(storedWishlist ? JSON.parse(storedWishlist) : []);
+    } else {
+      setWishlist([]);
+    }
+  }, [user, storageType]);
 
   // URL parametri oxu və searchQuery-ə yaz
   useEffect(() => {
@@ -57,6 +89,12 @@ function SearchResults() {
   }
 
   const toggleWishlistItem = (item) => {
+    // User giriş etməyibsə wishlist funksiyası işləməsin
+    if (!user || !storageType) {
+      toast.error('Wishlist-ə əlavə etmək üçün daxil olun!');
+      return;
+    }
+
     const exists = wishlist.some(i => i.id === item.id);
 
     let updatedWishlist;
@@ -73,20 +111,20 @@ function SearchResults() {
       );
     } else {
       updatedWishlist = [...wishlist, item];
-     
       toast.success(
         <div className="flex items-center gap-3 min-w-[300px] sm:min-w-[400px]">
           <img src={item.cardImg} alt={item.title} className="w-10 h-10 object-cover rounded" />
           <div>
             <p className="font-semibold text-black">{item.title}</p>
-            <p className="text-[#333] text-sm">Add from wishlist</p>
+            <p className="text-[#333] text-sm">Added to wishlist</p>
           </div>
         </div>
       );
     }
 
     setWishlist(updatedWishlist);
-    localStorage.setItem('wishlist', JSON.stringify(updatedWishlist));
+    const storage = storageType === 'localStorage' ? localStorage : sessionStorage;
+    storage.setItem(`wishlist_${user.id}`, JSON.stringify(updatedWishlist));
   };
 
   const totalResults = filterData.length;

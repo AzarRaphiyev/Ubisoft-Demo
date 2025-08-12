@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { FaExternalLinkAlt } from 'react-icons/fa'
+import React, { useEffect, useState } from 'react'
+import { FaExternalLinkAlt, FaUserAlt } from 'react-icons/fa'
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io'
 import { IoClose, IoSearch } from 'react-icons/io5'
 import { MdClose, MdSaveAlt } from 'react-icons/md'
@@ -13,6 +13,23 @@ function Header() {
   const[gameSection,setGameSection]=useState(false)
   const[searchSec,setSearchSec]=useState(false)
   const [mobilesec , setMobileSec]=useState(true) 
+  const [user, setUser] = useState(null)
+  useEffect(() => {
+    let storedUser = localStorage.getItem('user')
+    if (!storedUser) {
+      storedUser = sessionStorage.getItem('user')
+    }
+    if (storedUser) {
+      try {
+        setUser(JSON.parse(storedUser))
+      } catch (e) {
+        console.error('User məlumatı parse olunarkən xəta:', e)
+        setUser(null)
+      }
+    }
+  }, [])
+
+
   return (
     <div className=''>
       
@@ -63,9 +80,20 @@ function Header() {
         <div onClick={()=>setSearchSec(!searchSec)} className='text-white xl:flex bg-[#242424] cursor-pointer rounded-4xl p-[2px] opacity-90 hidden'>
         <IoSearch  size={25} />
         </div>
-        <div>
-        <img src="/assets/img/registerLogo.webp" alt="" className='w-[30px] cursor-pointer opacity-90 hover:opacity-100 duration-300' />
-        </div>
+        {user ? (
+              // Əgər user varsa username göstər
+              <Link  className="text-white cursor-pointer bg-gray-600 px-2 rounded-4xl font-semibold uppercase ubisoft-text  select-none">
+                <p className='text-[20px]'>{user.username.slice(0,1)} </p>
+              </Link>
+            ) : (
+              // Əks halda register ikonu göstər
+             
+              <Link to={"/auth/register"} className="bg-white cursor-pointer text-gray-600 p-2 rounded-4xl font-semibold uppercase ubisoft-text  select-none">
+                <FaUserAlt size={20} />
+              </Link>
+              
+            )
+          }
       </div>
     </div>
     {

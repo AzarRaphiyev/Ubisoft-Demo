@@ -287,7 +287,7 @@ function Store() {
         >
           {top10Games.map((item, index) => (
             <SwiperSlide key={index}>
-              <div className="bg-[#242424] overflow-hidden ">
+              <div className="bg-[#242424] overflow-hidden relative ">
                 <div className="overflow-hidden w-full">
                   <div className="bg-[#fff] overflow-hidden">
                     <div className="overflow-hidden w-full">
@@ -302,12 +302,27 @@ function Store() {
                         </h1>
                         <h1 className="text-[#b5b5b5] text-xs sm:text-sm ubisoft-bold">{item.productEdition}</h1>
                       </div>
-                      <h1 className="text-black ubisoft-bold text-right mt-4 text-sm sm:text-base">
-                        {item.price === 0 ? 'Free' : '€' + item.price}
-                      </h1>
+                      <div className="flex items-center justify-end mt-4 gap-2">
+                        {item.discount ? (
+                          <>
+                            <h1 className="text-[#b5b5b5] line-through text-sm sm:text-base ubisoft-bold">
+                            €  {item.price}
+                            </h1>
+                            <h1 className="text-black ubisoft-bold text-base sm:text-lg">
+                              € {(item.price - (item.price * (item.discount / 100))).toFixed(2)}
+
+                            </h1>
+                          </>
+                        ) : (
+                          <h1 className="text-black ubisoft-bold text-base sm:text-lg">
+                            {item.price === 0 ? 'Free' : '€' + item.price}
+                          </h1>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
+                 
               </div>
             </SwiperSlide>
           ))}
@@ -364,7 +379,7 @@ function Store() {
                   {filteredData.map((item, index) => (
                     <div
                       key={index}
-                      className="bg-[#242424] overflow-hidden hover:transform hover:scale-105 transition-all duration-300"
+                      className="bg-[#242424] relative  hover:transform hover:scale-105 transition-all duration-300"
                     >
                       <div className="overflow-hidden w-full h-full">
                         <div className="bg-[#fff] overflow-hidden h-full flex flex-col justify-between">
@@ -437,14 +452,33 @@ function Store() {
                               )}
                             </div>
 
-                            <div className="flex items-center justify-end mt-4">
-                              <h1 className="text-black ubisoft-bold text-base sm:text-lg">
-                                {item.price === 0 ? 'Free' : '€' + item.price}
-                              </h1>
-                            </div>
+                            <div className="flex items-center justify-end mt-4 gap-2">
+  {item.discount ? (
+    <>
+      <h1 className="text-[#b5b5b5] line-through text-sm sm:text-base ubisoft-bold">
+      €  {item.price}
+      </h1>
+      <h1 className="text-black ubisoft-bold text-base sm:text-lg">
+        € {(item.price - (item.price * (item.discount / 100))).toFixed(2)}
+
+      </h1>
+    </>
+  ) : (
+    <h1 className="text-black ubisoft-bold text-base sm:text-lg">
+      {item.price === 0 ? 'Free' : '€' + item.price}
+    </h1>
+  )}
+</div>
+
                           </div>
                         </div>
                       </div>
+                      {item.discount!=0?
+                      
+                      <div className='absolute bg-orange-600 py-1 px-3 rounded-4xl text-black ubisoft-bold top-2 left-2 text-[10px]'>
+                          {item.discount} %
+                  </div>:""
+                    }
                     </div>
                   ))}
                 </div>

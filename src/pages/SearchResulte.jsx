@@ -206,79 +206,108 @@ function SearchResults() {
           {/* Games Grid */}
           {filterData.length > 0 ? (
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-              {filterData.map((item) => (
-                <div key={item.id} className="bg-[#242424] overflow-hidden hover:transform hover:scale-105 transition-all duration-300">
-                  <div className="overflow-hidden w-full h-full">
-                    <div className="bg-[#fff] overflow-hidden h-full flex flex-col justify-between">
-                      <div className="overflow-hidden w-full relative group">
-                        <Link to={`/detail/${item.type}/${item.id}`}>
-                          <img src={item.cardImg} className="w-full hover:scale-110 duration-300" alt={item.title} />
-                        </Link>
+              {filterData.map((item,index) => (
+                 <div
+                 key={index}
+                 className="bg-[#242424] relative  hover:transform hover:scale-105 transition-all duration-300"
+               >
+                 <div className="overflow-hidden w-full h-full">
+                   <div className="bg-[#fff] overflow-hidden h-full flex flex-col justify-between">
+                     <div className="overflow-hidden w-full relative group">
+                       <Link to={`/detail/${item.type}/${item.id}`}>
+                         <img
+                           src={item.cardImg}
+                           className="w-full hover:scale-110 duration-300"
+                           alt={item.title || ''}
+                         />
+                       </Link>
 
-                        {/* Desktop wishlist button */}
-                        <Link
-                          to={`/detail/${item.type}/${item.id}`}
-                          className="absolute opacity-0 group-hover:opacity-100 hidden xl:flex lg:flex duration-100 top-0 left-0 bg-black/70 w-full h-full z-30 items-center justify-center text-white"
-                        >
-                          <div
-                            className="absolute top-5 right-5 z-40"
-                            onClick={(e) => {
-                              e.preventDefault();
-                              e.stopPropagation();
-                              toggleWishlistItem(item);
-                            }}
-                          >
-                            {wishlist.some((i) => i.id === item.id) ? (
-                              <FaHeart className="text-white cursor-pointer hover:scale-110 duration-300" size={20} />
-                            ) : (
-                              <FaRegHeart className="text-white cursor-pointer hover:scale-110 duration-300" size={20} />
-                            )}
-                          </div>
-                        </Link>
+                       <Link
+                         to={`/detail/${item.type}/${item.id}`}
+                         className="absolute opacity-0 group-hover:opacity-100 hidden xl:flex lg:flex  duration-100 top-0 left-0 bg-black/70 w-full h-full z-30  items-center justify-center text-white"
+                       >
+                         <div
+                           className="absolute top-5 right-5 z-40"
+                           onClick={(e) => {
+                             e.preventDefault();
+                             e.stopPropagation();
+                             toggleWishlistItem(item);
+                           }}
+                         >
+                           {wishlist.some((i) => i.id === item.id) ? (
+                             <FaHeart className="text-white cursor-pointer hover:scale-110 duration-300" size={20} />
+                           ) : (
+                             <FaRegHeart className="text-white cursor-pointer hover:scale-110 duration-300" size={20} />
+                           )}
+                         </div>
 
-                        {/* Mobile wishlist button */}
-                        <div
-                          className="absolute xl:hidden lg:hidden flex top-5 right-5 z-10"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            toggleWishlistItem(item);
-                          }}
-                        >
-                          {wishlist.some((i) => i.id === item.id) ? (
-                            <FaHeart className="text-white cursor-pointer" size={25} />
-                          ) : (
-                            <FaRegHeart className="text-white cursor-pointer" size={25} />
-                          )}
-                        </div>
-                      </div>
+                         
+                       </Link>
 
-                      {/* Card content */}
-                      <div className="p-3 sm:p-4 flex flex-col justify-between flex-grow">
-                        <div className="flex flex-col text-left">
-                          <div className="flex gap-2 items-start mb-2">
-                            {item.type.toLowerCase() === 'dlc' && (
-                              <div className="py-1 px-2 bg-black rounded-lg text-xs text-white ubisoft-bold whitespace-nowrap h-fit">DLC</div>
-                            )}
-                            <h1 className="text-black ubisoft-bold text-sm sm:text-base leading-tight">
-                              {item.title.length > 25 ? item.title.slice(0, 25) + '...' : item.title}
-                            </h1>
-                          </div>
+                       <div
+                         className="absolute xl:hidden lg:hidden flex top-5 right-5 z-10"
+                         onClick={(e) => {
+                           e.preventDefault();
+                           e.stopPropagation();
+                           toggleWishlistItem(item);
+                         }}
+                       >
+                         {wishlist.some((i) => i.id === item.id) ? (
+                           <FaHeart className="text-white cursor-pointer" size={25} />
+                         ) : (
+                           <FaRegHeart className="text-white cursor-pointer" size={25} />
+                         )}
+                       </div>
+                     </div>
 
-                          {item.type.toLowerCase() === 'dlc' ? (
-                            <h1 className="text-[#b5b5b5] text-xs sm:text-sm ubisoft-bold">{item.typeDlc}</h1>
-                          ) : (
-                            <h1 className="text-[#b5b5b5] text-xs sm:text-sm ubisoft-bold">{item.productEdition}</h1>
-                          )}
-                        </div>
+                     <div className="p-3 sm:p-4 flex flex-col justify-between flex-grow">
+                       <div className="flex flex-col text-left">
+                         <div className="flex gap-2 items-start mb-2">
+                           {item.type === 'DLC' && (
+                             <div className="py-1 px-2 bg-black rounded-lg text-xs text-white ubisoft-bold whitespace-nowrap h-fit">
+                               DLC
+                             </div>
+                           )}
+                           <h1 className="text-black ubisoft-bold text-sm sm:text-base leading-tight">
+                             {item.title.length > 25 ? item.title.slice(0, 25) + '...' : item.title}
+                           </h1>
+                         </div>
 
-                        <div className="flex items-center justify-end mt-4">
-                          <h1 className="text-black ubisoft-bold text-base sm:text-lg">{item.price === 0 ? 'Free' : '€' + item.price}</h1>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                         {item.type === 'DLC' ? (
+                           <h1 className="text-[#b5b5b5] text-xs sm:text-sm ubisoft-bold">{item.typeDlc}</h1>
+                         ) : (
+                           <h1 className="text-[#b5b5b5] text-xs sm:text-sm ubisoft-bold">{item.productEdition}</h1>
+                         )}
+                       </div>
+
+                       <div className="flex items-center justify-end mt-4 gap-2">
+{item.discount ? (
+<>
+ <h1 className="text-[#b5b5b5] line-through text-sm sm:text-base ubisoft-bold">
+ €  {item.price}
+ </h1>
+ <h1 className="text-black ubisoft-bold text-base sm:text-lg">
+   € {(item.price - (item.price * (item.discount / 100))).toFixed(2)}
+
+ </h1>
+</>
+) : (
+<h1 className="text-black ubisoft-bold text-base sm:text-lg">
+ {item.price === 0 ? 'Free' : '€' + item.price}
+</h1>
+)}
+</div>
+
+                     </div>
+                   </div>
+                 </div>
+                 {item.discount!=0?
+                 
+                 <div className='absolute bg-orange-600 py-1 px-3 rounded-4xl text-black ubisoft-bold top-2 left-2 text-[10px]'>
+                     {item.discount} %
+             </div>:""
+               }
+               </div>
               ))}
             </div>
           ) : (

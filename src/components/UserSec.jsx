@@ -1,11 +1,14 @@
-import React, { useEffect, useRef } from 'react'
-import { FaExternalLinkAlt, FaUserAlt } from 'react-icons/fa'
+import React, { useEffect, useRef, useState } from 'react'
+import { FaExternalLinkAlt, FaUserAlt, FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 import { SiUbisoft } from "react-icons/si";
 import { FaGamepad } from "react-icons/fa6";
 
 function UserSec({ user, userBar, setUserBar }) {
   const panelRef = useRef(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const orderedGames = user?.orderedList || [];
+  const hasGames = orderedGames.length > 0;
 
   // Click outside detection
   useEffect(() => {
@@ -30,6 +33,15 @@ function UserSec({ user, userBar, setUserBar }) {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [setUserBar]);
+
+  // Slider navigation functions
+  const nextSlide = () => {
+    setCurrentIndex((prev) => (prev + 1) % orderedGames.length);
+  };
+
+  const prevSlide = () => {
+    setCurrentIndex((prev) => (prev - 1 + orderedGames.length) % orderedGames.length);
+  };
   
 
   if (user == null) {
@@ -61,15 +73,95 @@ function UserSec({ user, userBar, setUserBar }) {
       </div>
 
       <div className='flex my-5 justify-between items-center gap-2 px-3'>
-        <div className='flex gap-2 px-2 items-center bg-[#242424] py-2 rounded-xl  w-[50%] justify-center h-[50px]'>
+        <div className='flex gap-2 px-2 items-center bg-[#242424] py-2 rounded-xl w-[50%] justify-center h-[50px]'>
           <SiUbisoft className='text-white' size={30} />
           <p className='ubisoft-bold text-[13px] text-[#9b9b9b]'>new player</p>
         </div>
-        <div className='flex gap-2 px-2 items-center bg-[#242424] py-2 rounded-xl w-[50%] justify-center  h-[50px]'>
+        <div className='flex gap-2 px-2 items-center bg-[#242424] py-2 rounded-xl w-[50%] justify-center h-[50px]'>
           <FaGamepad className='text-white' size={30} />
-          <p className='ubisoft-bold text-[13px] text-[#9b9b9b]'>no games yet</p>
+          <p className='ubisoft-bold text-[13px] text-[#9b9b9b]'>
+            {hasGames ? `${orderedGames.length} games` : 'no games yet'}
+          </p>
         </div>
       </div>
+
+      {/* Ordered Games Slider - Show only if user has games */}
+      {hasGames && (
+        <div className='mx-3 mb-5'>
+          <div className='relative bg-[#1C1C1C] rounded-xl p-3'>
+            <h4 className='ubisoft-bold text-white text-sm mb-3'>Your Games</h4>
+            
+            <div className='relative overflow-hidden rounded-lg'>
+              <div 
+                className='flex transition-transform duration-300 ease-in-out'
+                style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+              >
+                {orderedGames.map((game, index) => (
+                  <div key={`${game.id}-${game.type}`} className='w-full flex-shrink-0'>
+                    <Link 
+                      to={`/detail/${game.type}/${game.id}`}
+                      className='block relative group'
+                      onClick={() => setUserBar(false)}
+                    >
+                      <img 
+                        src={game.cardImg} 
+                        alt={game.title}
+                        className='w-full h-[120px] object-cover rounded-lg group-hover:opacity-80 transition-opacity'
+                      />
+                      <div className='absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-2 rounded-b-lg'>
+                        <p className='ubisoft-bold text-white text-xs truncate'>
+                          {game.title}
+                        </p>
+                        <p className='text-[#9b9b9b] text-[10px] truncate'>
+                          {game.productEdition}
+                        </p>
+                        {game.type === "DLC" && (
+                          <span className='inline-block bg-blue-600 text-white text-[8px] px-1 py-0.5 rounded mt-1'>
+                            DLC
+                          </span>
+                        )}
+                      </div>
+                    </Link>
+                  </div>
+                ))}
+              </div>
+              
+              {/* Navigation arrows - Show only if more than 1 game */}
+              {orderedGames.length > 1 && (
+                <>
+                  <button 
+                    onClick={prevSlide}
+                    className='absolute left-1 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-1 rounded-full transition-colors'
+                  >
+                    <FaChevronLeft size={12} />
+                  </button>
+                  <button 
+                    onClick={nextSlide}
+                    className='absolute right-1 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-1 rounded-full transition-colors'
+                  >
+                    <FaChevronRight size={12} />
+                  </button>
+                </>
+              )}
+            </div>
+            
+            {/* Dots indicator - Show only if more than 1 game */}
+            {orderedGames.length > 1 && (
+              <div className='flex justify-center mt-2 gap-1'>
+                {orderedGames.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentIndex(index)}
+                    className={`w-2 h-2 rounded-full transition-colors ${
+                      currentIndex === index ? 'bg-blue-500' : 'bg-[#9b9b9b]'
+                    }`}
+                  />
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
 
       <hr className='text-[#9b9b9b] w-[90%] mx-auto' />
 
@@ -105,17 +197,16 @@ function UserSec({ user, userBar, setUserBar }) {
           </div>
         </div>
       </div>
-      {user.role=="super_admin" ?
-      <div className='my-3 flex flex-col gap-[2px]'>
-      <div className='bg-[#1C1C1C] hover:bg-[#2f2f2f] duration-300 cursor-pointer py-2'>
-        <Link to={"admin"} className='px-3 flex justify-between items-center text-blue-500'>
-          <p className='ubisoft-bold'>Admin panel</p>
-          <FaExternalLinkAlt size={15} />
-        </Link>
-      </div>
-    </div>  :""
-    }
-      
+      {user.role == "super_admin" ? (
+        <div className='my-3 flex flex-col gap-[2px]'>
+          <div className='bg-[#1C1C1C] hover:bg-[#2f2f2f] duration-300 cursor-pointer py-2'>
+            <Link to={"admin"} className='px-3 flex justify-between items-center text-blue-500'>
+              <p className='ubisoft-bold'>Admin panel</p>
+              <FaExternalLinkAlt size={15} />
+            </Link>
+          </div>
+        </div>
+      ) : ""}
     </div>
   )
 }

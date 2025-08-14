@@ -64,7 +64,7 @@ function DetailHeader() {
               />
             </div>
             <div className='xl:flex lg:flex gap-6 xl:gap-10 hidden'>
-              <h1 className='text-[16px] xl:text-[18px] text-white cursor-pointer px-3 rounded-lg py-2 hover:bg-[#6f6e6e]/60 transition-colors'>Games</h1>
+              <Link to={`/store?type=games`} className='text-[16px] xl:text-[18px] text-white cursor-pointer px-3 rounded-lg py-2 hover:bg-[#6f6e6e]/60 transition-colors'>Games</Link>
               <h1 className='text-[16px] xl:text-[18px] text-white cursor-pointer px-3 rounded-lg py-2 hover:bg-[#6f6e6e]/60 transition-colors'>Dlc</h1>
               <h1 className='text-[16px] xl:text-[18px] text-white cursor-pointer px-3 rounded-lg py-2 hover:bg-[#6f6e6e]/60 transition-colors'>Ubisoft+</h1>
             </div>

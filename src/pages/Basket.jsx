@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { getAllGame, updateGame } from "../services/GameadminService";
+import { updateUser } from "../services/UserService"; // User service import edildi
 
 function Basket() {
   const [user, setUser] = useState(null);
   const [cartItems, setCartItems] = useState([]);
   const [promoCode, setPromoCode] = useState("");
-  const [discount, setDiscount] = useState(0);
+  const [promoDiscount, setPromoDiscount] = useState(0);
   const [storageType, setStorageType] = useState(null); // 'localStorage' or 'sessionStorage'
 
   // User məlumatını localStorage və sessionStorage-dən yüklə
@@ -44,6 +45,23 @@ function Basket() {
     }
   }, [user, storageType]);
 
+  // Hər bir item üçün discounted price hesabla
+  const getDiscountedPrice = (item) => {
+    if (item.discount && item.discount > 0) {
+      const discountAmount = (item.price * item.discount) / 100;
+      return item.price - discountAmount;
+    }
+    return item.price;
+  };
+
+  // Hər bir item üçün discount amount hesabla
+  const getDiscountAmount = (item) => {
+    if (item.discount && item.discount > 0) {
+      return (item.price * item.discount) / 100;
+    }
+    return 0;
+  };
+
   // Cart-dan element siləndə həm state-ə, həm storage-a yaz
   const removeItem = (item) => {
     if (!user || !storageType) return;
@@ -71,8 +89,11 @@ function Basket() {
     );
   };
 
-  const subtotal = cartItems.reduce((sum, item) => sum + item.price, 0);
-  const total = subtotal - discount;
+  // Hesablamalar
+  const originalTotal = cartItems.reduce((sum, item) => sum + item.price, 0);
+  const subtotal = cartItems.reduce((sum, item) => sum + getDiscountedPrice(item), 0);
+  const itemDiscountsTotal = cartItems.reduce((sum, item) => sum + getDiscountAmount(item), 0);
+  const total = subtotal - promoDiscount;
 
   const handleCheckout = async () => {
     if (!user || !storageType) return;
@@ -85,6 +106,7 @@ function Basket() {
     try {
       const allGames = await getAllGame();
 
+      // Game sale count-larını yenilə
       await Promise.all(
         cartItems.map(async (cartItem) => {
           const gameFromApi = allGames.find((g) => g.id === cartItem.id);
@@ -98,14 +120,51 @@ function Basket() {
         })
       );
 
+      // User-in orderedList-ini yenilə
+      const currentOrderedList = user.orderedList || [];
+      
+      // Yeni sifariş obyektləri yarat (duplicate-ləri yoxla)
+      const newOrderedItems = cartItems.filter(cartItem => {
+        // Əgər bu item artıq orderedList-də varsa, əlavə etmə
+        return !currentOrderedList.some(orderedItem => 
+          orderedItem.id === cartItem.id && orderedItem.type === cartItem.type
+        );
+      });
+
+      // Yalnız yeni item-lar varsa user-i yenilə
+      if (newOrderedItems.length > 0) {
+        const updatedOrderedList = [...currentOrderedList, ...newOrderedItems];
+        
+        const updatedUser = {
+          ...user,
+          orderedList: updatedOrderedList
+        };
+
+        // API-də user-i yenilə
+        const result = await updateUser(user.id, updatedUser);
+        
+        if (result) {
+          // Local storage-də user məlumatını yenilə
+          const storage = storageType === 'localStorage' ? localStorage : sessionStorage;
+          storage.setItem('user', JSON.stringify(updatedUser));
+          setUser(updatedUser);
+        }
+      }
+
+      // Cart-ı təmizlə
       const storage = storageType === 'localStorage' ? localStorage : sessionStorage;
       storage.removeItem(`cart_${user.id}`);
 
       setCartItems([]);
-      setDiscount(0);
+      setPromoDiscount(0);
       setPromoCode("");
 
       toast.success("✅ Purchase completed successfully!");
+      
+      if (newOrderedItems.length !== cartItems.length) {
+        toast.info("ℹ️ Some items were already in your library and were not duplicated.");
+      }
+      
     } catch (err) {
       console.error("Checkout zamanı xəta:", err);
       toast.error("❌ Checkout failed!");
@@ -122,10 +181,10 @@ function Basket() {
 
     if (promoCode.toLowerCase() === "azer30") {
       const discountValue = subtotal * 0.3;
-      setDiscount(discountValue);
+      setPromoDiscount(discountValue);
       toast.success("🎉 Promo code applied: 30% discount");
     } else {
-      setDiscount(0);
+      setPromoDiscount(0);
       toast.error("❌ Invalid promo code");
     }
   };
@@ -169,7 +228,7 @@ function Basket() {
           <div className="space-y-4">
             {cartItems.map((item) => (
               <div
-                key={`${item.type}-${item.id}`} // daha unikal açar
+                key={`${item.type}-${item.id}`}
                 className="bg-gray-700/50 rounded-lg p-3 sm:p-4 flex gap-5 flex-col sm:flex-row sm:items-center sm:space-x-4 space-y-4 sm:space-y-0"
               >
                 <Link
@@ -186,6 +245,12 @@ function Basket() {
                       DLC
                     </span>
                   )}
+                {item.discount > 0 && (
+  <span className="absolute top-2 left-2 bg-red-600 text-white font-bold text-xs px-2 py-1 rounded">
+    -{item.discount}%
+  </span>
+)}
+
                 </Link>
 
                 <div className="flex-grow text-center sm:text-left">
@@ -204,6 +269,14 @@ function Basket() {
                       </span>
                     ))}
                   </div>
+
+                                {item.discount > 0 && (
+                  <div className="text-green-400 text-sm mb-2">
+                    🏷️ {item.discount}% discount applied
+                  </div>
+                )}
+
+
                   <button
                     onClick={() => removeItem(item)}
                     className="text-gray-400 hover:text-white text-sm flex items-center justify-center sm:justify-start"
@@ -213,15 +286,29 @@ function Basket() {
                 </div>
 
                 <div className="flex-shrink-0 text-center sm:text-right">
-                  <div className="flex flex-col sm:flex-row items-center sm:space-x-2">
-                    <span className="text-orange-400 text-lg sm:text-xl font-bold">
-                      € {item.price.toFixed(2)}
-                    </span>
-                    {item.originalPrice && (
-                      <span className="text-gray-400 line-through text-sm">
-                        € {item.originalPrice.toFixed(2)}
-                      </span>
-                    )}
+                  <div className="flex flex-col items-center sm:items-end">
+                  {item.price > 0 && (
+  <div className="flex flex-col items-center sm:items-end">
+    {item.discount && item.discount > 0 ? (
+      <>
+        <span className="text-orange-400 text-lg sm:text-xl font-bold">
+          € {getDiscountedPrice(item).toFixed(2)}
+        </span>
+        <span className="text-gray-400 line-through text-sm">
+          € {item.price.toFixed(2)}
+        </span>
+        <span className="text-green-400 text-xs">
+          Save € {getDiscountAmount(item).toFixed(2)}
+        </span>
+      </>
+    ) : (
+      <span className="text-orange-400 text-lg sm:text-xl font-bold">
+        € {item.price.toFixed(2)}
+      </span>
+    )}
+  </div>
+)}
+
                   </div>
                 </div>
               </div>
@@ -256,14 +343,26 @@ function Basket() {
             {/* Price Breakdown */}
             <div className="space-y-3 mb-4 sm:mb-6">
               <div className="flex justify-between text-xs sm:text-sm">
-                <span>Subtotal ({cartItems.length} items)</span>
+                <span>Original Price ({cartItems.length} items)</span>
+                <span>€ {originalTotal.toFixed(2)}</span>
+              </div>
+
+              {itemDiscountsTotal > 0 && (
+                <div className="flex justify-between text-xs sm:text-sm text-green-400">
+                  <span>Item Discounts</span>
+                  <span>- € {itemDiscountsTotal.toFixed(2)}</span>
+                </div>
+              )}
+
+              <div className="flex justify-between text-xs sm:text-sm">
+                <span>Subtotal</span>
                 <span>€ {subtotal.toFixed(2)}</span>
               </div>
 
-              {discount > 0 && (
+              {promoDiscount > 0 && (
                 <div className="flex justify-between text-xs sm:text-sm text-green-400">
-                  <span>Discount (30%)</span>
-                  <span>- € {discount.toFixed(2)}</span>
+                  <span>Promo Code Discount (30%)</span>
+                  <span>- € {promoDiscount.toFixed(2)}</span>
                 </div>
               )}
 
@@ -278,6 +377,12 @@ function Basket() {
                 </span>
                 <span>€ {total.toFixed(2)}</span>
               </div>
+
+              {(itemDiscountsTotal > 0 || promoDiscount > 0) && (
+                <div className="text-center text-green-400 text-sm font-medium">
+                  🎉 Total Savings: € {(itemDiscountsTotal + promoDiscount).toFixed(2)}
+                </div>
+              )}
             </div>
 
             {/* Checkout Button */}

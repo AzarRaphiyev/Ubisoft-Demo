@@ -25,7 +25,7 @@ const UbisoftRegister = () => {
     const confirmPassword = confirmPasswordRef.current.value;
     const birthday = birthdayRef.current.value;
 
-    // Validasiyalar
+    // 🔹 1. Sadə yoxlamalar
     if (!username || !email || !password || !confirmPassword || !birthday) {
       toast.error("Bütün hissələri doldurun");
       return;
@@ -48,7 +48,7 @@ const UbisoftRegister = () => {
       return;
     }
 
-    // Yaş yoxlaması
+    // 🔹 2. Yaş yoxlaması
     const birthDate = new Date(birthday);
     const today = new Date();
     let age = today.getFullYear() - birthDate.getFullYear();
@@ -61,29 +61,59 @@ const UbisoftRegister = () => {
       return;
     }
 
-    // Göndəriləcək data
+    // 🔹 3. Göndəriləcək data
     const userData = {
-      username: username,
+      username,
       email,
       password,
       birthday,
       role: "user",
       isActive: true,
+      orderedList: []
     };
 
     try {
       setIsLoading(true);
       await userSignUp(userData);
       toast.success("Qeydiyyat uğurla tamamlandı!");
-      // Form təmizlə
+
+      // 🔹 Form təmizlə
       usernameRef.current.value = "";
       emailRef.current.value = "";
       passwordRef.current.value = "";
       confirmPasswordRef.current.value = "";
       birthdayRef.current.value = "";
+
       navigate("/auth/login");
     } catch (error) {
-      toast.error(error.message || "Qeydiyyat zamanı xəta baş verdi");
+      let errorMessage = "Qeydiyyat zamanı xəta baş verdi";
+
+      
+      if (error.response && error.response.data) {
+        const backendMessage = error.response.data.message?.toLowerCase() || "";
+
+        if (backendMessage.includes("email") && backendMessage.includes("username")) {
+          errorMessage = "Bu email və istifadəçi adı artıq istifadə olunub";
+        } 
+        else if (backendMessage.includes("email")) {
+          errorMessage = "Bu email artıq istifadə olunub";
+        } 
+        else if (backendMessage.includes("username")) {
+          errorMessage = "Bu istifadəçi adı artıq istifadə olunub";
+        } 
+        else if (error.response.data.message) {
+          errorMessage = error.response.data.message;
+        }
+      } 
+      else if (error.message) {
+        if (error.message.includes("Network")) {
+          errorMessage = "İnternet bağlantısı problemi";
+        } else {
+          errorMessage = error.message;
+        }
+      }
+
+      toast.error(errorMessage);
       console.error("Registration error:", error);
     } finally {
       setIsLoading(false);
@@ -180,9 +210,7 @@ const UbisoftRegister = () => {
                 />
                 <button
                   type="button"
-                  onClick={() =>
-                    setShowConfirmPassword(!showConfirmPassword)
-                  }
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                   className="absolute right-4 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-white"
                 >
                   {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}

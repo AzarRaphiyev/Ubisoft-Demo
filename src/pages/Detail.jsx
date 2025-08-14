@@ -227,6 +227,20 @@ function Detail() {
     const [year, month, day] = dateStr.split("-");
     return `${day}/${month}/${year}`;
   }
+  const getDiscountedPrice = (originalPrice, discount) => {
+    if (discount && discount > 0) {
+      const discountAmount = (originalPrice * discount) / 100;
+      return originalPrice - discountAmount;
+    }
+    return originalPrice;
+  };
+  
+  const getDiscountAmount = (originalPrice, discount) => {
+    if (discount && discount > 0) {
+      return (originalPrice * discount) / 100;
+    }
+    return 0;
+  };
 
   return (
     <div className='py-[20px] xl:py-0 lg:py-0'>
@@ -235,81 +249,179 @@ function Detail() {
       {/* Detail Header Section */}
       <DetailHeader />
 
-      {/* Banner Section */}
-      <div className='bg-white relative mt-[67px] xl:mb-[90px] lg:mb-[90px] mb-0'>
-        <div className='relative'>
-          <div className="relative w-full">
-            <img className="w-full h-[40vh] xl:h-[65vh] lg:h-[55vh]" src={obj?.bannerImg} alt="" />
-            <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-black to-transparent opacity-60 z-1"></div>
-          </div>
+     {/* Banner Section */}
+<div className='bg-white relative mt-[67px] xl:mb-[90px] lg:mb-[90px] mb-0'>
+  <div className='relative'>
+    <div className="relative w-full">
+      <img className="w-full h-[40vh] xl:h-[65vh] lg:h-[55vh]" src={obj?.bannerImg} alt="" />
+      <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-black to-transparent opacity-60 z-1"></div>
+    </div>
 
-          <div className='absolute z-2 top-0 flex xl:flex-row flex-col gap-5 lg:flex-row w-[100%] h-[100%] xl:justify-between lg:justify-between px-[30px] pt-[30px]'>
-            <div className='flex flex-col gap-[80px]'>
-              <div><img src={obj?.logo} className='w-[120px] sm:w-[150px] md:w-[180px] lg:w-[200px] max-w-full' alt="" /></div>
-              <div className='xl:block lg:block absolute top-40'>
-                <h1 className='ubisoft-bold xl:text-[60px] lg:text-[40px] text-[#fff]'>{obj?.title} - </h1>
-                <h1 className='ubisoft-bold xl:text-[30px] lg:text-[20px] text-[#fff]'>{obj?.productEdition}</h1>
-                <p className='ubisoft-text text-[#fff] xl:text-[18px] lg:text-[16px]'>Release date: {formatDate(obj?.releaseDate)}</p>
-                <button className='ubisoft-bold px-[30px] py-[5px] hidden xl:block border-[#fff] border-[1px] duration-200 my-[15px] text-[20px] cursor-pointer text-[#fff] rounded-2xl hover:border-[#000] hover:bg-[#fff] hover:text-[#000]'>Discover Editions</button>
-              </div>
-            </div>
-            
-            <div className='flex flex-col justify-between items-end'>
-              <div className='flex flex-col items-center justify-between'>
-                <div className='flex gap-[10px] w-[20vw] items-center justify-between p-[10px] bg-[#2a2a2a]/70 rounded-xl'>
-                  {obj?.ageRating.rating == 18 ?
-                    <img className='w-[30px] md:w-[50px] lg:w-[70px] object-contain' src="https://store.ubisoft.com/on/demandware.static/-/Library-Sites-shared-library-web/default/dwc012ec98/images/rating/pegi-18.png" alt="" /> :
-                    obj?.ageRating.rating == 12 ?
-                      <img className='w-[30px] md:w-[50px] lg:w-[70px] object-contain' src="https://store.ubisoft.com/on/demandware.static/-/Library-Sites-shared-library-web/default/dw1531754a/12_Pending.PNG" alt="" /> :
-                      <img className='w-[30px] md:w-[50px] lg:w-[70px] object-contain' src="https://store.ubisoft.com/on/demandware.static/-/Library-Sites-shared-library-web/default/dwcb496937/images/rating/pegi-7.png" alt="" />
-                  }
-                  <p className='ubisoft-text w-[70%] text-[1.2vw] text-[#fff]'>{obj?.ageRating?.reasons?.join(", ")}</p>
-                </div>
-                <button className='ubisoft-bold px-[10px] py-[5px] xl:hidden border-[#fff] border-[1px] duration-200 my-[15px] xl:text-[20px] lg:text-[20px] text-[16px] cursor-pointer text-[#fff] rounded-2xl hover:border-[#000] hover:bg-[#fff] hover:text-[#000]'>Discover Editions</button>
-              </div>
-              
-              <div>
-                <div className='h-[210px] w-[400px] bg-black p-[30px] xl:flex hidden flex-col justify-between'>
-                  <div className='bg-[#45464A] px-[10px] rounded'>
-                    <p className='ubisoft-text text-[#fff] text-[2.5vw]'>{obj.price == 0 ? "Free" : "€ " + obj.price}</p>
-                  </div>
-                  <div className='flex items-center justify-between'>
-                    {isAlreadyInCart ?
-                      <Link to={'/cart'} className='text-center text-[#fff] text-[23px] open-sans-bold bg-[#00f587] w-[85%] p-[2px] rounded-2xl cursor-pointer hover:text-[black] duration-300'>Go to Cart</Link> :
-                      <button onClick={handleAddToCart} className='text-center text-[#fff] text-[23px] open-sans-bold bg-[#006EF5] w-[85%] p-[2px] rounded-2xl cursor-pointer hover:text-[black] duration-300'>Pre-Order</button>
-                    }
-                    <div onClick={toggleWishlist} className='cursor-pointer'>
-                      {isAlreadyInWishlist ? 
-                        <FaHeart className='text-[#fff]' size={40} /> : 
-                        <FaRegHeart className='text-[#fff]' size={40} />
-                      }
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+    <div className='absolute z-2 top-0 flex xl:flex-row flex-col gap-5 lg:flex-row w-[100%] h-[100%] xl:justify-between lg:justify-between px-[30px] pt-[30px]'>
+      <div className='flex flex-col gap-[80px]'>
+        <div><img src={obj?.logo} className='w-[120px] sm:w-[150px] md:w-[180px] lg:w-[200px] max-w-full' alt="" /></div>
+        <div className='xl:block lg:block absolute top-40'>
+          <h1 className='ubisoft-bold xl:text-[60px] lg:text-[40px] text-[#fff]'>{obj?.title} - </h1>
+          <h1 className='ubisoft-bold xl:text-[30px] lg:text-[20px] text-[#fff]'>{obj?.productEdition}</h1>
+          <p className='ubisoft-text text-[#fff] xl:text-[18px] lg:text-[16px]'>Release date: {formatDate(obj?.releaseDate)}</p>
+          <button className='ubisoft-bold px-[30px] py-[5px] hidden xl:block border-[#fff] border-[1px] duration-200 my-[15px] text-[20px] cursor-pointer text-[#fff] rounded-2xl hover:border-[#000] hover:bg-[#fff] hover:text-[#000]'>Discover Editions</button>
         </div>
       </div>
-
-      {/* Mobile Cart Section */}
-      <div className='h-[210px] w-[100%] bg-[#0D0D0D] p-[30px] xl:hidden flex flex-col justify-between mb-[20px]'>
-        <div className='bg-[#45464A] px-[10px] rounded h-[50px] flex items-center'>
-          <p className='ubisoft-text text-[#fff] text-[20px]'>{obj.price == 0 ? "Free" : "€ " + obj.price}</p>
-        </div>
-        <div className='flex items-center justify-between'>
-          {isAlreadyInCart ?
-            <Link to={'/cart'} className='text-center text-[#fff] text-[23px] open-sans-bold bg-[#00f587] w-[85%] p-[2px] rounded-2xl cursor-pointer hover:text-[black] duration-300'>Go to Cart</Link> :
-            <button onClick={handleAddToCart} className='text-center text-[#fff] text-[23px] open-sans-bold bg-[#006EF5] w-[85%] p-[2px] rounded-2xl cursor-pointer hover:text-[black] duration-300'>Pre-Order</button>
-          }
-          <div onClick={toggleWishlist} className='cursor-pointer'>
-            {isAlreadyInWishlist ? 
-              <FaHeart className='text-[#fff]' size={40} /> : 
-              <FaRegHeart className='text-[#fff]' size={40} />
+      
+      <div className='flex flex-col justify-between items-end'>
+        <div className='flex flex-col items-center justify-between'>
+          <div className='flex gap-[10px] w-[20vw] items-center justify-between p-[10px] bg-[#2a2a2a]/70 rounded-xl'>
+            {obj?.ageRating.rating == 18 ?
+              <img className='w-[30px] md:w-[50px] lg:w-[70px] object-contain' src="https://store.ubisoft.com/on/demandware.static/-/Library-Sites-shared-library-web/default/dwc012ec98/images/rating/pegi-18.png" alt="" /> :
+              obj?.ageRating.rating == 12 ?
+                <img className='w-[30px] md:w-[50px] lg:w-[70px] object-contain' src="https://store.ubisoft.com/on/demandware.static/-/Library-Sites-shared-library-web/default/dw1531754a/12_Pending.PNG" alt="" /> :
+                <img className='w-[30px] md:w-[50px] lg:w-[70px] object-contain' src="https://store.ubisoft.com/on/demandware.static/-/Library-Sites-shared-library-web/default/dwcb496937/images/rating/pegi-7.png" alt="" />
             }
+            <p className='ubisoft-text w-[70%] text-[1.2vw] text-[#fff]'>{obj?.ageRating?.reasons?.join(", ")}</p>
           </div>
+          <button className='ubisoft-bold px-[10px] py-[5px] xl:hidden border-[#fff] border-[1px] duration-200 my-[15px] xl:text-[20px] lg:text-[20px] text-[16px] cursor-pointer text-[#fff] rounded-2xl hover:border-[#000] hover:bg-[#fff] hover:text-[#000]'>Discover Editions</button>
+        </div>
+        
+        <div>
+        <div className='h-[210px] w-[400px] bg-black p-[30px] xl:flex hidden flex-col justify-between'>
+
+{/* Price box */}
+<div className='bg-[#45464A] px-[10px] py-[8px] rounded flex items-center  gap-[10px]'>
+  {obj.discount && obj.discount !== 0 ? (
+    <>
+      {/* Old price */}
+      <span className='text-gray-400 line-through  text-[18px]'>
+        € {obj.price.toFixed(2)}
+      </span>
+
+      {/* New price */}
+      <span className='text-[#fff] text-[22px] '>
+        € {(obj.price - (obj.price * (obj.discount / 100))).toFixed(2)}
+      </span>
+
+      {/* Discount badge */}
+      <span className='bg-red-600 text-white text-[14px] font-bold px-[6px] py-[2px] rounded'>
+        -{obj.discount}%
+      </span>
+    </>
+  ) : (
+    <p className='ubisoft-text text-[#fff] text-[22px]'>
+      {obj.price === 0 ? "Free" : "€ " + obj.price}
+    </p>
+  )}
+</div>
+
+
+{/* Check if game is already purchased */}
+{user?.orderedList?.some(
+  orderedItem => orderedItem.id === obj.id && orderedItem.type === obj.type
+) ? (
+  <div className='flex items-center justify-center'>
+    <div className='text-center text-[#fff] text-[23px] open-sans-bold bg-[#28a745] w-[100%] p-[10px] rounded-2xl'>
+      In Your Library
+    </div>
+  </div>
+) : (
+  <div className='flex items-center justify-between'>
+    {isAlreadyInCart ? (
+      <Link
+        to={'/cart'}
+        className='text-center text-[#fff] text-[23px] open-sans-bold bg-[#00f587] w-[85%] p-[2px] rounded-2xl cursor-pointer hover:text-[black] duration-300'
+      >
+        Go to Cart
+      </Link>
+    ) : (
+      <button
+        onClick={handleAddToCart}
+        className='text-center text-[#fff] text-[23px] open-sans-bold bg-[#006EF5] w-[85%] p-[2px] rounded-2xl cursor-pointer hover:text-[black] duration-300'
+      >
+        Pre-Order
+      </button>
+    )}
+    <div onClick={toggleWishlist} className='cursor-pointer'>
+      {isAlreadyInWishlist ? (
+        <FaHeart className='text-[#fff]' size={40} />
+      ) : (
+        <FaRegHeart className='text-[#fff]' size={40} />
+      )}
+    </div>
+  </div>
+)}
+</div>
+
         </div>
       </div>
+    </div>
+  </div>
+</div>
+
+{/* Mobile Cart Section */}
+<div className='h-[210px] w-[100%] bg-[#0D0D0D] p-[30px] xl:hidden flex flex-col justify-between mb-[20px]'>
+
+  {/* Price box */}
+  <div className='bg-[#45464A] px-[10px] rounded h-[50px] flex items-center justify-center gap-[10px]'>
+    {obj.discount && obj.discount !== 0 ? (
+      <>
+        {/* Old price */}
+        <span className='text-gray-400 line-through text-[16px]'>
+          € {obj.price.toFixed(2)}
+        </span>
+
+        {/* New price */}
+        <span className='text-[#fff] text-[20px] font-bold'>
+          € {(obj.price - (obj.price * (obj.discount / 100))).toFixed(2)}
+        </span>
+
+        {/* Discount badge */}
+        <span className='bg-red-600 text-white text-[14px] font-bold px-[6px] py-[2px] rounded'>
+          -{obj.discount}%
+        </span>
+      </>
+    ) : (
+      <p className='ubisoft-text text-[#fff] text-[20px]'>
+        {obj.price === 0 ? "Free" : "€ " + obj.price}
+      </p>
+    )}
+  </div>
+
+  {/* Check if game is already purchased for mobile */}
+  {user?.orderedList?.some(
+    orderedItem => orderedItem.id === obj.id && orderedItem.type === obj.type
+  ) ? (
+    <div className='flex items-center justify-center'>
+      <div className='text-center text-[#fff] text-[23px] open-sans-bold bg-[#28a745] w-[100%] p-[10px] rounded-2xl'>
+        In Your Library
+      </div>
+    </div>
+  ) : (
+    <div className='flex items-center justify-between'>
+      {isAlreadyInCart ? (
+        <Link
+          to={'/cart'}
+          className='text-center text-[#fff] text-[23px] open-sans-bold bg-[#00f587] w-[85%] p-[2px] rounded-2xl cursor-pointer hover:text-[black] duration-300'
+        >
+          Go to Cart
+        </Link>
+      ) : (
+        <button
+          onClick={handleAddToCart}
+          className='text-center text-[#fff] text-[23px] open-sans-bold bg-[#006EF5] w-[85%] p-[2px] rounded-2xl cursor-pointer hover:text-[black] duration-300'
+        >
+          Pre-Order
+        </button>
+      )}
+      <div onClick={toggleWishlist} className='cursor-pointer'>
+        {isAlreadyInWishlist ? (
+          <FaHeart className='text-[#fff]' size={40} />
+        ) : (
+          <FaRegHeart className='text-[#fff]' size={40} />
+        )}
+      </div>
+    </div>
+  )}
+</div>
+
+
 
       {/* Slider Section */}
       <div className='pb-[50px]'>

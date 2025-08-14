@@ -216,21 +216,24 @@ function Whislist() {
                           <FaTrashAlt className="text-white hover:scale-110 duration-300 cursor-pointer" size={20} />
                         </div>
 
-                        <button
-                          onClick={(e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            handleAddToCart(item);
-                          }}
-                          className={`absolute top-[50%] right-[50%] translate-x-[50%] border-2 rounded-xl  py-1 ubisoft-bold capitalize transition-all duration-300 ${
-                            isInCart(item)
-                              ? 'bg-white/90 border-green-600 text-green-600 cursor-not-allowed px-1 w-[150px] '
-                              : 'hover:bg-white/90 hover:border-black hover:text-black text-white px-5 border-white'
-                          }`}
-                          disabled={isInCart(item)}
-                        >
-                          {isInCart(item) ?  <p className='flex gap-2 items-center justify-center'><FaCartPlus />   Added To Cart</p> : <p>Add to cart</p>}
-                        </button>
+                        {/* Check if game is already purchased - if yes, don't show the button */}
+                            {!user?.orderedList?.some(orderedItem => orderedItem.id === item.id && orderedItem.type === item.type) && (
+                              <button
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  e.stopPropagation();
+                                  handleAddToCart(item);
+                                }}
+                                className={`absolute top-[50%] right-[50%] translate-x-[50%] border-2 rounded-xl  py-1 ubisoft-bold capitalize transition-all duration-300 ${
+                                  isInCart(item)
+                                    ? 'bg-white/90 border-green-600 text-green-600 cursor-not-allowed px-1 w-[150px] '
+                                    : 'hover:bg-white/90 hover:border-black hover:text-black text-white px-5 border-white'
+                                }`}
+                                disabled={isInCart(item)}
+                              >
+                                {isInCart(item) ? <p className='flex gap-2 items-center justify-center'><FaCartPlus /> Added To Cart</p> : <p>Add to cart</p>}
+                              </button>
+                            )}
                       </div>
 
                       <div
@@ -243,6 +246,23 @@ function Whislist() {
                       >
                         <FaTrashAlt className="text-white cursor-pointer" size={25} />
                       </div>
+                      {!user?.orderedList?.some(orderedItem => orderedItem.id === item.id && orderedItem.type === item.type) && (
+                              <button
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  e.stopPropagation();
+                                  handleAddToCart(item);
+                                }}
+                                className={`absolute top-[50%] flex xl:hidden lg:hidden md:hidden right-[50%] translate-x-[50%] border-2 rounded-xl  py-1 ubisoft-bold capitalize transition-all duration-300 ${
+                                  isInCart(item)
+                                    ? 'bg-white/90 border-green-600 text-green-600 cursor-not-allowed px-1 w-[150px] '
+                                    : 'hover:bg-white/90 hover:border-black hover:text-black text-white px-5 border-white'
+                                }`}
+                                disabled={isInCart(item)}
+                              >
+                                {isInCart(item) ? <p className='flex gap-2 items-center justify-center'><FaCartPlus /> Added To Cart</p> : <p>Add to cart</p>}
+                              </button>
+                            )}
                     </div>
 
                     <div className='p-3 sm:p-4 flex flex-col justify-between flex-grow'>

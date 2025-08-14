@@ -2,13 +2,25 @@ import axios from "axios";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
-// Yeni istifadəçi qeydiyyatı
 async function userSignUp(user) {
   try {
-    // Email mövcuddursa error at
-    const res = await axios.get(`${BASE_URL}/users?email=${user.email}`);
-    if (res.data.length) {
-      throw new Error("This email is already registered");
+    // Email və username yoxlaması eyni anda
+    const [emailRes, usernameRes] = await Promise.all([
+      axios.get(`${BASE_URL}/users?email=${user.email}`),
+      axios.get(`${BASE_URL}/users?username=${user.username}`)
+    ]);
+
+    const emailExists = emailRes.data.length > 0;
+    const usernameExists = usernameRes.data.length > 0;
+
+    if (emailExists && usernameExists) {
+      throw new Error("Email və istifadəçi adı artıq qeydiyyatdan keçib");
+    } 
+    if (emailExists) {
+      throw new Error("Bu email artıq qeydiyyatdan keçib");
+    }
+    if (usernameExists) {
+      throw new Error("Bu istifadəçi adı artıq qeydiyyatdan keçib");
     }
 
     // Yeni istifadəçi əlavə et

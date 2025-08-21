@@ -112,7 +112,7 @@ function SearchSec({ searchSec, setSearchSec }) {
                   filteredDlc.map((dlc, index) => (
                     <div className='flex p-2 border-b hover:bg-gray-100 gap-10 text-black cursor-pointer items-center'>
                       <img src={dlc.cardImg} className='w-[30px]' alt="" />
-                      <Link to={`detail/${dlc.type}/${dlc.id}`}
+                      <Link to={`/detail/${dlc.type}/${dlc.id}`}
                         key={index}
                         className=''
                       >

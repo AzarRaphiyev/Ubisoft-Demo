@@ -57,7 +57,7 @@ function UserSec({ user, userBar, setUserBar }) {
   return (
     <div 
       ref={panelRef}
-      className="bg-black fixed top-14 xl:px-0 lg:px-0 px-2 mx-auto right-11 z-[90] py-5 
+      className="bg-black fixed top-14 xl:px-0 lg:px-0 px-2 mx-auto right-11 z-[200] py-5 
       h-[94vh] w-[40vh] 
       max-md:top-13 max-md:right-0 max-md:w-screen max-md:h-screen"
     >

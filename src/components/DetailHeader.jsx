@@ -97,7 +97,7 @@ function DetailHeader() {
         </header>
       </div>
 
-      {/* Search bar for mobile/tablet - shows below header */}
+      
       <div className='w-full bg-black fixed top-30 z-40 xl:hidden lg:hidden'>
         <div className='w-[95%] mx-auto px-[15px] sm:px-[30px] py-3'>
           <div className='flex items-center gap-[10px] border-[2px] border-white px-4 rounded-2xl bg-transparent'>

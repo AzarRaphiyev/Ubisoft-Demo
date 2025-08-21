@@ -253,7 +253,7 @@ function Detail() {
 <div className='bg-white relative mt-[67px] xl:mb-[90px] lg:mb-[90px] mb-0'>
   <div className='relative'>
     <div className="relative w-full">
-      <img className="w-full h-[40vh] xl:h-[65vh] lg:h-[55vh]" src={obj?.bannerImg} alt="" />
+      <img className="w-full h-[40vh] xl:h-[65vh] lg:h-[55vh] object-cover " src={obj?.bannerImg} alt="" />
       <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-black to-transparent opacity-60 z-1"></div>
     </div>
 
@@ -261,8 +261,8 @@ function Detail() {
       <div className='flex flex-col gap-[80px]'>
         <div><img src={obj?.logo} className='w-[120px] sm:w-[150px] md:w-[180px] lg:w-[200px] max-w-full' alt="" /></div>
         <div className='xl:block lg:block absolute top-40'>
-          <h1 className='ubisoft-bold xl:text-[60px] lg:text-[40px] text-[#fff]'>{obj?.title} - </h1>
-          <h1 className='ubisoft-bold xl:text-[30px] lg:text-[20px] text-[#fff]'>{obj?.productEdition}</h1>
+          <h1 className='ubisoft-bold xl:text-[60px] lg:text-[40px] text-[14px] text-[#fff]'>{obj?.title} - </h1>
+          <h1 className='ubisoft-bold xl:text-[30px] lg:text-[20px] text-[14px] text-[#fff]'>{obj?.productEdition}</h1>
           <p className='ubisoft-text text-[#fff] xl:text-[18px] lg:text-[16px]'>Release date: {formatDate(obj?.releaseDate)}</p>
           <button className='ubisoft-bold px-[30px] py-[5px] hidden xl:block border-[#fff] border-[1px] duration-200 my-[15px] text-[20px] cursor-pointer text-[#fff] rounded-2xl hover:border-[#000] hover:bg-[#fff] hover:text-[#000]'>Discover Editions</button>
         </div>
@@ -270,16 +270,22 @@ function Detail() {
       
       <div className='flex flex-col justify-between items-end'>
         <div className='flex flex-col items-center justify-between'>
-          <div className='flex gap-[10px] w-[20vw] items-center justify-between p-[10px] bg-[#2a2a2a]/70 rounded-xl'>
-            {obj?.ageRating.rating == 18 ?
-              <img className='w-[30px] md:w-[50px] lg:w-[70px] object-contain' src="https://store.ubisoft.com/on/demandware.static/-/Library-Sites-shared-library-web/default/dwc012ec98/images/rating/pegi-18.png" alt="" /> :
-              obj?.ageRating.rating == 12 ?
-                <img className='w-[30px] md:w-[50px] lg:w-[70px] object-contain' src="https://store.ubisoft.com/on/demandware.static/-/Library-Sites-shared-library-web/default/dw1531754a/12_Pending.PNG" alt="" /> :
-                <img className='w-[30px] md:w-[50px] lg:w-[70px] object-contain' src="https://store.ubisoft.com/on/demandware.static/-/Library-Sites-shared-library-web/default/dwcb496937/images/rating/pegi-7.png" alt="" />
-            }
-            <p className='ubisoft-text w-[70%] text-[1.2vw] text-[#fff]'>{obj?.ageRating?.reasons?.join(", ")}</p>
-          </div>
-          <button className='ubisoft-bold px-[10px] py-[5px] xl:hidden border-[#fff] border-[1px] duration-200 my-[15px] xl:text-[20px] lg:text-[20px] text-[16px] cursor-pointer text-[#fff] rounded-2xl hover:border-[#000] hover:bg-[#fff] hover:text-[#000]'>Discover Editions</button>
+        <div className='absolute top-8 right-5 flex gap-[8px] w-[40%] md:w-[20%] items-center justify-between p-[8px] md:p-[10px] bg-[#2a2a2a]/70 rounded-xl'>
+  {obj?.ageRating.rating == 18 ?
+    <img className='max-w-[50px] max-h-[40px] md:max-w-[90px] md:max-h-[70px] object-contain' 
+      src="https://store.ubisoft.com/on/demandware.static/-/Library-Sites-shared-library-web/default/dwc012ec98/images/rating/pegi-18.png" alt="" /> :
+    obj?.ageRating.rating == 12 ?
+      <img className='max-w-[50px] max-h-[40px] md:max-w-[90px] md:max-h-[70px] object-contain' 
+        src="https://store.ubisoft.com/on/demandware.static/-/Library-Sites-shared-library-web/default/dw1531754a/12_Pending.PNG" alt="" /> :
+      <img className='max-w-[50px] max-h-[40px] md:max-w-[90px] md:max-h-[70px] object-contain' 
+        src="https://store.ubisoft.com/on/demandware.static/-/Library-Sites-shared-library-web/default/dwcb496937/images/rating/pegi-7.png" alt="" />
+  }
+  <p className='ubisoft-text max-w-[60%] text-[11px] md:text-[16px] lg:text-[16px] xl:text-[16px] text-[#fff]'>
+    {obj?.ageRating?.reasons?.join(", ")}
+  </p>
+</div>
+
+          <button className='absolute bottom-15 md:bottom-10 right-8 ubisoft-bold px-[10px] py-[5px] xl:hidden border-[#fff] border-[1px] duration-200 my-[15px] xl:text-[20px] lg:text-[20px] text-[11px] cursor-pointer text-[#fff] rounded-2xl hover:border-[#000] hover:bg-[#fff] hover:text-[#000]'>Discover Editions</button>
         </div>
         
         <div>
@@ -388,8 +394,8 @@ function Detail() {
   {user?.orderedList?.some(
     orderedItem => orderedItem.id === obj.id && orderedItem.type === obj.type
   ) ? (
-    <div className='flex items-center justify-center'>
-      <div className='text-center text-[#fff] text-[23px] open-sans-bold bg-[#28a745] w-[100%] p-[10px] rounded-2xl'>
+    <div className='flex items-center justify-between'>
+      <div className='text-center text-[#fff] text-[20px] open-sans-bold bg-[#28a745] w-[100%] p-[10px] rounded-2xl'>
         In Your Library
       </div>
     </div>
@@ -398,14 +404,14 @@ function Detail() {
       {isAlreadyInCart ? (
         <Link
           to={'/cart'}
-          className='text-center text-[#fff] text-[23px] open-sans-bold bg-[#00f587] w-[85%] p-[2px] rounded-2xl cursor-pointer hover:text-[black] duration-300'
+          className='text-center text-[#fff] text-[20px] open-sans-bold bg-[#00f587] w-[85%] p-[2px] rounded-2xl cursor-pointer hover:text-[black] duration-300'
         >
           Go to Cart
         </Link>
       ) : (
         <button
           onClick={handleAddToCart}
-          className='text-center text-[#fff] text-[23px] open-sans-bold bg-[#006EF5] w-[85%] p-[2px] rounded-2xl cursor-pointer hover:text-[black] duration-300'
+          className='text-center text-[#fff] text-[20px] open-sans-bold bg-[#006EF5] w-[85%] p-[2px] rounded-2xl cursor-pointer hover:text-[black] duration-300'
         >
           Pre-Order
         </button>
@@ -479,7 +485,7 @@ function Detail() {
       {/* Editions Section */}
       {relatedGames.length != 0 ?
         <div id='editions' className='bg-red-900/10 flex flex-col py-10 gap-10 items-center justify-center bg-no-repeat bg-cover bg/10'
-          style={{ backgroundImage: "url('https://wallpapercrafter.com/th8004/1240510-Asus-Black-And-Red-gamers-PC-Gaming-video-games.jpg')" }}>
+          style={{ backgroundImage: "url('https://store.ubisoft.com/on/demandware.static/-/Library-Sites-shared-library-web/default/dwe9ba2064/HELIX/SWO_Background_Compare.jpg ')" }}>
           <div className='mb-10'>
             <h3 className='ubisoft-bold text-4xl'>Compare {obj.title} Editions</h3>
           </div>
@@ -487,11 +493,11 @@ function Detail() {
           <div className='flex flex-wrap gap-5 justify-center w-[90%] mx-auto'>
             {relatedGames.map(item => (
               <div key={item.id} className="max-w-sm mx-auto hover:scale-105 duration-300 bg-gray-800 rounded-lg overflow-hidden shadow-2xl">
-                <div className="relative h-48 bg-gradient-to-br from-red-900 via-red-700 to-black">
+                <div className="relative h-48 bg-gradient-to-br from-[#040154] via-[#02003b] to-black overflow-hidden">
                   <img
                     src={item.cardImg}
                     alt="Game artwork"
-                    className="w-full h-full opacity-80"
+                    className="w-full h-[250px] opacity-80 "
                   />
                 </div>
 

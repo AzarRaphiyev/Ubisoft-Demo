@@ -17,7 +17,7 @@ function DetailSearchSec({ serach, setSearch }) {
 
     const filteredGames = gamedata?.filter(item =>
       item.title.toLowerCase().includes(searchTerm)
-    ).map(item => ({ ...item, type: 'game' }));
+    ).map(item => ({ ...item, type: 'basedgame' }));
 
     const filteredDlcs = dlcdata?.filter(item =>
       item.title.toLowerCase().includes(searchTerm)
@@ -40,7 +40,7 @@ function DetailSearchSec({ serach, setSearch }) {
         {filteredData.map((item, index) => (
           <div key={index} className='bg-[#242424] rounded-xl overflow-hidden min-w-[200px]'>
             <div className='overflow-hidden w-full'>
-              <Link to={`detail/${item.type}/${item.id}`}>
+              <Link to={`/detail/${item.type}/${item.id}`} onClick={() => setSearch('')} >
                 <img src={item.cardImg} className='w-full hover:scale-110 duration-300' alt="" />
               </Link>
             </div>

@@ -9,7 +9,7 @@ import { Link } from 'react-router'
 function Footer() {
   return (
     <div className='flex flex-col'>
-      {/* Top Social Media Section */}
+      
       <div className='w-full bg-black flex flex-col justify-center py-3'>
         <div className='flex w-[90%] mx-auto xl:justify-between lg:justify-between justify-center items-center'>
           <p className='text-[#8c8a8a] open-sans-text text-sm hidden xl:block lg:block'>
@@ -51,9 +51,9 @@ function Footer() {
         </div>
       </div>
   
-      {/* Main Footer Section */}
+      
       <div className='bg-[#1D1E22] flex flex-col gap-10 px-6 py-12 md:px-8 lg:px-12 xl:px-16'>
-        {/* Top Row: Logo, Download Button, Language */}
+        
         <div className='flex justify-between items-center flex-col xl:flex-row lg:flex-row md:flex-row gap-8 md:gap-6'>
           <Link to={"/"} className='w-fit order-1 md:order-1'>
             <img src="/assets/img/logo.png" className='w-32 md:w-36' alt="Ubisoft Logo" />
@@ -69,9 +69,9 @@ function Footer() {
           </div>
         </div>
   
-        {/* Footer Links Grid */}
+        
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-8 md:gap-6 text-center md:text-left'>
-          {/* Privacy & Legal */}
+         
           <div className='flex flex-col gap-3'>
             <h1 className='cursor-pointer hover:underline text-white ubisoft-bold text-sm md:text-base transition-all duration-200'>
               PRIVACY
@@ -87,17 +87,17 @@ function Footer() {
             </h1>
           </div>
   
-          {/* Ubisoft Connect & Help */}
+          
           <div className='flex flex-col gap-3'>
-            <h1 className='cursor-pointer hover:underline text-white ubisoft-bold text-sm md:text-base transition-all duration-200'>
+            <Link to={"ubisoftplus"} className='cursor-pointer hover:underline text-white ubisoft-bold text-sm md:text-base transition-all duration-200'>
               UBISOFT CONNECT
-            </h1>
+            </Link>
             <h1 className='cursor-pointer hover:underline text-white ubisoft-bold text-sm md:text-base transition-all duration-200'>
               HELP
             </h1>
           </div>
   
-          {/* Investors & Press */}
+          
           <div className='flex flex-col gap-3'>
             <h1 className='cursor-pointer hover:underline text-white ubisoft-bold text-sm md:text-base transition-all duration-200'>
               INVESTORS
@@ -107,7 +107,7 @@ function Footer() {
             </h1>
           </div>
   
-          {/* Company Info */}
+          
           <div className='flex flex-col gap-3'>
             <h1 className='cursor-pointer hover:underline text-white ubisoft-bold text-sm md:text-base transition-all duration-200'>
               COMPANY
@@ -123,15 +123,15 @@ function Footer() {
             </h1>
           </div>
   
-          {/* Copyright */}
+          
           <div className='md:col-span-2 lg:col-span-4 xl:col-span-1 text-center xl:text-right'>
             <p className='text-[#959393] ubisoft-text text-xs md:text-sm leading-relaxed'>
-              © 2025 Ubisoft Entertainment. All Rights Reserved. Ubisoft, Ubi.com and the Ubisoft logo are trademarks of Ubisoft Entertainment in the U.S. and/or other countries.
+              © {new Date().getFullYear()} Ubisoft Entertainment. All Rights Reserved. Ubisoft, Ubi.com and the Ubisoft logo are trademarks of Ubisoft Entertainment in the U.S. and/or other countries.
             </p>
           </div>
         </div>
   
-        {/* Bottom Links */}
+        
         <div className='flex flex-col items-center xl:items-start lg:items-start md:items-start gap-2'>
           <h1 className='ubisoft-text text-sm md:text-base text-[#959393] hover:underline cursor-pointer transition-all duration-200'>
             UK Tax strategy

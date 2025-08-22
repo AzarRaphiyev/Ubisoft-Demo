@@ -18,7 +18,6 @@ const ImageSliderDet = ({ screenshots, startIndex = 0, onClose, SetOnClose }) =>
     setCurrentImage(index);
   };
 
-  // Klaviatura naviqasiyası
   useEffect(() => {
     const handleKeyPress = (e) => {
       if (e.key === 'ArrowLeft') {
@@ -38,10 +37,8 @@ const ImageSliderDet = ({ screenshots, startIndex = 0, onClose, SetOnClose }) =>
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-95 flex items-center justify-center z-[200]">
-      {/* Container */}
       <div className="relative w-full h-full max-w-7xl mx-auto flex items-center justify-center">
         
-        {/* Close Button */}
         <button 
           className="absolute top-6 cursor-pointer right-6 z-10 text-white hover:text-gray-300 transition-colors duration-200"
           onClick={() => SetOnClose(false)}
@@ -49,7 +46,6 @@ const ImageSliderDet = ({ screenshots, startIndex = 0, onClose, SetOnClose }) =>
           <X size={32} strokeWidth={1.5} />
         </button>
 
-        {/* Left Navigation Button */}
         <button
           onClick={prevImage}
           className="absolute left-4 cursor-pointer md:left-8 top-1/2 transform -translate-y-1/2 z-10 bg-white bg-opacity-20 backdrop-blur-sm hover:bg-opacity-30 rounded-full p-3 md:p-4 text-black transition-all duration-200 hover:scale-110"
@@ -57,7 +53,6 @@ const ImageSliderDet = ({ screenshots, startIndex = 0, onClose, SetOnClose }) =>
           <ChevronLeft size={30} strokeWidth={2.5} />
         </button>
 
-        {/* Right Navigation Button */}
         <button
           onClick={nextImage}
           className="absolute text-black cursor-pointer right-4 md:right-8 top-1/2 transform -translate-y-1/2 z-10 bg-white bg-opacity-20 backdrop-blur-sm hover:bg-opacity-30 rounded-full p-3 md:p-4 transition-all duration-200 hover:scale-110"
@@ -65,7 +60,6 @@ const ImageSliderDet = ({ screenshots, startIndex = 0, onClose, SetOnClose }) =>
           <ChevronRight size={30} strokeWidth={2.5} />
         </button>
 
-        {/* Main Image Container */}
         <div className="relative w-full h-full max-h-[90vh] mx-8 md:mx-16">
           <div className="relative w-full h-full overflow-hidden rounded-lg">
             <img
@@ -80,14 +74,12 @@ const ImageSliderDet = ({ screenshots, startIndex = 0, onClose, SetOnClose }) =>
           </div>
         </div>
 
-        {/* Image Counter */}
         <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 z-10">
           <div className="bg-black bg-opacity-50 backdrop-blur-sm rounded-full px-4 py-2 text-white text-sm font-medium">
             {currentImage + 1}/{images.length}
           </div>
         </div>
 
-        {/* Thumbnail Navigation */}
         <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2 z-10">
           <div className="flex space-x-2">
             {images.map((_, index) => (
@@ -105,7 +97,6 @@ const ImageSliderDet = ({ screenshots, startIndex = 0, onClose, SetOnClose }) =>
         </div>
       </div>
 
-      {/* Keyboard Navigation Hint */}
       <div className="absolute top-6 left-6 text-white text-xs opacity-60">
         <div>← → keys to navigate, ESC to close</div>
       </div>

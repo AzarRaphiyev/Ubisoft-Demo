@@ -7,7 +7,6 @@ function SlideContent({ slide }) {
   return (
     <div className='relative flex flex-col lg:flex-row h-auto min-h-[50vh] md:h-[55vh] lg:h-[60vh] gap-[15px] lg:gap-[10px] items-center justify-between py-[20px] md:py-[25px] lg:py-[30px] px-[20px] md:px-[25px] lg:px-[30px]'>
         
-        {/* Content Section */}
         <div className='w-full lg:w-[40%] order-2 lg:order-1 text-center lg:text-left'>
             
             <p className='text-[#b5b5b5] text-[12px] md:text-[14px] lg:text-[16px] mb-[8px] md:mb-[10px] pb-[2px] open-sans-bold'>
@@ -28,7 +27,6 @@ function SlideContent({ slide }) {
             </button>
         </div>
 
-        {/* Image Section */}
         <div className='w-full lg:w-[60%] order-1 lg:order-2'>
             <div className='rounded-xl overflow-hidden cursor-pointer w-full group'>
                 <img 

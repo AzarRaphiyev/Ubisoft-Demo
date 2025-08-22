@@ -63,7 +63,7 @@ function DetailSearchSec({ serach, setSearch }) {
     )}
   </div>
 
-  {/* Close Icon */}
+  
   <IoCloseCircle 
     onClick={() => setSearch('')} 
     className='absolute right-2 xl:right-5 lg:right-5 top-5 text-black cursor-pointer' 

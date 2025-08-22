@@ -25,6 +25,7 @@ import AuthorLayout from "./layouts/AuthorLayout"
 import UbisoftRegister from "./pages/UbisoftRegister"
 import UbisoftLogin from "./pages/UbisoftLogin"
 import ProtectedRoute from "./components/ProtectedRoute"
+import UbisoftHelp from "./pages/UbisoftHelp"
 
 
 
@@ -45,6 +46,7 @@ function App() {
         <Route path="ubisoftplus" element={<UbisoftPlus/>}/>
         <Route path="resulte" element={<SearchResulte/>}/>
         <Route path="news" element={<News/>}/>
+        <Route path="help" element={<UbisoftHelp/>}/>
         <Route path="*" element={<Error404/>}/>
       </Route>
 

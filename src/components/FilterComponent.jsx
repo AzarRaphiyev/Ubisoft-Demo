@@ -51,7 +51,7 @@ function FilterComponent({pricevalue,setPriceValue,fulldata,selectedTypes,setSel
         });
     };
 
-    // Bütün seçilmiş filterləri təmizləmək üçün
+   
     const clearAllFilters = () => {
         setSelectedTypes({
             type: [],
@@ -63,14 +63,14 @@ function FilterComponent({pricevalue,setPriceValue,fulldata,selectedTypes,setSel
         setPriceValue([0, 530]);
     };
 
-    // Seçilmiş filterin sayını hesablamaq üçün
+   
     const getTotalSelectedCount = () => {
         return Object.values(selectedTypes).reduce((total, arr) => total + arr.length, 0);
     };
   
     return (
       <div className="w-full bg-white border border-gray-300 shadow-lg rounded-lg sticky top-4 ">
-        {/* Header */}
+       
         <div className="p-3 sm:p-4 lg:p-5 border-b border-gray-200 flex justify-between items-center">
           <h2 className="text-lg sm:text-xl font-semibold text-gray-900">Filter</h2>
           {getTotalSelectedCount() > 0 && (          
@@ -83,10 +83,10 @@ function FilterComponent({pricevalue,setPriceValue,fulldata,selectedTypes,setSel
           )}
         </div>
   
-        {/* Filter Content */}
+        
         <div className="p-3 sm:p-4 lg:p-5 space-y-4 sm:space-y-5 lg:space-y-6 max-h-[70vh] lg:max-h-[80vh] overflow-y-auto scrollbar-hide">
           
-          {/* Price Section */}
+          
           <div className="border-b border-gray-100 pb-4">
             <div 
               className="flex items-center justify-between mb-3 sm:mb-4 cursor-pointer hover:bg-gray-50 p-2 rounded-md transition-colors"
@@ -110,7 +110,7 @@ function FilterComponent({pricevalue,setPriceValue,fulldata,selectedTypes,setSel
             )}
           </div>
   
-          {/* Type Section */}
+          
           <div className="border-b border-gray-100 pb-4">
             <div 
               className="flex items-center justify-between mb-3 sm:mb-4 cursor-pointer hover:bg-gray-50 p-2 rounded-md transition-colors"
@@ -155,7 +155,7 @@ function FilterComponent({pricevalue,setPriceValue,fulldata,selectedTypes,setSel
             )}
           </div>
   
-          {/* Genre Section */}
+        
           <div className="border-b border-gray-100 pb-4">
             <div 
               className="flex items-center justify-between mb-3 sm:mb-4 cursor-pointer hover:bg-gray-50 p-2 rounded-md transition-colors"
@@ -192,7 +192,7 @@ function FilterComponent({pricevalue,setPriceValue,fulldata,selectedTypes,setSel
             )}
           </div>
 
-          {/* Brand Section */}
+          
           <div className="border-b border-gray-100 pb-4">
             <div 
               className="flex items-center justify-between mb-3 sm:mb-4 cursor-pointer hover:bg-gray-50 p-2 rounded-md transition-colors"
@@ -229,7 +229,7 @@ function FilterComponent({pricevalue,setPriceValue,fulldata,selectedTypes,setSel
             )}
           </div>
 
-          {/* DLC Type Section */}
+          
           <div className="border-b border-gray-100 pb-4">
             <div 
               className="flex items-center justify-between mb-3 sm:mb-4 cursor-pointer hover:bg-gray-50 p-2 rounded-md transition-colors"
@@ -266,7 +266,7 @@ function FilterComponent({pricevalue,setPriceValue,fulldata,selectedTypes,setSel
             )}
           </div>
 
-          {/* Product Editions Section */}
+          
           <div>
             <div 
               className="flex items-center justify-between mb-3 sm:mb-4 cursor-pointer hover:bg-gray-50 p-2 rounded-md transition-colors"

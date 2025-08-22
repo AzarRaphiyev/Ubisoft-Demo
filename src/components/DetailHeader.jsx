@@ -12,7 +12,7 @@ function DetailHeader() {
   const [search, setSearch] = useState('')
   const [user, setUser] = useState(null)
 
-  // User məlumatını yüklə (localStorage və sessionStorage-dən)
+  
   useEffect(() => {
     const storedUser = localStorage.getItem('user') || sessionStorage.getItem('user')
     if (storedUser) {
@@ -25,7 +25,7 @@ function DetailHeader() {
     }
   }, [])
 
-  // User dəyişdikdə wishlist və cart məlumatlarını yüklə (user.id əsaslı)
+  
   useEffect(() => {
     if (user && user.id) {
       let storedWishlist = localStorage.getItem(`wishlist_${user.id}`) || sessionStorage.getItem(`wishlist_${user.id}`)
@@ -112,7 +112,7 @@ function DetailHeader() {
         </div>
       </div>
 
-      {/* Mobile Menu Overlay */}
+      
       {isMobileMenuOpen && (
         <div
           className='fixed inset-0 bg-black bg-opacity-50 w-[50%] z-90 xl:hidden lg:hidden'
@@ -120,7 +120,7 @@ function DetailHeader() {
         />
       )}
 
-      {/* Mobile Sidebar Menu */}
+      
       <div className={`fixed top-0 left-0 h-full w-[280px] bg-black transform transition-transform duration-300 ease-in-out z-100 xl:hidden lg:hidden ${
         isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
       }`}>
@@ -162,9 +162,9 @@ function DetailHeader() {
         </nav>
       </div>
 
-      {/* Content spacer to account for fixed header */}
+     
       <div className='h-[70px] xl:h-[70px] lg:h-[70px] block xl:hidden lg:hidden'>
-        <div className='h-[50px]'></div> {/* Additional space for mobile search */}
+        <div className='h-[50px]'></div> 
       </div>
       {
         search.length > 0 ? <DetailSeachSec serach={search} setSearch={setSearch} /> : ''

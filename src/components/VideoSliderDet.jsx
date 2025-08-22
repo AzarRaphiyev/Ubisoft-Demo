@@ -1,10 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { ChevronLeft, ChevronRight, X } from 'lucide-react';
 import ReactPlayer from 'react-player';
 
 const VideoSliderDet = ({ videos, startIndexVideo = 0, onCloseVideo, SetOnCloseVideo }) => {
   const [currentImage, setCurrentImage] = useState(startIndexVideo);
+  const [playing, setPlaying] = useState(true); // Play/Pause kontrolu
+  const [volume, setVolume] = useState(0.8); // Səs kontrolu (0 - 1 arası)
 
+  const playerRef = useRef(null); // ReactPlayer üçün ref
   const media = videos || [];
 
   const nextImage = () => {
@@ -19,13 +22,53 @@ const VideoSliderDet = ({ videos, startIndexVideo = 0, onCloseVideo, SetOnCloseV
     setCurrentImage(index);
   };
 
+  // ---- Video kontrol funksiyaları ----
+  const togglePlay = () => {
+    setPlaying((prev) => !prev);
+  };
+
+  const increaseVolume = () => {
+    setVolume((prev) => Math.min(prev + 0.1, 1));
+  };
+
+  const decreaseVolume = () => {
+    setVolume((prev) => Math.max(prev - 0.1, 0));
+  };
+
+  const mute = () => {
+    setVolume(0);
+  };
+
+  const seekForward = () => {
+    if (playerRef.current) {
+      const currentTime = playerRef.current.getCurrentTime();
+      playerRef.current.seekTo(currentTime + 10, 'seconds');
+    }
+  };
+
+  const seekBackward = () => {
+    if (playerRef.current) {
+      const currentTime = playerRef.current.getCurrentTime();
+      playerRef.current.seekTo(currentTime - 10, 'seconds');
+    }
+  };
+
   // Klaviatura naviqasiyası
   useEffect(() => {
     const handleKeyPress = (e) => {
       if (e.key === 'ArrowLeft') {
-        prevImage();
+        seekBackward();
       } else if (e.key === 'ArrowRight') {
-        nextImage();
+        seekForward();
+      } else if (e.key === ' ') {
+        e.preventDefault();
+        togglePlay();
+      } else if (e.key === 'ArrowUp') {
+        increaseVolume();
+      } else if (e.key === 'ArrowDown') {
+        decreaseVolume();
+      } else if (e.key === 'm') {
+        mute();
       } else if (e.key === 'Escape') {
         SetOnCloseVideo(false);
       }
@@ -37,7 +80,6 @@ const VideoSliderDet = ({ videos, startIndexVideo = 0, onCloseVideo, SetOnCloseV
 
   if (media.length === 0) return null;
 
-  // URL-in video olub olmadığını yoxlamaq (YouTube, Vimeo və s.)
   const isVideo = (url) => {
     return (
       url.includes('youtube.com') ||
@@ -76,14 +118,16 @@ const VideoSliderDet = ({ videos, startIndexVideo = 0, onCloseVideo, SetOnCloseV
           <ChevronRight size={30} strokeWidth={2.5} />
         </button>
 
-        {/* Main Media (Video və ya Şəkil) */}
+        {/* Main Media */}
         <div className="relative w-full h-full max-h-[90vh] mx-8 md:mx-16 flex items-center justify-center">
           <div className="relative w-full h-full overflow-hidden rounded-lg flex items-center justify-center">
             {isVideo(media[currentImage]) ? (
               <ReactPlayer
-                src={media[currentImage]}
+                ref={playerRef}
+                url={media[currentImage]}
                 controls
-                playing
+                playing={playing}
+                volume={volume}
                 width="80%"
                 height="80%"
               />
@@ -122,11 +166,23 @@ const VideoSliderDet = ({ videos, startIndexVideo = 0, onCloseVideo, SetOnCloseV
             ))}
           </div>
         </div>
+
+        {/* Custom Video Controls */}
+        {isVideo(media[currentImage]) && (
+          <div className="absolute bottom-32 left-1/2 transform -translate-x-1/2 flex gap-4 text-white text-sm">
+            <button onClick={togglePlay}>{playing ? '⏸ Pause' : '▶ Play'}</button>
+            <button onClick={decreaseVolume}>🔉 -</button>
+            <button onClick={increaseVolume}>🔊 +</button>
+            <button onClick={mute}>🔇 Mute</button>
+            <button onClick={seekBackward}>⏪ 10s</button>
+            <button onClick={seekForward}>⏩ 10s</button>
+          </div>
+        )}
       </div>
 
       {/* Keyboard Hint */}
       <div className="absolute top-6 left-6 text-white text-xs opacity-60">
-        ← → keys to navigate, ESC to close
+        ⏎ Space = Play/Pause, ↑↓ = Volume, M = Mute, ← → = Seek, ESC = Close
       </div>
     </div>
   );

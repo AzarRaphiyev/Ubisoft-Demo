@@ -10,12 +10,9 @@ function UserSec({ user, userBar, setUserBar }) {
   const orderedGames = user?.orderedList || [];
   const hasGames = orderedGames.length > 0;
 
-  // Click outside detection
   useEffect(() => {
     const handleClickOutside = (event) => {
-      // Panel mövcuddursa və click panelin xaricindədirsə
       if (panelRef.current && !panelRef.current.contains(event.target)) {
-        // User button-un özünə click olunmayıbsa bağla
         const userButton = document.querySelector('[data-user-button]');
         if (!userButton || !userButton.contains(event.target)) {
           setUserBar(false); 
@@ -23,7 +20,6 @@ function UserSec({ user, userBar, setUserBar }) {
       }
     };
   
-    // Timeout ilə event listener əlavə et (DOM yenilənməsini gözlə)
     const timeoutId = setTimeout(() => {
       document.addEventListener('mousedown', handleClickOutside);
     }, 0);
@@ -34,7 +30,6 @@ function UserSec({ user, userBar, setUserBar }) {
     };
   }, [setUserBar]);
 
-  // Slider navigation functions
   const nextSlide = () => {
     setCurrentIndex((prev) => (prev + 1) % orderedGames.length);
   };
@@ -51,7 +46,7 @@ function UserSec({ user, userBar, setUserBar }) {
   const handleLogout = () => {
     localStorage.removeItem("user");
     sessionStorage.removeItem("user");
-    window.location.reload(); // və ya navigate("/") istifadə edə bilərsən
+    window.location.reload(); 
   };
 
   return (
@@ -85,7 +80,6 @@ function UserSec({ user, userBar, setUserBar }) {
         </div>
       </div>
 
-      {/* Ordered Games Slider - Show only if user has games */}
       {hasGames && (
         <div className='mx-3 mb-5'>
           <div className='relative bg-[#1C1C1C] rounded-xl p-3'>

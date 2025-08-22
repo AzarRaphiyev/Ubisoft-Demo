@@ -39,7 +39,6 @@ function LastNews({news}) {
                 key={item.id}
                 className="bg-[#1e1e1e] text-white rounded-xl overflow-hidden w-[325px] flex-shrink-0 cursor-pointer shadow-lg"
                 >
-                {/* Image */}
                 <div className="h-[160px] w-full overflow-hidden">
                     <img
                     src={item.sectionImg}
@@ -48,7 +47,6 @@ function LastNews({news}) {
                     />
                 </div>
 
-                {/* Content */}
                 <div className="p-4 FLEX flex-col justify-between">
                     <p className="text-xs text-gray-400 uppercase font-semibold tracking-wide">
                     {item.gameBrand}

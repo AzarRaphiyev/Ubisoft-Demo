@@ -32,7 +32,7 @@ function Header() {
     }
   }, [])
 
-  // User panel toggle funksiyası
+  
   const handleUserToggle = (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -102,7 +102,7 @@ function Header() {
               </Link>
             )}
 
-        {/* Mobile user button */}
+       
         {user ? (
               <button
                 onClick={handleUserToggle}

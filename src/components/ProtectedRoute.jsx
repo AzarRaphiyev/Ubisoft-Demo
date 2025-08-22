@@ -28,7 +28,6 @@ const ProtectedRoute = ({ children }) => {
     );
   }
 
-  // Əgər hər şey qaydasındadırsa, davam et
   return children;
 };
 

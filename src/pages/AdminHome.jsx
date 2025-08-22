@@ -58,7 +58,6 @@ const AdminHome = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [timeFilter, setTimeFilter] = useState("all");
   const {gamedata, sliderdata, dlcdata,universedata,news, error, loader} = useContext(GameContext)
-  // Mock data - replace with actual context
   const gameData = gamedata
   const allGenres = gameData.flatMap(item => item.genre || []);
   const uniqueGenres = [...new Set(allGenres)];
@@ -72,7 +71,6 @@ const AdminHome = () => {
 if (!gameData || !sliderdata|| !news ||!dlcdata||!universedata) {
   <Loader />
 }
-  // Calculate statistics
   const totalGames = gameData.length;
   const totalDLCs = dlcData.length;
   const totalViews = gameData.reduce((acc, game) => acc + (game.viewCount || 0), 0);
@@ -267,7 +265,6 @@ if (!gameData || !sliderdata|| !news ||!dlcdata||!universedata) {
           </div>
         </div>
 
-        {/* Enhanced Interactive Slider */}
         <div className="bg-gray-800 rounded-lg p-6 border border-gray-700">
           <h2 className="text-2xl font-semibold mb-4 flex items-center">
             <Activity className="w-6 h-6 mr-2 text-blue-400" />

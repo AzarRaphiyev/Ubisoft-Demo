@@ -121,25 +121,26 @@ const VideoSliderDet = ({ videos, startIndexVideo = 0, onCloseVideo, SetOnCloseV
         {/* Main Media */}
         <div className="relative w-full h-full max-h-[90vh] mx-8 md:mx-16 flex items-center justify-center">
           <div className="relative w-full h-full overflow-hidden rounded-lg flex items-center justify-center">
-            {isVideo(media[currentImage]) ? (
-              <ReactPlayer
-                ref={playerRef}
-                url={media[currentImage]}
-                controls
-                playing={playing}
-                volume={volume}
-                width="80%"
-                height="80%"
-              />
-            ) : (
-              <img
-                src={media[currentImage]}
-                alt={`Screenshot ${currentImage + 1}`}
-                className="w-full h-full object-cover transition-opacity duration-500"
-                style={{ filter: 'brightness(0.9) contrast(1.1)' }}
-              />
-            )}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
+          {isVideo(media[currentImage]) ? (
+  <ReactPlayer
+    ref={playerRef}
+    src={media[currentImage]}   // <-- src yox, url olmalıdır!
+    controls
+    loop
+    playing={playing}
+    muted={true}
+    width="80%"
+    height="80%"
+  />
+) : (
+  <img
+    src={media[currentImage]}
+    alt={`Screenshot ${currentImage + 1}`}
+    className="w-full h-full object-cover transition-opacity duration-500"
+    style={{ filter: 'brightness(0.9) contrast(1.1)' }}
+  />
+)}
+
           </div>
         </div>
 
@@ -167,17 +168,7 @@ const VideoSliderDet = ({ videos, startIndexVideo = 0, onCloseVideo, SetOnCloseV
           </div>
         </div>
 
-        {/* Custom Video Controls */}
-        {isVideo(media[currentImage]) && (
-          <div className="absolute bottom-32 left-1/2 transform -translate-x-1/2 flex gap-4 text-white text-sm">
-            <button onClick={togglePlay}>{playing ? '⏸ Pause' : '▶ Play'}</button>
-            <button onClick={decreaseVolume}>🔉 -</button>
-            <button onClick={increaseVolume}>🔊 +</button>
-            <button onClick={mute}>🔇 Mute</button>
-            <button onClick={seekBackward}>⏪ 10s</button>
-            <button onClick={seekForward}>⏩ 10s</button>
-          </div>
-        )}
+        
       </div>
 
       {/* Keyboard Hint */}

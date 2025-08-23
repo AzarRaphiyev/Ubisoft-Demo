@@ -26,6 +26,7 @@ import UbisoftRegister from "./pages/UbisoftRegister"
 import UbisoftLogin from "./pages/UbisoftLogin"
 import ProtectedRoute from "./components/ProtectedRoute"
 import UbisoftHelp from "./pages/UbisoftHelp"
+import ScrollToTop from "./components/ScrollToTop"
 
 
 
@@ -35,6 +36,7 @@ function App() {
   return (
     <main className="">
       <ToastContainer  position="top-right" autoClose={3000} />
+      <ScrollToTop/>
      <Routes>
       <Route path="/" element={<MainLayout/>}>
         <Route index element={<Home/>}/>

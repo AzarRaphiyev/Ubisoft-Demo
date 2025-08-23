@@ -150,7 +150,7 @@ const UbisoftHelp = () => {
               placeholder="E.g. Assassins Creed, Far Cry 6"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10 pr-4 py-3 border border-gray-600 placeholder:text-[#333] rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent w-full"
+              className="pl-10 pr-4 py-3 border text-[#333] border-gray-600 placeholder:text-[#333] rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent w-full"
             />
           </div>
           </div>

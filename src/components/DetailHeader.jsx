@@ -56,17 +56,18 @@ function DetailHeader() {
             >
               <IoMenu size={30} />
             </button>
-            <div>
+            <Link to={"/store"}>
               <img
                 src="https://cloud.shopback.com/c_scale,c_auto,q_70,f_webp/media-production-aps1/tsUCkcIrNuM/aHR0cHM6Ly9pbWFnZXMuYmFubmVyYmVhci5jb20vZGlyZWN0L0VHQnFwQVo1T2U5MTg5VkROSi9yZXF1ZXN0cy8wMDAvMDQ5LzA3OC84MzAvTFdYckExcVJvUXZYVjU0Snp5cE1KZWdCai9hY2QxZjYzM2E2MDRkZjNlODM5ZDQ1OWI1MmM1YjU0Njg3NDEyMjY3LnBuZw.jpg"
                 className='w-[80px] sm:w-[100px]'
                 alt="Logo"
               />
-            </div>
+            </Link>
+
             <div className='xl:flex lg:flex gap-6 xl:gap-10 hidden'>
-              <Link to={`/store?type=games`} className='text-[16px] xl:text-[18px] text-white cursor-pointer px-3 rounded-lg py-2 hover:bg-[#6f6e6e]/60 transition-colors'>Games</Link>
-              <h1 className='text-[16px] xl:text-[18px] text-white cursor-pointer px-3 rounded-lg py-2 hover:bg-[#6f6e6e]/60 transition-colors'>Dlc</h1>
-              <h1 className='text-[16px] xl:text-[18px] text-white cursor-pointer px-3 rounded-lg py-2 hover:bg-[#6f6e6e]/60 transition-colors'>Ubisoft+</h1>
+              <Link to={`/store?type=Games`} className='text-[16px] xl:text-[18px] text-white cursor-pointer px-3 rounded-lg py-2 hover:bg-[#6f6e6e]/60 transition-colors'>Games</Link>
+              <Link to={`/store?type=DLC`} className='text-[16px] xl:text-[18px] text-white cursor-pointer px-3 rounded-lg py-2 hover:bg-[#6f6e6e]/60 transition-colors'>Dlc</Link>
+              <Link to={"/ubisoftplus"} className='text-[16px] xl:text-[18px] text-white cursor-pointer px-3 rounded-lg py-2 hover:bg-[#6f6e6e]/60 transition-colors'>Ubisoft+</Link>
             </div>
           </div>
 
@@ -125,11 +126,13 @@ function DetailHeader() {
         isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
       }`}>
         <div className='flex justify-between items-center p-6 border-b border-gray-700'>
+          <Link to={"/store"}>
           <img
             src="https://cloud.shopback.com/c_scale,c_auto,q_70,f_webp/media-production-aps1/tsUCkcIrNuM/aHR0cHM6Ly9pbWFnZXMuYmFubmVyYmVhci5jb20vZGlyZWN0L0VHQnFwQVo1T2U5MTg5VkROSi9yZXF1ZXN0cy8wMDAvMDQ5LzA3OC84MzAvTFdYckExcVJvUXZYVjU0Snp5cE1KZWdCai9hY2QxZjYzM2E2MDRkZjNlODM5ZDQ1OWI1MmM1YjU0Njg3NDEyMjY3LnBuZw.jpg"
             className='w-[80px]'
             alt="Logo"
           />
+          </Link>
           <button
             onClick={toggleMobileMenu}
             className='text-white hover:text-gray-300 transition-colors'
@@ -140,19 +143,19 @@ function DetailHeader() {
 
         <nav className='pt-8'>
           <div className='flex flex-col space-y-2'>
-            <Link to={"store"}
+            <Link to={"/store?type=Games"}
               className='text-white text-[18px] text-left px-6 py-4 hover:bg-[#6f6e6e]/60 transition-colors w-full'
 
             >
               Games
             </Link>
-            <Link to={"store"}
+            <Link to={"/store?type=DLC"}
               className='text-white text-[18px] text-left px-6 py-4 hover:bg-[#6f6e6e]/60 transition-colors w-full'
 
             >
               Dlc
             </Link>
-            <Link to={"ubisoftplus"}
+            <Link to={"/ubisoftplus"}
               className='text-white text-[18px] text-left px-6 py-4 hover:bg-[#6f6e6e]/60 transition-colors w-full'
 
             >

@@ -168,7 +168,7 @@ function UserSec({ user, userBar, setUserBar }) {
         </div>
         <div className='bg-[#1C1C1C] hover:bg-[#2f2f2f] duration-300 cursor-pointer py-2'>
           <div className='px-3 flex justify-between items-center text-white'>
-            <p className='ubisoft-bold'>Customer Support</p>
+            <Link to={"help"} className='ubisoft-bold'>Customer Support</Link>
             <FaExternalLinkAlt size={15} />
           </div>
         </div>
